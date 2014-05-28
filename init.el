@@ -3,7 +3,7 @@
 ;;
 
 
-(defvar emacs-config-dir (expand-file-name "~/.new.emacs.d"))
+(defvar emacs-config-dir (expand-file-name "~/.emacs.d"))
 (defvar emacs-tmp-dir    (expand-file-name (concat emacs-config-dir "/" "tmp")))
 
 ;; Add subdirectories in emacs-config-dir
@@ -91,7 +91,7 @@
 		     (setq uniquify-buffer-name-style 'forward)))
 
 ; Windmove
-(use-pacakge windmove
+(use-package windmove
 	     :config (progn
 		       (windmove-default-keybindings 'shift)))
 
@@ -190,11 +190,72 @@
 		       (setq erc-track-when-inactive t
 			     erc-hide-list '("JOIN" "PART" "QUIT" "NICK"))
 
-		       (use-package 'erc-notify
+		       (use-package erc-notify
 				    :init (progn
 					    (erc-notify-mode t)
 					    (setq erc-notify-list '("danlamanna" "danlamanna^" "JDHankle")))
 			     )))
+
+
+;Doc View Mode
+(use-package doc-view
+  :mode (("\\.docx\\'" . doc-view-mode)
+	 ("\\.doc\\'" . doc-view-mode)
+	 ("\\.odt\\'" . doc-view-mode))
+  :config (progn
+	    (setq doc-view-continuous t)
+
+	    (defun doc-view-rotate-current-page ()
+	      "Rotate the current page by 90 degrees.
+Requires ImageMagick installation"
+	      (interactive)
+	      (when (eq major-mode 'doc-view-mode)
+		;; we are assuming current doc-view internals about cache-names
+		(let ((file-name (expand-file-name (format "page-%d.png" (doc-view-current-page)) (doc-view-current-cache-dir))))
+		  ;; assume imagemagick is installed and rotate file in-place and redisplay buffer
+		  (call-process-shell-command "convert" nil nil nil "-rotate" "90" file-name file-name)
+		  (clear-image-cache)
+		  (doc-view-goto-page (doc-view-current-page)))))
+
+	    (defun doc-view-pdftotext ()
+	      "Run pdftotext on the entire buffer."
+	      (interactive)
+	      (let ((modified (buffer-modified-p)))
+		(erase-buffer)
+		(shell-command
+		 (concat "pdftotext " (buffer-file-name) " -")
+		 (current-buffer)
+		 t)
+		(set-buffer-modified-p modified)))
+
+
+	    (defadvice scroll-other-window (around doc-view-scroll-up-or-next-page activate)
+	      "When next buffer is `doc-view-mode', do `doc-view-scroll-up-or-next-page'."
+	      (other-window +1)
+	      (if (eq major-mode 'doc-view-mode)
+		  (let ((arg (ad-get-arg 0)))
+		    (if (null arg)
+			(doc-view-scroll-up-or-next-page)
+		      (doc-view-next-line-or-next-page arg))
+		    (other-window -1))
+		(other-window -1)
+		ad-do-it))
+
+	    (defadvice scroll-other-window-down (around doc-view-scroll-down-or-previous-page activate)
+	      "When next buffer is `doc-view-mode', do `doc-view-scroll-down-or-previous-page'."
+	      (other-window +1)
+	      (if (eq major-mode 'doc-view-mode)
+		  (let ((arg (ad-get-arg 0)))
+		    (if (null arg)
+			(doc-view-scroll-down-or-previous-page)
+		      (doc-view-previous-line-or-previous-page arg))
+		    (other-window -1))
+		(other-window -1)
+		ad-do-it))
+
+
+))
+	    
 
 
 ; Org Mode
@@ -332,6 +393,8 @@
 
 
 
+
+
 ; General settings
 (setq inhibit-startup-message t)
 (show-paren-mode t)
@@ -367,3 +430,15 @@
   (load-theme 'wombat t))
 
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(safe-local-variable-values (quote ((org-clock-into-drawer . t)))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

@@ -39,6 +39,7 @@
 				 epc
 				 jedi
 				 ein
+				 restclient
 				 ))
 
 ;; load or install packages
@@ -55,6 +56,12 @@
 
 
 (require 'use-package)
+
+(use-package s)
+
+(use-package dash)
+
+(use-package restclient)
 
 ; IDO
 (use-package ido
@@ -177,8 +184,174 @@
 		       
 		       
 		       
+; Prodigy
+(use-package prodigy
+  :commands prodigy
+  :bind (("<f12>" . prodigy))
+  :config (progn
+	    (add-hook 'prodigy-mode-hook 'virtualenv-minor-mode)
+	    
+
+	    (defun prodigy-remove-marked-services ()
+	      ; TODO this should make sure to end services before removing them see: :process field?
+	      (interactive)
+	      (setq prodigy-services 
+		    (filter (lambda (s) (not (plist-get s :marked))) prodigy-services))
+	      (prodigy-refresh))
+	    
+
+	    (define-key prodigy-mode-map "d" 'prodigy-remove-marked-services)
 
 
+	    (prodigy-define-status :id 'connected :face 'prodigy-green-face)
+	    (prodigy-define-status :id 'ready :face 'prodigy-green-face)
+	    (prodigy-define-status :id 'starting :face 'prodigy-yellow-face)
+
+	    (prodigy-define-tag
+	      :name 'python_kernel
+	      :on-output (lambda (&rest args)
+			   (let ((output (plist-get args :output))
+				 (service (plist-get args :service)))
+			     (cond ((s-matches? "--existing kernel-\\(.*\\).json$" output)
+				    (let ((id (cadr (s-match "--existing kernel-\\(.*\\).json$" output))))
+				      (plist-put service :kernel (format "kernel-%s.json" id))
+				      (prodigy-set-status service 'ready)))))))
+
+
+	    
+
+	    (defun pp:parse_ipython_service_item (item)
+	      (let ((name (plist-get (plist-get item :notebook) :name))
+		    (kernel (plist-get (plist-get item :kernel) :id)))		
+		(plist-put (plist-put '() :name name) :kernel kernel)))
+	    
+	    (prodigy-define-tag
+	      :name 'python_notebook
+	      :on-output (lambda (&rest args)
+			   (let ((output (plist-get args :output))
+				 (service (plist-get args :service)))
+			     (cond ((s-matches? "Notebook is running at: .*?://\\(.*\\):\\([0-9]+\\)" output)
+				    (let ((url (cadr (s-match "Notebook is running at: \\(.*?://.*:[0-9]+\\)" output)))
+					  (host (cadr (s-match "Notebook is running at: .*?://\\(.*\\):\\([0-9]+\\)" output)))
+					  (port (caddr (s-match "Notebook is running at: .*?://\\(.*\\):\\([0-9]+\\)" output))))
+				      (plist-put service :url url)
+				      (plist-put service :host host)
+				      (plist-put service :port port)
+				      (prodigy-set-status service 'running)))
+				   ((s-matches? "Kernel started: \\(.*\\)$" output)
+				    (lexical-let ((service-name (plist-get service :name)))
+				      (let ((id (cadr (s-match "Kernel started: \\(.*\\)$" output))))
+					(request 
+					 (concat (plist-get service :url) "/api/sessions")
+					 :type "GET"
+					 :parser (lambda () (let ((json-object-type 'plist)) (json-read)))
+					 :success (function*
+						   (lambda (&key data &allow-other-keys)
+						     (plist-put (prodigy-find-service service-name) :notebooks (mapcar 'pp:parse_ipython_service_item data))))))
+				      (prodigy-set-status service 'connected)))))))
+
+
+	    (prodigy-define-tag 
+	      :name 'python_cluster
+	      :on-output (lambda (&rest args)
+			   (let ((output (plist-get args :output))
+				 (service (plist-get args :service)))
+			     (cond ((s-matches? "Engines appear to have started successfully" output)
+				    (prodigy-set-status service 'ready))
+				   ((s-matches? "Starting 4 Engines with LocalEngineSetLauncher" output)
+				    (prodigy-set-status service 'starting))))))
+
+
+	    (defun pp:start-kernel (service-name callback)
+	      (let ((service (prodigy-find-service service-name)))
+		(if service
+		    (if (prodigy-service-started-p service)
+			(funcall callback)
+		      (prodigy-start-service service callback))
+		  (message (format "Could not find service for %s" pp:service-name)))))
+
+	    (defun pp:prodigy-push-connected-buffer (service buffer-name)
+	      (when (and buffer-name (get-buffer buffer-name))
+		(plist-put service :connected-buffers (cons (get-buffer buffer-name)
+							    (plist-get service :connected-buffers)))))
+
+	    (defun pp:ipython-console-callback (service-name buffer-name)
+	      "Call py-shell in a way that lets us connect to an existing python kernel
+              This looks up the :kernel property in the service defined by pp:service-name"
+	      (lexical-let ((service-name service-name)
+			    (buffer-name buffer-name))
+		#'(lambda ()
+		    (let ((service (prodigy-find-service service-name)))
+		      (cond ((and service (plist-get service :kernel))
+			     (let* ((python-shell-interpreter-args (format " console --existing %s" (plist-get service :kernel)))
+				    (python-shell-buffer-name (format "%S (Console)" service-name)))
+			       (message (format "%S" (python-shell-parse-command)))
+			       (run-python (python-shell-parse-command) nil 0)
+					; (pp:prodigy-push-connected-buffer service py-buffer-name)
+					; (pp:custom-jedi-setup)
+			       ))
+			    ((and service (plist-get service :notebooks))
+			     ;put notebook shit here
+			     ())
+			    (t 
+			     (message (format "Could not find service/kernel for %s" service-name)))
+			    )))))
+
+
+
+
+	    (defun pp:ipython-connect () 
+	      "Start a kernel and then generate a console-connect function to pass as a callback to prodigy"
+	      (interactive)
+	      (let* ((service-name (or (and (boundp 'service-name) service-name)
+				       (ido-completing-read "Kernel:" 
+							    (mapcar (lambda (s) (plist-get s :name)) 
+								    (append (prodigy-services-tagged-with 'python_kernel) 
+									    (prodigy-services-tagged-with 'python_notebook))))))
+		     (buffer-name (or (plist-get (prodigy-find-service service-name) :console-buffer-name)
+				      (concat "*" (plist-get (prodigy-find-service service-name) :name) " (Console)*"))))
+		(pp:start-kernel service-name (pp:ipython-console-callback service-name buffer-name))))
+
+	    
+	    (defun pp:py-execute () nil)
+
+	    (defun pp:interactively-define-notebook ()
+	      (interactive)
+	      (let ((name (read-from-minibuffer "Name: "))
+		    (directory (ido-read-directory-name "Working Directory: ")))
+
+
+		(unless (prodigy-find-service name)		    
+		  (prodigy-define-service
+		    :name name
+		    :command "ipython2"
+		    :args `("notebook")
+		    :cwd directory
+		    :tags '(python_notebook)
+		    :stop-signal 'sigquit ))
+		
+		(prodigy-start-service (prodigy-find-service name))
+		(prodigy)))
+
+
+
+
+	    (prodigy-define-service
+	      :name "General IPython2 Kernel"
+	      :command "ipython2"
+	      :args '("kernel")
+	      :tags '(python_kernel)
+	      :stop-signal 'sigquit )
+
+	    (prodigy-define-service
+	      :name "General Python2 Notebook"
+	      :command "ipython2"
+	      :args '("notebook" "--no-browser")
+	      ; :init (lambda () (virtualenv-workon "pp_twitter"))
+	      :tags '(python_notebook))
+
+
+	    ))
 
 ; Yasnippet
 
@@ -197,7 +370,7 @@
 			     )))
 
 
-;Doc View Mode
+; Doc View Mode
 (use-package doc-view
   :mode (("\\.docx\\'" . doc-view-mode)
 	 ("\\.doc\\'" . doc-view-mode)
@@ -392,6 +565,10 @@ Requires ImageMagick installation"
 		       )) ; end org use-package
 
 
+; Custom Functions
+(defun filter (condp lst)
+  (delq nil
+	(mapcar (lambda (x) (and (funcall condp x) x)) lst)))
 
 
 
@@ -435,6 +612,7 @@ Requires ImageMagick installation"
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ido-default-buffer-method (quote selected-window))
  '(safe-local-variable-values (quote ((org-clock-into-drawer . t)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

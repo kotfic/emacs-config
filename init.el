@@ -282,21 +282,34 @@
 			    (buffer-name buffer-name))
 		#'(lambda ()
 		    (let ((service (prodigy-find-service service-name)))
-		      (cond ((and service (plist-get service :kernel))
-			     (let* ((python-shell-interpreter-args (format " console --existing %s" (plist-get service :kernel)))
-				    (python-shell-buffer-name (format "%S (Console)" service-name)))
-			       (message (format "%S" (python-shell-parse-command)))
-			       (run-python (python-shell-parse-command) nil 0)
+
+		      (cond 
+		       ; Manage Kernels
+		       ((and service (plist-get service :kernel))
+			(let* ((python-shell-interpreter-args (format " console --existing %s" (plist-get service :kernel)))
+			       (python-shell-buffer-name (format "%s (Console)" service-name)))
+			  (run-python (python-shell-parse-command) nil 0)
 					; (pp:prodigy-push-connected-buffer service py-buffer-name)
 					; (pp:custom-jedi-setup)
-			       ))
-			    ((and service (plist-get service :notebooks))
-			     ;put notebook shit here
-			     ())
-			    (t 
-			     (message (format "Could not find service/kernel for %s" service-name)))
-			    )))))
+			  ))
 
+		       ; Manage Notebooks
+		       ((and service (plist-get service :notebooks))
+			(let* ((name (ido-completing-read "Notebook Kernel:" 
+							  (mapcar (lambda (item) (plist-get item :name)) 
+								  (plist-get service :notebooks))))
+			       (kernel-id (plist-get (-first (lambda (item) 
+							       (eq (plist-get item :name) name))
+							     (plist-get service :notebooks))
+						     :kernel))
+			       (python-shell-interpreter-args (format " console --existing %s.json" kernel-id))
+			       (python-shell-buffer-name (format "%s (Console)" name)))
+			  (run-python (python-shell-parse-command) nil 0)))
+		       
+		       (t 
+			(message (format "Could not find service/kernel for %s" service-name)))
+		       )))))
+	    
 
 
 
@@ -304,7 +317,7 @@
 	      "Start a kernel and then generate a console-connect function to pass as a callback to prodigy"
 	      (interactive)
 	      (let* ((service-name (or (and (boundp 'service-name) service-name)
-				       (ido-completing-read "Kernel:" 
+				       (ido-completing-read "Service:" 
 							    (mapcar (lambda (s) (plist-get s :name)) 
 								    (append (prodigy-services-tagged-with 'python_kernel) 
 									    (prodigy-services-tagged-with 'python_notebook))))))

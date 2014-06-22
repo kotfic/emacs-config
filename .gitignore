@@ -1,3 +1,9 @@
 tmp/
 *.elc
 *~
+/ac-comphist.dat
+/.org-id-locations
+request
+tramp
+url
+var

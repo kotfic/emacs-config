@@ -478,6 +478,8 @@ Requires ImageMagick installation"
 ; Enable winner mode
 (when (fboundp 'winner-mode) (winner-mode 1))
 
+; follow mouse
+(setq mouse-autoselect-window t)
 
 ; Browser Support
 (setq browse-url-browser-function 'browse-url-generic
@@ -495,6 +497,7 @@ Requires ImageMagick installation"
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes (quote ("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default)))
  '(ido-default-buffer-method (quote selected-window))
  '(safe-local-variable-values (quote ((org-clock-into-drawer . t)))))
 (custom-set-faces

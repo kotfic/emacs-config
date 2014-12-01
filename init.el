@@ -248,10 +248,10 @@
 
 
 
-(use-package  slime
-  :config (progn 
-	    (use-package slime-repl)
-	    (setq inferior-lisp-program "/usr/bin/sbcl")))
+;(use-package  slime
+;  :config (progn 
+;	    (use-package slime-repl)
+;	    (setq inferior-lisp-program "/usr/bin/sbcl")))
 
 
 
@@ -276,6 +276,7 @@
 
 (use-package octave-inf
   :commands run-octave
+  :mode (("\\.m\\'" . octave-mode))
   :config (progn
 	    (setq inferior-octave-prompt ">> ")))
 

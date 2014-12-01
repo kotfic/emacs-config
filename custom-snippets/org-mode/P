@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Product
+# key: \P
+# --
+\prod\limits_{${1:i=n}}^{${2:n}}$0

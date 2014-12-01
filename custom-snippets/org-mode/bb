@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: beta bar
+# key: \bb
+# --
+\overline{\beta}_{$1}^{2}$0

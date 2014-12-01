@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: rho bar
+# key: \rb
+# --
+\overline{rho}_{$1}^{$2}$0

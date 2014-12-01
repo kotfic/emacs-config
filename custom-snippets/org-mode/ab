@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: alpha bar
+# key: \ab
+# --
+\overline{\alpha}_{$1}^{$2}$0

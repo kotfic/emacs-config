@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Sum
+# key: \S
+# --
+\sum\limits_{${1:i=N}}^{${2:N}}$0

@@ -12,3 +12,6 @@ var
 /bookmarks
 /cache/
 /packages/jedi-20140321.1323/jedi-port.log
+/eshell/
+/#init.el#
+/.#init.el

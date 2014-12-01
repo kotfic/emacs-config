@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: sigma bar
+# key: \sb
+# --
+\overline{\sigma}_{$1}^{$2}$0

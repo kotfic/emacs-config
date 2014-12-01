@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: theta hat
+# key: \th
+# --
+\hat{\theta}_{$1}^{$2}$0

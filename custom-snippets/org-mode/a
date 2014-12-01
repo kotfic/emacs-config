@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: alpha
+# key: \a
+# --
+\alpha_{$1}^{$2}$0

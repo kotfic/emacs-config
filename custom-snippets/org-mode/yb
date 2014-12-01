@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: y bar
+# key: \yb
+# --
+\overline{y}_{$1}^{$2}$0

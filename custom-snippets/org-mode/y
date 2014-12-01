@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: y
+# key: \y
+# --
+y_{$1}^{$2}$0

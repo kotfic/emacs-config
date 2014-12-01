@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: sigma hat
+# key: \sh
+# --
+\hat{\sigma}_{$1}^{$2}$0

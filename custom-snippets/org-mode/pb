@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: p bar
+# key: \pb
+# --
+\overline{p}_{$1}^{$2}$0

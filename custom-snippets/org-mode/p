@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: p
+# key: \p
+# --
+p_{$1}^{$2}$0

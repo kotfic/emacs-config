@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: rho hat
+# key: \rh
+# --
+\hat{\rho}_{$1}^{$2}$0

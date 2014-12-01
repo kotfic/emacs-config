@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Embed Latex
+# key: $$
+# --
+\\( $1 \\) $0

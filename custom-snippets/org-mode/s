@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: sigma
+# key: \s
+# --
+\sigma_{$1}^{$2}$0

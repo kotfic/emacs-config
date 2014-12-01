@@ -17,8 +17,7 @@
 (setq package-user-dir (concat emacs-config-dir "/" "packages"))
 
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+                         ("marmalade" . "http://marmalade-repo.org/packages/")))
 (package-initialize)
 
 
@@ -53,9 +52,11 @@
 ; get check for package description stuff to see if elpa version
 ; is higher than installed version
 
-
+(let ((default-directory (concat emacs-config-dir "/" "lib")))
+  (normal-top-level-add-subdirs-to-load-path))
 
 (require 'use-package)
+(setq use-package-verbose t)
 
 (use-package s)
 
@@ -86,7 +87,14 @@
 		     
 		     ))
 
-; IDO Ubiquitous
+
+
+(use-package ox-reveal
+  :init (progn
+	  ;(setq org-reveal-root "file:///home/:/reveal.js")
+	  ))
+
+;IDO Ubiquitous
 ; TODO - need to figure out some of the org related configurations
 (use-package ido-ubiquitous
 	     :init (progn
@@ -222,6 +230,55 @@
 
 ; Yasnippet
 
+(use-package yasnippet
+  :init (progn
+	  (yas-global-mode 1))
+  :config (progn
+	    (setq yas-snippet-dirs '("~/.emacs.d/custom-snippets" 
+				     "~/.emacs.d/packages/yasnippet-0.8.0/snippets"))
+
+
+	    ; This could probably be more sophisticated
+	    (defun preview-fragment ()
+	      (if (looking-back "\) ")
+		  (org-preview-latex-fragment)))
+
+	    (add-hook 'yas-after-exit-snippet-hook 'preview-fragment)
+	    (setq yas-triggers-in-field t)))
+
+
+
+(use-package  slime
+  :config (progn 
+	    (use-package slime-repl)
+	    (setq inferior-lisp-program "/usr/bin/sbcl")))
+
+
+
+(use-package skewer-mode
+  :config (progn
+	    (skewer-setup)))
+
+(use-package js2-mode
+  :mode (("\\.js\\'" . js2-mode)))
+;  :config (progn
+	    ; (use-package slime-js)
+; 	    (global-set-key [f5] 'slime-js-reload)
+; 	    (add-hook 'js2-mode-hook
+; 		      (lambda ()
+; 			(slime-js-minor-mode 1))))
+;   )
+
+
+  
+
+; Note,  should change this to try and auto-detect sbcl
+
+(use-package octave-inf
+  :commands run-octave
+  :config (progn
+	    (setq inferior-octave-prompt ">> ")))
+
 ; ERC
 (use-package erc
 	     :commands erc
@@ -233,7 +290,7 @@
 		       (use-package erc-notify
 				    :init (progn
 					    (erc-notify-mode t)
-					    (setq erc-notify-list '("danlamanna" "danlamanna^" "JDHankle")))
+					    (setq erc-notify-list '("danlamanna" "danlamanna^" "JDHankle" "")))
 			     )))
 
 
@@ -242,9 +299,9 @@
 
 ; Doc View Mode
 (use-package doc-view
-  :mode (("\\.docx\\'" . doc-view-mode)
-	 ("\\.doc\\'" . doc-view-mode)
-	 ("\\.odt\\'" . doc-view-mode))
+  :mode    (("\\.docx\\'" . doc-view-mode)
+	    ("\\.odt\\'" . doc-view-mode))
+
   :config (progn
 	    (setq doc-view-continuous t)
 	    (setq doc-view-resolution 300)
@@ -306,6 +363,7 @@ Requires ImageMagick installation"
 	     :commands org-mode
 	     :bind (("C-c l" . org-store-link)
 		    ("C-c c" . org-capture)
+		    ("C-c C-x C-o" . org-clock-out)
 		    ("C-c a" . org-agenda)
 		    ("C-c b" . org-iswitchb))
 
@@ -333,6 +391,83 @@ Requires ImageMagick installation"
 					      (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id
 						    org-link-to-org-use-id 'create-if-interactive-and-no-custom-id)))
 
+
+		       (use-package org-datetree)
+
+
+
+		       (defun org-datetree/internal_to_datetree_date(internal-time)
+			 
+			 (let* ((ts (decode-time internal-time))
+				(SEC (nth 0 ts))
+				(MINUTE (nth 1 ts))
+				(HOUR (nth 2 ts))
+				(DAY (nth 3 ts))
+				(MONTH (nth 4 ts))
+				(YEAR (nth 5 ts)))
+			   (list MONTH DAY YEAR)))
+		       
+		       
+		       (defun org-datetree/refile (file time)
+			 (interactive)  
+			 (save-excursion 
+			   (org-back-to-heading)
+			   (let ((file_buf (or (find-buffer-visiting file)
+					       (find-file-noselect file)))
+				 (date  (org-datetree/internal_to_datetree_date  time)))
+					; cut the subtree
+			     (org-cut-subtree)
+	
+					; paste it into the datetree buffer
+			     (with-current-buffer file_buf
+			       (org-datetree-find-date-create date)
+			       (let ((level (org-get-valid-level (funcall outline-level) 1)))
+				 (org-end-of-subtree t t)
+				 (org-back-over-empty-lines)
+				 (org-paste-subtree level))))))
+
+
+		       (defun org/start-heading-text ()			
+			 (save-excursion
+			   (org-back-to-heading)			 
+			   (re-search-forward 
+			    (plist-get (cadr (org-element-at-point)) :title))
+			   (match-beginning 0)))
+		       		       
+		       (defun org/refile-clocked-to-journal ()
+			 (interactive)
+			 (save-excursion
+			   (org-back-to-heading)
+			   (let ((file "~/org2/journal.org")
+				 (tags 
+				  (org-icompleting-read "Tags: "
+							'org-tags-completion-function
+							nil nil nil 'org-tags-history))
+				 (internal-time (org-time-string-to-time 
+						 (org-entry-get (point) "CLOCK")))
+				 (ts-point (org/start-heading-text)))
+
+			     ; set the tags
+			     (org-set-tags-to tags)
+			     
+			     ; format the heading
+			     (goto-char ts-point)
+			     (org-insert-time-stamp internal-time t 'inactive "" " - ")
+			     (org-datetree/refile file internal-time)
+			     )))
+			     
+
+		       (defun yas/org-very-safe-expand ()
+			 (let ((yas/fallback-behavior 'return-nil)) (yas/expand)))
+		       
+		       (defun org-yas-conflict ()
+			 (make-variable-buffer-local 'yas/trigger-key)
+			 (setq yas/trigger-key [tab])
+			 (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
+			 (define-key yas/keymap [tab] 'yas/next-field-or-maybe-expand))
+	     
+                    		       
+		       (add-hook 'org-mode-hook (lambda () (org-yas-conflict)))
 
 
 					; clock sum
@@ -364,7 +499,8 @@ Requires ImageMagick installation"
 		       (setq org-agenda-custom-commands '(
 							  ("n" "Agenda and TODO's"
 							   ((agenda "")
-							    (tags-todo "+urgent")
+							    (tags "+today")
+							    (tags-todo "+current")
 							    ))
 							  ("P" "Process Improvements"
 							   ((tags-todo "CATEGORY=\"Process\"-backburner")
@@ -382,16 +518,34 @@ Requires ImageMagick installation"
 		       (setq org-refile-use-outline-path 'file)
 		       (setq org-refile-path-complete-in-steps t)
 
+		       ; this should be improved to allow for scheduling directly
+		       ; into the current task
+		       (defun org-agenda-schedule-time ()
+			 (let* ((marker (org-get-at-bol 'org-hd-marker))
+				(buffer (marker-buffer marker))
+				(pos (marker-position marker)))
+			   (switch-to-buffer buffer)
+			   (goto-char pos))
+			 (goto-char (org-element-property :end (org-element-at-point))))
 
-		       (setq org-capture-templates 
-			     '(("t" "TODO" entry (file+headline "~/org2/unfiled.org" "Tasks")
-				"* TODO %?\n  %i\n  %a")
-			       ("e" "Email" entry (file+headline "~/org2/unfiled.org" "Email")
-				"* EMAIL %?\n %i\n %a ")
-			       ("q" "Question" entry (file+headline "~/org2/rpad705.org" "Questions")
-				"* QUESTION %?\n %i\n %a ")
-			       ("c" "Clock in" entry (file+headline "~/org2/unfiled.org" "Time")
-				"* %?\n %i\n %a" :clock-in t :clock-keep t)
+			       		       
+
+		       (setq org-capture-templates
+			     '(("t" "TODO" entry
+				(file+headline "~/org2/unfiled.org" "Tasks")
+				"* TODO %? :current:\n  %i\n  %a")
+			       ("s" "Schedule" entry (file+headline "~/org2/unfiled.org" "Tasks")
+				"* %? \n  %i\n  %a")
+			       ("e" "Email" entry 
+				(file+headline "~/org2/unfiled.org" "Email")
+				"* EMAIL %? :current:\n %i\n %a ")
+			       ("m" "Meeting" entry 
+				(file+headline "~/org2/unfiled.org" "Meetings") 
+				"* %?\n  %i\n  %a")
+			       ("c" "Clock in" entry 
+				(file+datetree "~/org2/journal.org")
+				"* %U - %? %^g\n %i\n %a" 
+				:clock-in t :clock-keep t)
 			       ))
 
 		       ; Org Export
@@ -402,6 +556,7 @@ Requires ImageMagick installation"
 					     ("\\.x?html?\\'" . default)
 					     ("\\.pdf\\'" . "/usr/bin/xpdf %s")))
 
+		       (setq org-babel-use-quick-and-dirty-noweb-expansion t)
 		       (setq org-latex-pdf-process 
 			     '("latexmk -c"
 			       "pdflatex -interaction nonstopmode -output-directory %o %f" 
@@ -424,7 +579,9 @@ Requires ImageMagick installation"
 			  (latex . t)
 			  (sh . t )
 			  (sql . t)
-			  (ditaa .t)))
+			  (org . t)
+			  (ditaa .t)
+			  (dot . t)))
 
 		       (org-babel-lob-ingest "~/.emacs.d/lib/org/doc/library-of-babel.org")
 
@@ -443,6 +600,18 @@ Requires ImageMagick installation"
 		       )) ; end org use-package
 
 
+
+
+; Add 'zip' files to dired 'Z'
+(eval-after-load "dired-aux"
+   '(add-to-list 'dired-compress-file-suffixes 
+                 '("\\.zip\\'" ".zip" "unzip")))
+
+(defun on-ec ()
+    "run after launching via 'ec' script"
+    (set-frame-parameter (selected-frame) 'alpha 0.9))
+
+
 ; Custom Functions
 (defun filter (condp lst)
   (delq nil
@@ -455,6 +624,30 @@ Requires ImageMagick installation"
   (set-frame-parameter (selected-frame) 'alpha value))
 
 
+(defun antiword-buffer ()
+  "Takes the current buffer as input to the external program antiword.
+
+If the current buffer is a ms-word document it's contents are replaced
+with the output from antiword and the extension `.doc' is replaced
+with `.txt' in the buffer-file-name."
+  (interactive)
+  (let ((txt-buffer-file-name (concat (substring (buffer-file-name) 0 -4)
+                                      ".txt")))
+    (shell-command-on-region (point-min) (point-max)
+                             "cat | antiword -" nil t nil)
+    (undo-start)
+    (if (equal (buffer-string) "- is not a Word Document.\n")
+        (or (undo-more 1)
+            (message "%s - is not a Word Document."(current-buffer)))
+      (set-visited-file-name txt-buffer-file-name)
+      (not-modified))))
+
+
+(setq auto-mode-alist
+      (append '(("\\.doc\\'" . antiword-buffer))
+              auto-mode-alist))
+
+
 ; General settings
 (setq inhibit-startup-message t)
 (show-paren-mode t)
@@ -464,6 +657,8 @@ Requires ImageMagick installation"
 (put 'downcase-region 'disabled nil)
 (fset 'yes-or-no-p 'y-or-n-p)
 
+
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ; Autosave settings
 (setq emacs-autosave-dir (concat emacs-tmp-dir "/autosaves/"))
@@ -478,8 +673,6 @@ Requires ImageMagick installation"
 ; Enable winner mode
 (when (fboundp 'winner-mode) (winner-mode 1))
 
-; follow mouse
-(setq mouse-autoselect-window t)
 
 ; Browser Support
 (setq browse-url-browser-function 'browse-url-generic
@@ -500,9 +693,14 @@ Requires ImageMagick installation"
  '(custom-safe-themes (quote ("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default)))
  '(ido-default-buffer-method (quote selected-window))
  '(safe-local-variable-values (quote ((org-clock-into-drawer . t)))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
+(when (member "Source Code Pro" (font-family-list))
+  (custom-set-faces
+   '(default ((t (:family "Source Code Pro"))))
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   
+   ))
+(put 'scroll-left 'disabled nil)

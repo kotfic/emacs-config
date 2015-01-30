@@ -1,0 +1,76 @@
+* Improvements
+**  Fix reddit /r/funny using Content Tweaking and elfeed API
+CLOSED: [2015-01-23 Fri 23:59]
+See: http://nullprogram.com/blog/2013/11/26/
+
+#+BEGIN_SRC elisp
+(defun a_link_tag_to_img_tag (from)
+  (let ((regex "<a href=\"\\([^>]+?\\)\">\\\[link\\\]</a>"))
+    (concat "<img src=\"" (cadr (s-match regex from)) "\" />")))
+
+ 
+(defun reddit_replace_link_tag_with_img (entry)
+  (if (s-matches? "/r/funny" (elfeed-deref (elfeed-entry-feed-id entry)))
+      (let* ((original (elfeed-deref (elfeed-entry-content entry)))
+	     (replace (a_link_tag_to_img_tag original)))
+	(message (format "%s" replace)))))
+	
+(add-hook 'elfeed-new-entry-hook #'reddit_replace_link_tag_with_img)
+; (remove-hook 'elfeed-new-entry-hook #'reddit_replace_link_tag_with_img)
+
+#+END_SRC
+
+#+RESULTS:
+: hundred-times-better
+
+
+* Feeds
+:PROPERTIES:
+:ID: elfeed
+:END:
+** Blogs                                                              :blog:
+*** Python                                                         :python:
+**** http://stupidpythonideas.blogspot.com/feeds/posts/default?alt=rss
+
+**** IPython                                                     :ipython:
+***** http://jakevdp.github.io/atom.xml                      :statistics:
+
+*** Statistics                                                 :statistics:
+**** http://simplystatistics.org/feed/
+**** ignore://fivethirtyeight.com/feed/
+
+*** Emacs                                                           :emacs:
+**** http://planet.emacsen.org/atom.xml
+
+*** Humor                                                           :humor:
+**** http://xkcd.com/atom.xml                                       :geek:
+
+*** Machine Learning                                                   :ml:
+**** http://blog.yhathq.com/rss.xml                                 :yhat:
+
+** Reddit                                                           :reddit:
+*** http://127.0.0.1:5000/r/funny.atom                              :humor:
+** Journals                                                         :journal:
+*** Other
+**** http://jmlr.org/jmlr.xml                                     :JML:ml:
+*** ACM                                                               :acm:
+**** Spatial                                                     :spatial:
+***** http://rss.acm.org/dl/RM219.xml                        :SIGSPATIAL:
+***** http://rss.acm.org/dl/J1196.xml       
+SIGSPATIAL - Special
+**** Machine Learning                                                 :ml:
+***** http://rss.acm.org/dl/J721.xml                             :SIGKDD:
+***** http://rss.acm.org/dl/J1054.xml                              :TKDD:
+**** NLP                                                             :nlp:
+***** http://rss.acm.org/dl/J957.xml                               :TSLP:
+**** Software                                                   :software:
+***** http://rss.acm.org/dl/J728.xml                            :SIGSOFT:
+***** http://rss.acm.org/dl/J790.xml                              :TOSEM:
+**** Social                                                       :social:
+***** http://rss.acm.org/dl/J198.xml                             :SIGCAS:
+ACM SIGCAS Computers and Society
+** News                                                               :news:
+*** https://www.archlinux.org/feeds/news/                 :linux:archlinux:
+** Test                                                               :junk:
+*** http://127.0.0.1:5000/r/python.atom                  :python:reddit:test:
+

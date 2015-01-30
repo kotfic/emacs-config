@@ -15,3 +15,4 @@ var
 /eshell/
 /#init.el#
 /.#init.el
+/.#tramp

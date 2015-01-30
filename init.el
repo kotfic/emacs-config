@@ -17,7 +17,9 @@
 (setq package-user-dir (concat emacs-config-dir "/" "packages"))
 
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")))
+			 ("melpa" .  "http://melpa.milkbox.net/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")
+			 ("org" . "http://orgmode.org/elpa/")))
 (package-initialize)
 
 
@@ -47,6 +49,8 @@
       (package-install pkg)))
 
 
+
+
 ; TODO - Need to figure out how to download org from elpa
 ; see (mapcar 'string-to-number (split-string (org-version) "[.]")
 ; get check for package description stuff to see if elpa version
@@ -63,6 +67,9 @@
 (use-package dash)
 
 (use-package request)
+
+
+(use-package notmuch)
 
 ; IDO
 (use-package ido
@@ -225,7 +232,9 @@
 	      ; :init (lambda () (virtualenv-workon "pp_twitter"))
 	      :tags '(python_notebook))
 
+	    (load "prodigy_laptop.el")
 
+	    
 	    ))
 
 ; Yasnippet
@@ -274,7 +283,7 @@
 
 ; Note,  should change this to try and auto-detect sbcl
 
-(use-package octave-inf
+(use-package octave
   :commands run-octave
   :mode (("\\.m\\'" . octave-mode))
   :config (progn
@@ -356,8 +365,31 @@ Requires ImageMagick installation"
 
 
 ))
-	    
 
+(use-package elfeed-org
+  :commands elfeed-org
+  :config (progn
+	    (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org"))))
+
+(use-package elfeed
+  :bind (("C-x w" . elfeed))
+  :config (progn
+	    (elfeed-org)
+	    
+	    (defun elfeed-www ()
+	      (interactive)
+
+	      (let ((link (elfeed-entry-link elfeed-show-entry)))
+		(when link
+		  (message "Sent to browser: %s" link)
+		  (eww (elfeed-entry-link elfeed-show-entry)))))
+
+	    (define-key elfeed-show-mode-map "w" #'elfeed-www)
+	    
+	    (setq-default elfeed-search-filter "@6-week-ago +unread -junk -test")
+	    
+	    )
+  )
 
 ; Org Mode
 (use-package org
@@ -371,7 +403,8 @@ Requires ImageMagick installation"
 	     :config (progn
 
 		       (use-package org-compat :if window-system)
-				    
+		       (use-package org-notmuch)
+		       
 		       (setq org-log-done 'time
 			     org-use-tag-inheritance nil
 			     org-hide-leading-stars t
@@ -501,6 +534,7 @@ Requires ImageMagick installation"
 							  ("n" "Agenda and TODO's"
 							   ((agenda "")
 							    (tags "+today")
+							    (tags-todo "+dissertation")
 							    (tags-todo "+current")
 							    ))
 							  ("P" "Process Improvements"
@@ -614,6 +648,15 @@ Requires ImageMagick installation"
 
 
 ; Custom Functions
+(defun reload-browser ()
+  (interactive)
+  (shell-command (concat
+		  "CURRENT=$(xdotool getwindowfocus);"
+		  "xdotool search --onlyvisible --name chromium windowfocus key 'ctrl+r';"
+		  "xdotool windowactivate $CURRENT")))
+
+
+
 (defun filter (condp lst)
   (delq nil
 	(mapcar (lambda (x) (and (funcall condp x) x)) lst)))
@@ -642,6 +685,40 @@ with `.txt' in the buffer-file-name."
             (message "%s - is not a Word Document."(current-buffer)))
       (set-visited-file-name txt-buffer-file-name)
       (not-modified))))
+
+
+;;;;
+(setq ibuffer-saved-filter-groups
+      (quote (("default"
+	       ("org" (or (mode . org-mode)
+			  (mode ."^\\*Org.*$")))
+	       
+	       ("python" (mode . python-mode))
+	       
+	       ("erc" (mode . erc-mode))
+	       ("mail" (or
+			(mode . notmuch-show-mode)
+			(mode . notmuch-search-mode)
+			(mode . notmuch-hello)))
+	       ("elfeed" (name . "^\\*elfeed.*"))
+	       ("emacs" (or
+			 (name . "^\\*scratch\\*$")
+			 (name . "^\\*Messages\\*$")
+			 (mode . lisp-mode)))
+	       
+	       ("dired" (mode . dired-mode))
+	       
+	       ))))
+
+(add-hook 'ibuffer-mode-hook
+	  (lambda ()
+	    (ibuffer-switch-to-saved-filter-groups "default")))
+
+
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+;;;;
+
+
 
 
 (setq auto-mode-alist
@@ -677,7 +754,10 @@ with `.txt' in the buffer-file-name."
 
 ; Browser Support
 (setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "chromium")
+      shr-external-browser 'browse-url-generic
+      browse-url-new-window-flag t
+      browse-url-generic-program "chromium"
+      browse-url-generic-args '("--new-window"))
 
 
 ; Load theme files
@@ -691,8 +771,19 @@ with `.txt' in the buffer-file-name."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes (quote ("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default)))
+ '(custom-safe-themes
+   (quote
+    ("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default)))
  '(ido-default-buffer-method (quote selected-window))
+ '(notmuch-saved-searches
+   (quote
+    ((:name "inbox" :query "tag:inbox" :key "i")
+     (:name "unread" :query "tag:unread" :key "u")
+     (:name "flagged" :query "tag:flagged" :key "f")
+     (:name "sent" :query "tag:sent" :key "t")
+     (:name "drafts" :query "tag:draft" :key "d")
+     (:name "all mail" :query "*" :key "a")
+     (:name "ualbany" :query "from:*@albany.edu"))))
  '(safe-local-variable-values (quote ((org-clock-into-drawer . t)))))
 
 (when (member "Source Code Pro" (font-family-list))
@@ -705,3 +796,10 @@ with `.txt' in the buffer-file-name."
    
    ))
 (put 'scroll-left 'disabled nil)
+(put 'upcase-region 'disabled nil)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

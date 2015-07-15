@@ -15,3 +15,8 @@
       :command "elfeed_wrapper"
       :cwd "~/"))
 
+(if (file-executable-p "/usr/bin/offlineimap")
+    (prodigy-define-service
+      :name "Offline IMAP"
+      :command "/usr/bin/offlineimap"
+      :cwd "~/"))

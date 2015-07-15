@@ -1,0 +1,1 @@
+("~/.emacs.d/" "~/org2/" "~/org2/src/avail/kauffman/BDS/" "~/src/claws/" "~/blog/" "/ssh:ck573381@lmm.rit.albany.edu:/network/rit/lab/" "~/org/" "~/.pyenv/")

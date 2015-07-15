@@ -43,11 +43,17 @@ See: http://nullprogram.com/blog/2013/11/26/
 **** http://planet.emacsen.org/atom.xml
 
 *** Humor                                                           :humor:
-**** http://xkcd.com/atom.xml                                       :geek:
+**** http://xkcd.com/atom.xml                                  :geek:xkcd:
 
 *** Machine Learning                                                   :ml:
 **** http://blog.yhathq.com/rss.xml                                 :yhat:
 
+*** Linux                                                           :linux:
+**** http://distrowatch.com/news/dw.xml
+
+*** GIS                                                               :gis:
+**** http://mapbrief.com/feed/
+**** http://www.spatiallyadjusted.com/feed/
 ** Reddit                                                           :reddit:
 *** http://127.0.0.1:5000/r/funny.atom                              :humor:
 ** Journals                                                         :journal:
@@ -71,6 +77,8 @@ SIGSPATIAL - Special
 ACM SIGCAS Computers and Society
 ** News                                                               :news:
 *** https://www.archlinux.org/feeds/news/                 :linux:archlinux:
+** Misc
+*** https://danlamanna.com/feeds/atom.xml           :blog:python:cli:emacs:
 ** Test                                                               :junk:
 *** http://127.0.0.1:5000/r/python.atom                  :python:reddit:test:
 

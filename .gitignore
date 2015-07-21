@@ -17,3 +17,4 @@ var
 /.#init.el
 /.#tramp
 projecetile-bookmarks.eld
+/projectile-bookmarks.eld

@@ -40,7 +40,7 @@
       browse-url-generic-program "firefox"
       browse-url-generic-args '("--new-window"))
 
-
+(require 'powerline)
 
 (setq sml/no-confirm-load-theme t)
 (setq sml/mode-width 'full)

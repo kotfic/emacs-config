@@ -92,7 +92,7 @@
 
 (use-package helm
   :commands helm-mode
-  :bind  (;("C-c h" . helm-command-prefix)
+  :bind  (("C-c h" . helm-command-prefix)
 	  ("C-c h g" . helm-google-suggest)
 	  ("C-c h o" . helm-occur)
 	  ("C-c h SPC" . helm-all-mark-rings)

@@ -17,5 +17,6 @@ var
 /.#init.el
 /.#tramp
 /projectile-bookmarks.eld
+/projectile.cache
 /recentf
 /packages

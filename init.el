@@ -1,7 +1,3 @@
-;; 
-;; TODO investiate Bibretrieve? 
-;; TODO Add flycheck in erc
-;; TODO smex - make M-x use ido
 
 (defvar emacs-config-dir (expand-file-name "~/.emacs.d"))
 (defvar emacs-tmp-dir    (expand-file-name (concat emacs-config-dir "/" "tmp")))
@@ -21,7 +17,6 @@
                          ("marmalade" . "http://marmalade-repo.org/packages/")
 			 ("org" . "http://orgmode.org/elpa/")))
 (package-initialize)
-
 
 ;; Bootstrap `use-package'
 (unless (package-installed-p 'use-package)

@@ -391,7 +391,15 @@
 		       (add-hook 'inferior-python-mode-hook 'auto-complete-mode)
 		       (add-hook 'inferior-python-mode-hook 'autopair-mode)
 		       (add-hook 'inferior-python-mode-hook 'pp:custom-jedi-setup)
-		       
+
+(use-package virtualenvwrapper
+  :commands venv-workon
+  :config
+  (progn
+    (venv-initialize-interactive-shells)
+    (setq venv-location (expand-file-name "~/.venvs/"))
+    ))
+
 		       
 ; Prodigy
 (use-package prodigy
@@ -419,7 +427,7 @@
 	      :tags '(python_notebook))
 
 	    (load "prodigy_laptop.el")
-
+	    (load "prodigy_work.el")
 	    
 	    ))
 

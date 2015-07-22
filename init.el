@@ -43,6 +43,10 @@
   :demand t)
 
 
+(use-package tern_dan
+  :demand t)
+
+
 (use-package scala-mode2
   :ensure t
   :config
@@ -324,19 +328,15 @@
 
 ; LaTeX
 
-;; Flycheck
-(use-package flycheck)
 		     
-
-
 ; Auto complete
-(use-package auto-complete
-	     :config
-	     (setq
-	      ac-auto-start 2
-	      ac-override-local-map nil
-	      ac-use-menu-map t
-	      ac-candidate-limit 20))
+;(use-package auto-complete
+;	     :config
+;	     (setq
+;	      ac-auto-start 2
+;	      ac-override-local-map nil
+;	      ac-use-menu-map t
+;	      ac-candidate-limit 20))
 
 
 
@@ -427,7 +427,7 @@
 	      :tags '(python_notebook))
 
 	    (load "prodigy_laptop.el")
-	    (load "prodigy_work.el")
+`	    (load "prodigy_work.el")
 	    
 	    ))
 
@@ -464,26 +464,12 @@
 	    (skewer-setup)))
 
 
-(use-package js2-mode
-  :mode (("\\.js\\'" . js2-mode))
-  :config
-  (progn
-    (use-package tern
-      :ensure t)
-
-    (use-package tern-auto-complete
-      :ensure t)
-
-    (add-hook 'js-mode-hook (lambda ()
-			      (tern-mode t)
-			      (tern-ac-setup)))
-  ))
-
 
 ; Note,  should change this to try and auto-detect sbcl
 
 (use-package octave
   :commands run-octave
+  :defer t
   :mode (("\\.m\\'" . octave-mode))
   :config (progn
 	    (setq inferior-octave-prompt ">> ")))

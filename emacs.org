@@ -5,10 +5,12 @@ CLOSED: [2015-07-22 Wed 20:19]
 CLOSED: [2015-07-22 Wed 20:19]
 ** DONE Fix python hooks (outside of use-package!)                   :urgent:
 CLOSED: [2015-07-22 Wed 20:38]
+** DONE create archive.el for archived use-packages
+CLOSED: [2015-07-22 Wed 20:52]
+
+** TODO Remove as much from init.el as possible into archive.el
 
 ** TODO fix up :defer stuff in init.el
-** TODO create archive.el for archived use-packages
-*** TODO Remove as much from init.el as possible
 
 
 

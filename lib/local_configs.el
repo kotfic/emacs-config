@@ -10,6 +10,7 @@
 
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
+(setq uniquify-buffer-name-style 'forward)
 ; Autosave settings
 (setq emacs-autosave-dir (concat emacs-tmp-dir "/autosaves/"))
 (setq auto-save-list-file-prefix emacs-autosave-dir)

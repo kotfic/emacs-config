@@ -34,6 +34,16 @@
 (require 'use-package)
 (setq use-package-verbose t)
 
+;; Taken from danlamanna
+(defmacro use-package-ensure(package &rest body)
+  (declare (indent 1))
+  `(use-package ,package
+     :ensure t
+     ,@body))
+
+
+
+
 (use-package local_configs
   :demand t)
 
@@ -41,32 +51,24 @@
 (use-package tern_dan
   :demand t)
 
-
-(use-package scala-mode2
-  :ensure t
+(use-package-ensure scala-mode2
   :config
-  (use-package ensime)
-  (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
-  )
+  (use-package-ensure ensime)
+  (add-hook 'scala-mode-hook 'ensime-scala-mode-hook))
 
-(use-package s
-  :ensure t
+(use-package-ensure s
   :defer 1)
 
-(use-package dash
-  :ensure t
+(use-package-ensure dash
   :defer 1)
 
-(use-package request
-  :ensure t
+(use-package-ensure request
   :defer 1)
 
-(use-package weechat
-  :ensure t
+(use-package-ensure weechat
   :defer 1)
 
-(use-package pdf-tools
-  :ensure t
+(use-package-ensure pdf-tools
   :defer 1
   :config 
   (pdf-tools-install)
@@ -75,7 +77,7 @@
     :ensure t))
 
 
-(use-package sauron
+(use-package-ensure sauron
   :ensure t
   :defer 1
   :config
@@ -83,13 +85,13 @@
 	sauron-hide-mode-line t
 	))
 
-(use-package guide-key
+(use-package-ensure guide-key
   :ensure guide-key
   :config
   (setq guide-key/guide-key-sequence '("C-c p" "C-c h"))
   (guide-key-mode 1))
 
-(use-package helm
+(use-package-ensure helm
   :commands helm-mode
   :bind  (("C-h a" . helm-apropos)
 	  ("C-c h g" . helm-google-suggest)
@@ -98,16 +100,12 @@
 	  ("M-x" . helm-M-x)
 	  ("M-y" . helm-show-kill-ring)
 	  ("C-x b" . helm-mini)
-	  ("C-x C-f" . helm-find-files)
-)
+	  ("C-x C-f" . helm-find-files))
   :init
   (progn
     (helm-mode 1)
 ;  (global-set-key (kbd "C-c h") 'helm-command-prefix)
     (require 'helm-config)
-
-  
-
   ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
   ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
   ;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
@@ -126,11 +124,9 @@
 	  helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
 	  helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
 	  helm-ff-file-name-history-use-recentf t)
-    )
-  )
+    ))
 
-(use-package projectile
-  :ensure    projectile
+(use-package-ensure projectile
   :config
 
   (projectile-global-mode t)
@@ -140,7 +136,6 @@
     :bind ("C-c p h" . helm-projectile))
 
   (helm-projectile-on))
-
 
 
 ;; (use-package notmuch
@@ -294,23 +289,19 @@
 ;;	     :init (progn
 ;;		     (ido-ubiquitous-mode 1)))
 	     
-; Uniquify
-(use-package uniquify
-  :config 
-  (setq uniquify-buffer-name-style 'forward))
 
 ; Windmove
-(use-package windmove
+(use-package-ensure windmove
   :config
   (windmove-default-keybindings 'shift))
 
 ; Tramp
-(use-package tramp
+(use-package-ensure tramp
   :config
   (setq tramp-default-method "ssh"))
 
 ; Magit
-(use-package magit
+(use-package-ensure magit
   :bind (("C-x g" . magit-status)))
 
 
@@ -337,38 +328,38 @@
 
 ; Jedi
 ; TODO Jedi goto-definition is not working.
-(use-package jedi
-	     :defer t
-	     :bind (("C-c d" . jedi:show-doc)
-		    ("M-SPC" . jedi:complete)
-		    ("M-." . jedi:goto-definition))
-	     :init
-	     (defun pp:custom-jedi-setup ()
-	       (jedi:setup)
-	       (jedi:ac-setup))
-	     
-	     :config (progn
-		  		      
-		       (setq jedi:server-command
-			     `("python2" ,(concat jedi:source-dir "jediepcserver.py")))
-		       
-		       (setq jedi:setup-keys t
-			     jedi:tooltip-method nil
-			     jedi:get-in-function-call-delay 300
-			     jedi:complete-on-dot t)))
+(use-package-ensure jedi
+  :defer t
+  :bind (("C-c d" . jedi:show-doc)
+	 ("M-SPC" . jedi:complete)
+	 ("M-." . jedi:goto-definition))
+  :init
+  (defun pp:custom-jedi-setup ()
+    (jedi:setup)
+    (jedi:ac-setup))
+  
+  :config (progn
+	    
+	    (setq jedi:server-command
+		  `("python2" ,(concat jedi:source-dir "jediepcserver.py")))
+	    
+	    (setq jedi:setup-keys t
+		  jedi:tooltip-method nil
+		  jedi:get-in-function-call-delay 300
+		  jedi:complete-on-dot t)))
 
 
 ; Python
-(use-package python
-	     :commands python-mode
-	     :config (progn
-		       (setq pylint:epylint-executable "epylint"
-			     python-shell-interpreter "ipython"
-			     python-shell-interpreter-args "-i"
-			     python-shell-buffer-name "Python"
-			     python-shell-prompt-regexp "In \\[[0-9]+\\]: "
-			     python-shell-prompt-block-regexp ":"
-			     python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: ")
+(use-package-ensure python
+  :commands python-mode
+  :config (progn
+	    (setq pylint:epylint-executable "epylint"
+		  python-shell-interpreter "ipython"
+		  python-shell-interpreter-args "-i"
+		  python-shell-buffer-name "Python"
+		  python-shell-prompt-regexp "In \\[[0-9]+\\]: "
+		  python-shell-prompt-block-regexp ":"
+		  python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: ")
 		     
 					; auto pair
 		       (use-package autopair)
@@ -387,7 +378,7 @@
 		       (add-hook 'inferior-python-mode-hook 'autopair-mode)
 		       (add-hook 'inferior-python-mode-hook 'pp:custom-jedi-setup)
 
-(use-package virtualenvwrapper
+(use-package-ensure virtualenvwrapper
   :commands venv-workon
   :config
   (progn
@@ -397,7 +388,7 @@
 
 		       
 ; Prodigy
-(use-package prodigy
+(use-package-ensure prodigy
   :commands prodigy
   :bind (("<f12>" . prodigy))
   :config (progn
@@ -428,7 +419,7 @@
 
 ; Yasnippet
 
-(use-package yasnippet
+(use-package-ensure yasnippet
 ;  :init (progn
 ;	  (yas-global-mode 1))
   :config (progn
@@ -453,16 +444,16 @@
 
 
 
-(use-package skewer-mode
+(use-package-ensure skewer-mode
   :defer 1
   :config (progn
 	    (skewer-setup)))
 
 
 
-; Note,  should change this to try and auto-detect sbcl
+					; Note,  should change this to try and auto-detect sbcl
 
-(use-package octave
+(use-package-ensure octave
   :commands run-octave
   :defer t
   :mode (("\\.m\\'" . octave-mode))
@@ -471,7 +462,7 @@
 
 
 ; Doc View Mode
-(use-package doc-view
+(use-package-ensure doc-view
   :mode    (("\\.docx\\'" . doc-view-mode)
 	    ("\\.odt\\'" . doc-view-mode))
 
@@ -528,7 +519,7 @@
 
 ))
 
-(use-package hydra
+(use-package-ensure hydra
   :init
   (progn
     (global-set-key
@@ -537,9 +528,7 @@
        "zoom"
        ("i" text-scale-increase "in")
        ("o" text-scale-decrease "out"))
-     )
-    
-    
+     )    
     ))
 
 ;(use-package paradox
@@ -554,14 +543,14 @@
 ;; 	     )
 ;;   )
 
-(use-package noflet)
+(use-package-ensure noflet)
 
-(use-package elfeed-org
+(use-package-ensure elfeed-org
   :commands elfeed-org
   :config (progn
 	    (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org"))))
 
-(use-package elfeed
+(use-package-ensure elfeed
   :bind (("C-x w" . elfeed))
   :config (progn
 	    (elfeed-org)
@@ -582,7 +571,7 @@
   )
 
 ; Org Mode
-(use-package org
+(use-package-ensure org
   :commands org-mode
   :bind (("C-c l" . org-store-link)
 	 ("C-c c" . org-capture)
@@ -781,7 +770,7 @@
     ; Additional packages and configurations
     
     (use-package org-compat :if window-system)
-    (use-package ox-reveal)
+    (use-package-ensure ox-reveal)
     
     (use-package org-id
       :config (progn
@@ -800,7 +789,7 @@
 		(setq org-crypt-key "E4CAD065")))
     
 					; Org Bullets
-    (use-package org-bullets :init (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+    (use-package-ensure org-bullets :init (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
     
     
     
@@ -970,7 +959,3 @@ with `.txt' in the buffer-file-name."
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)
-
-
-; this needs to be put somewhere else (not version controlled!)
-;(setq paradox-github-token "eb8c1ec415b6432a19757b6a7a63ba2edff8a296")

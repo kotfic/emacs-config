@@ -1,9 +1,3 @@
-(defmacro use-package-ensure(package &rest body)
-  (declare (indent 1))
-  `(use-package ,package
-     :ensure t
-     ,@body))
-
 
 (use-package-ensure js2-mode
   ;; flycheck does checking for jshint and jscs

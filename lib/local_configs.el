@@ -26,12 +26,11 @@
 
 ; Font
 (set-face-attribute 'default nil
-                    :family "Inconsolata"
-                    :height 120)
+                    :family "Source Code Pro"
+                    :height 100)
 (set-face-attribute 'mode-line nil
-                    :family "Inconsolata"
-		    :height 120)
-
+                    :family "Source Code Pro"
+		    :height 90)
 
 					;
 ;Browser Support

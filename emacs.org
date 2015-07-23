@@ -1,0 +1,18 @@
+* Tasks
+** DONE ignore package files - getting out of hand 
+CLOSED: [2015-07-22 Wed 20:19]
+** DONE add use-package-ensure statements
+CLOSED: [2015-07-22 Wed 20:19]
+** TODO Fix python hooks (outside of use-package!)                  :urgent:
+
+** TODO fix up :defer stuff in init.el
+** TODO create archive.el for archived use-packages
+*** TODO Remove as much from init.el as possible
+
+
+
+* Org Tasks
+** TODO Move Claws mail stuff into file
+** TODO Move date re-filing into seperate folder
+** TODO fix ox-pelican and org-reveal dependency issues
+** TODO Better set up with org-meta.el and readme.org

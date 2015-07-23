@@ -199,5 +199,34 @@
 
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;; Slime
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (use-package  slime
+;;  :config (progn 
+;;	    (use-package slime-repl)
+;;	    (setq inferior-lisp-program "/usr/bin/sbcl")))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;; Skewer
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (use-package-ensure skewer-mode
+;;  :defer 1
+;;  :config (progn
+;;	    (skewer-setup)))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;; Octave
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; (use-package-ensure octave
+;;  :commands run-octave
+;;  :defer t
+;;  :mode (("\\.m\\'" . octave-mode))
+;;  :config (progn
+;;	    (setq inferior-octave-prompt ">> ")))
+
+
+;; (use-package-ensure noflet)

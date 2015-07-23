@@ -45,6 +45,38 @@
 (use-package local_configs
   :demand t)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;; Utilities
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package-ensure s
+  :defer 1)
+
+(use-package-ensure dash
+  :defer 1)
+
+(use-package-ensure request
+  :defer 1)
+
+
+(use-package-ensure guide-key
+  :ensure guide-key
+  :config
+  (setq guide-key/guide-key-sequence '("C-c p" "C-c h"))
+  (guide-key-mode 1))
+
+
+
+; Windmove
+(use-package-ensure windmove
+  :config
+  (windmove-default-keybindings 'shift))
+
+; Tramp
+(use-package-ensure tramp
+  :config
+  (setq tramp-default-method "ssh"))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;   Javascript etc
@@ -97,40 +129,24 @@
   :config (progn
             (add-hook 'stylus-mode-hook 'rainbow-mode)))
 
-(provide 'tern_dan)
 
 
-
-
-
-
-
+;;;;;;;;;;;;;;;;;;;;;;
+;;; Scala mode
+;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package-ensure scala-mode2
   :config
   (use-package-ensure ensime)
   (add-hook 'scala-mode-hook 'ensime-scala-mode-hook))
 
-(use-package-ensure s
-  :defer 1)
 
-(use-package-ensure dash
-  :defer 1)
-
-(use-package-ensure request
-  :defer 1)
+;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Communication & Notifications
+;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package-ensure weechat
   :defer 1)
-
-(use-package-ensure pdf-tools
-  :defer 1
-  :config 
-  (pdf-tools-install)
-  (setq-default pdf-view-display-size 'fit-page)
-  (use-package org-pdfview
-    :ensure t))
-
 
 (use-package-ensure sauron
   :ensure t
@@ -140,214 +156,45 @@
 	sauron-hide-mode-line t
 	))
 
-(use-package-ensure guide-key
-  :ensure guide-key
-  :config
-  (setq guide-key/guide-key-sequence '("C-c p" "C-c h"))
-  (guide-key-mode 1))
 
-(use-package-ensure helm
-  :commands helm-mode
-  :bind  (("C-h a" . helm-apropos)
-	  ("C-c h g" . helm-google-suggest)
-	  ("C-c h o" . helm-occur)
-	  ("C-c h SPC" . helm-all-mark-rings)
-	  ("M-x" . helm-M-x)
-	  ("M-y" . helm-show-kill-ring)
-	  ("C-x b" . helm-mini)
-	  ("C-x C-f" . helm-find-files))
-  :init
-  (progn
-    (helm-mode 1)
-;  (global-set-key (kbd "C-c h") 'helm-command-prefix)
-    (require 'helm-config)
-  ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
-  ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
-  ;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
-
-  ;(global-unset-key (kbd "C-x c"))
-
-    (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
-    (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
-    (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
-    
-    (when (executable-find "curl")
-      (setq helm-google-suggest-use-curl-p t))
-
-    (setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
-	  helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
-	  helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
-	  helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
-	  helm-ff-file-name-history-use-recentf t)
-    ))
-
-(use-package-ensure projectile
-  :config
-
-  (projectile-global-mode t)
-
-  (use-package helm-projectile
-    :ensure helm-projectile
-    :bind ("C-c p h" . helm-projectile))
-
-  (helm-projectile-on))
-
-
-
-
-
-
-
-; Windmove
-(use-package-ensure windmove
-  :config
-  (windmove-default-keybindings 'shift))
-
-; Tramp
-(use-package-ensure tramp
-  :config
-  (setq tramp-default-method "ssh"))
-
-; Magit
-(use-package-ensure magit
-  :bind (("C-x g" . magit-status)))
-
-
-		    
-; Jedi
-; TODO Jedi goto-definition is not working.
-(use-package-ensure jedi
-  :defer t
-  :bind (("C-c d" . jedi:show-doc)
-	 ("M-SPC" . jedi:complete)
-	 ("M-." . jedi:goto-definition))
-  :init
-  (defun pp:custom-jedi-setup ()
-    (jedi:setup)
-    (jedi:ac-setup))
-  
+(use-package-ensure elfeed-org
+  :commands elfeed-org
   :config (progn
-	    
-	    (setq jedi:server-command
-		  `("python2" ,(concat jedi:source-dir "jediepcserver.py")))
-	    
-	    (setq jedi:setup-keys t
-		  jedi:tooltip-method nil
-		  jedi:get-in-function-call-delay 300
-		  jedi:complete-on-dot t)))
+	    (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org"))))
 
-
-; Python
-(use-package-ensure python
-  :commands python-mode
+(use-package-ensure elfeed
+  :bind (("C-x w" . elfeed))
   :config (progn
-	    (setq pylint:epylint-executable "epylint"
-		  python-shell-interpreter "ipython"
-		  python-shell-interpreter-args "-i"
-		  python-shell-buffer-name "Python"
-		  python-shell-prompt-regexp "In \\[[0-9]+\\]: "
-		  python-shell-prompt-block-regexp ":"
-		  python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: ")
-		     
-					; auto pair
-		       (use-package autopair)
-				    
-		       ; adding hooks
- 		       (add-hook 'python-mode-hook (lambda ()
-						     (unless (tramp-tramp-file-p (buffer-file-name))
-						       (flycheck-mode))))
-
-		       ; hooks
-		       (add-hook 'python-mode-hook 'auto-complete-mode)
-		       (add-hook 'python-mode-hook 'autopair-mode)
-		       (add-hook 'python-mode-hook 'pp:custom-jedi-setup)
-
-		       (add-hook 'inferior-python-mode-hook 'auto-complete-mode)
-		       (add-hook 'inferior-python-mode-hook 'autopair-mode)
-		       (add-hook 'inferior-python-mode-hook 'pp:custom-jedi-setup)))
-
-(use-package-ensure virtualenvwrapper
-  :commands venv-workon
-  :config
-  (progn
-    (venv-initialize-interactive-shells)
-    (setq venv-location (expand-file-name "~/.venvs/"))
-    ))
-
-		       
-; Prodigy
-(use-package-ensure prodigy
-  :commands prodigy
-  :bind (("<f12>" . prodigy))
-  :config (progn
-	    ; (add-hook 'prodigy-mode-hook 'virtualenv-minor-mode)
+	    (elfeed-org)
 	    
+	    (defun elfeed-www ()
+	      (interactive)
 
-	    (load "prodigy_python.el")
+	      (let ((link (elfeed-entry-link elfeed-show-entry)))
+		(when link
+		  (message "Sent to browser: %s" link)
+		  (eww (elfeed-entry-link elfeed-show-entry)))))
 
-
-	    (prodigy-define-service
-	      :name "General IPython2 Kernel"
-	      :command "ipython2"
-	      :args '("kernel")
-	      :tags '(python_kernel)
-	      :stop-signal 'sigquit )
-
-	    (prodigy-define-service
-	      :name "General Python2 Notebook"
-	      :command "ipython2"
-	      :args '("notebook" "--no-browser")
-	      ; :init (lambda () (virtualenv-workon "pp_twitter"))
-	      :tags '(python_notebook))
-
-	    (load "prodigy_laptop.el")
-`	    (load "prodigy_work.el")
+	    (define-key elfeed-show-mode-map "w" #'elfeed-www)
 	    
-	    ))
-
-; Yasnippet
-
-(use-package-ensure yasnippet
-;  :init (progn
-;	  (yas-global-mode 1))
-  :config (progn
-	    (setq yas-snippet-dirs '("~/.emacs.d/custom-snippets" 
-				     "~/.emacs.d/packages/yasnippet-20150212.240/snippets"))
+	    (setq-default elfeed-search-filter "@6-week-ago +unread -junk -test")
+	    
+	    )
+  )
 
 
-	    ; This could probably be more sophisticated
-	    (defun preview-fragment ()
-	      (if (looking-back "\) ")
-		  (org-preview-latex-fragment)))
-
-	    (add-hook 'yas-after-exit-snippet-hook 'preview-fragment)
-	    (setq yas-triggers-in-field t)))
+;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;   PDFs and DOCS
+;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-
-;(use-package  slime
-;  :config (progn 
-;	    (use-package slime-repl)
-;	    (setq inferior-lisp-program "/usr/bin/sbcl")))
-
-
-
-(use-package-ensure skewer-mode
+(use-package-ensure pdf-tools
   :defer 1
-  :config (progn
-	    (skewer-setup)))
-
-
-
-					; Note,  should change this to try and auto-detect sbcl
-
-(use-package-ensure octave
-  :commands run-octave
-  :defer t
-  :mode (("\\.m\\'" . octave-mode))
-  :config (progn
-	    (setq inferior-octave-prompt ">> ")))
-
+  :config 
+  (pdf-tools-install)
+  (setq-default pdf-view-display-size 'fit-page)
+  (use-package org-pdfview
+    :ensure t))
 
 ; Doc View Mode
 (use-package-ensure doc-view
@@ -407,6 +254,92 @@
 
 ))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;; Project Management
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package-ensure helm
+  :commands helm-mode
+  :bind  (("C-h a" . helm-apropos)
+	  ("C-c h g" . helm-google-suggest)
+	  ("C-c h o" . helm-occur)
+	  ("C-c h SPC" . helm-all-mark-rings)
+	  ("M-x" . helm-M-x)
+	  ("M-y" . helm-show-kill-ring)
+	  ("C-x b" . helm-mini)
+	  ("C-x C-f" . helm-find-files))
+  :init
+  (progn
+    (helm-mode 1)
+;  (global-set-key (kbd "C-c h") 'helm-command-prefix)
+    (require 'helm-config)
+  ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
+  ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
+  ;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
+
+  ;(global-unset-key (kbd "C-x c"))
+
+    (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+    (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
+    (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+    
+    (when (executable-find "curl")
+      (setq helm-google-suggest-use-curl-p t))
+
+    (setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
+	  helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
+	  helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
+	  helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
+	  helm-ff-file-name-history-use-recentf t)
+    ))
+
+(use-package-ensure projectile
+  :config
+  (projectile-global-mode t)
+
+  (use-package helm-projectile
+    :ensure helm-projectile
+    :bind ("C-c p h" . helm-projectile))
+
+  (helm-projectile-on))
+
+
+
+; Prodigy
+(use-package-ensure prodigy
+  :commands prodigy
+  :bind (("<f12>" . prodigy))
+  :config (progn
+	    ; (add-hook 'prodigy-mode-hook 'virtualenv-minor-mode)
+	    
+
+	    (load "prodigy_python.el")
+
+
+	    (prodigy-define-service
+	      :name "General IPython2 Kernel"
+	      :command "ipython2"
+	      :args '("kernel")
+	      :tags '(python_kernel)
+	      :stop-signal 'sigquit )
+
+	    (prodigy-define-service
+	      :name "General Python2 Notebook"
+	      :command "ipython2"
+	      :args '("notebook" "--no-browser")
+	      ; :init (lambda () (virtualenv-workon "pp_twitter"))
+	      :tags '(python_notebook))
+
+	    (load "prodigy_laptop.el")
+`	    (load "prodigy_work.el")
+	    
+	    ))
+
+(use-package-ensure magit
+  :bind (("C-x g" . magit-status)))
+
+
+
 (use-package-ensure hydra
   :init
   (progn
@@ -420,34 +353,101 @@
     ))
 
 
-(use-package-ensure noflet)
 
-(use-package-ensure elfeed-org
-  :commands elfeed-org
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;; Python
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+		    
+
+
+; Python
+(use-package-ensure python
+  :commands python-mode
   :config (progn
-	    (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org"))))
+	    (setq pylint:epylint-executable "epylint"
+		  python-shell-interpreter "ipython"
+		  python-shell-interpreter-args "-i"
+		  python-shell-buffer-name "Python"
+		  python-shell-prompt-regexp "In \\[[0-9]+\\]: "
+		  python-shell-prompt-block-regexp ":"
+		  python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: ")
+		     
+					; auto pair
+		       (use-package autopair)
+				    
+		       ; adding hooks
+ 		       (add-hook 'python-mode-hook (lambda ()
+						     (unless (tramp-tramp-file-p (buffer-file-name))
+						       (flycheck-mode))))
 
-(use-package-ensure elfeed
-  :bind (("C-x w" . elfeed))
+		       ; hooks
+		       (add-hook 'python-mode-hook 'auto-complete-mode)
+		       (add-hook 'python-mode-hook 'autopair-mode)
+		       (add-hook 'python-mode-hook 'pp:custom-jedi-setup)
+
+		       (add-hook 'inferior-python-mode-hook 'auto-complete-mode)
+		       (add-hook 'inferior-python-mode-hook 'autopair-mode)
+		       (add-hook 'inferior-python-mode-hook 'pp:custom-jedi-setup)))
+
+(use-package-ensure virtualenvwrapper
+  :commands venv-workon
+  :config
+  (progn
+    (venv-initialize-interactive-shells)
+    (setq venv-location (expand-file-name "~/.venvs/"))
+    ))
+
+; Jedi
+; TODO Jedi goto-definition is not working.
+(use-package-ensure jedi
+  :defer t
+  :bind (("C-c d" . jedi:show-doc)
+	 ("M-SPC" . jedi:complete)
+	 ("M-." . jedi:goto-definition))
+  :init
+  (defun pp:custom-jedi-setup ()
+    (jedi:setup)
+    (jedi:ac-setup))
+  
   :config (progn
-	    (elfeed-org)
 	    
-	    (defun elfeed-www ()
-	      (interactive)
-
-	      (let ((link (elfeed-entry-link elfeed-show-entry)))
-		(when link
-		  (message "Sent to browser: %s" link)
-		  (eww (elfeed-entry-link elfeed-show-entry)))))
-
-	    (define-key elfeed-show-mode-map "w" #'elfeed-www)
+	    (setq jedi:server-command
+		  `("python2" ,(concat jedi:source-dir "jediepcserver.py")))
 	    
-	    (setq-default elfeed-search-filter "@6-week-ago +unread -junk -test")
-	    
-	    )
-  )
+	    (setq jedi:setup-keys t
+		  jedi:tooltip-method nil
+		  jedi:get-in-function-call-delay 300
+		  jedi:complete-on-dot t)))
 
-; Org Mode
+
+
+
+
+; Yasnippet
+
+(use-package-ensure yasnippet
+;  :init (progn
+;	  (yas-global-mode 1))
+  :config (progn
+	    (setq yas-snippet-dirs '("~/.emacs.d/custom-snippets" 
+				     "~/.emacs.d/packages/yasnippet-20150212.240/snippets"))
+
+
+	    ; This could probably be more sophisticated
+	    (defun preview-fragment ()
+	      (if (looking-back "\) ")
+		  (org-preview-latex-fragment)))
+
+	    (add-hook 'yas-after-exit-snippet-hook 'preview-fragment)
+	    (setq yas-triggers-in-field t)))
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;    Org Mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (use-package-ensure org
   :commands org-mode
   :bind (("C-c l" . org-store-link)
@@ -722,6 +722,11 @@
 (eval-after-load "dired-aux"
    '(add-to-list 'dired-compress-file-suffixes 
                  '("\\.zip\\'" ".zip" "unzip")))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;  Custom Functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun on-ec ()
   "run after launching via 'ec' script"

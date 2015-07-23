@@ -372,11 +372,11 @@
 		       ; hooks
 		       (add-hook 'python-mode-hook 'auto-complete-mode)
 		       (add-hook 'python-mode-hook 'autopair-mode)
-		       (add-hook 'python-mode-hook 'pp:custom-jedi-setup)))
+		       (add-hook 'python-mode-hook 'pp:custom-jedi-setup)
 
 		       (add-hook 'inferior-python-mode-hook 'auto-complete-mode)
 		       (add-hook 'inferior-python-mode-hook 'autopair-mode)
-		       (add-hook 'inferior-python-mode-hook 'pp:custom-jedi-setup)
+		       (add-hook 'inferior-python-mode-hook 'pp:custom-jedi-setup)))
 
 (use-package-ensure virtualenvwrapper
   :commands venv-workon

@@ -54,6 +54,23 @@
 (use-package-ensure request)
 
 
+
+(use-package-ensure hydra
+  :config
+  (progn
+    (global-set-key
+     (kbd "<f2>")
+     (defhydra toggle ()
+       "zoom"
+       ("i" text-scale-increase "in")
+       ("o" text-scale-decrease "out"))
+     ) 
+    ))
+
+
+
+
+
 ;; flycheck
 (use-package-ensure flycheck)
 
@@ -304,6 +321,7 @@
 	  helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
 	  helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
 	  helm-ff-file-name-history-use-recentf t)
+    
     ))
 
 (use-package-ensure projectile
@@ -352,21 +370,6 @@
 (use-package-ensure magit
   :defer 1
   :bind (("C-x g" . magit-status)))
-
-
-
-(use-package-ensure hydra
-  :defer 1
-  :config
-  (progn
-    (global-set-key
-     (kbd "<f2>")
-     (defhydra toggle ()
-       "zoom"
-       ("i" text-scale-increase "in")
-       ("o" text-scale-decrease "out"))
-     )    
-    ))
 
 
 

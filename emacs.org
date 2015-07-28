@@ -15,8 +15,10 @@ CLOSED: [2015-07-22 Wed 22:04]
 
 ** TODO prodigy not loading prodigy_work.el for some reason
 issue with defer?
+only on new emacs session
 
 ** TODO Convert back to org-mode
+** TODO Fixup helm bindings (hydra?)
 
 
 

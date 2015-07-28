@@ -14,8 +14,11 @@ CLOSED: [2015-07-22 Wed 20:52]
 
 
 
+
 * Org Tasks
 ** TODO Move Claws mail stuff into file
 ** TODO Move date re-filing into seperate folder
 ** TODO fix ox-pelican and org-reveal dependency issues
 ** TODO Better set up with org-meta.el and readme.org
+** DONE fix org-protocol issue with claws-mail                      :urgent:
+CLOSED: [2015-07-27 Mon 20:00]

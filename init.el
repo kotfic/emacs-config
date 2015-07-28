@@ -442,7 +442,7 @@
 	    (add-hook 'yas-after-exit-snippet-hook 'preview-fragment)
 	    (setq yas-triggers-in-field t)))
 
-
+(use-package-ensure noflet)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;    Org Mode

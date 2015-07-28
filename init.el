@@ -333,15 +333,19 @@
                                                                           ╭──────┐
       File Search            Text Search         Misc                     │ Helm │
   ╭───────────────────────────────────────────────────────────────────────┴──────╯
-      [_f_] Find Files       [_s_] Ag              [_a_] Apropos
-      [_l_] Locate                               [_k_] Kill Ring
-      [_g_] Google search                        [_t_] Helm Top
+      [_f_] Find Files         [_s_] Ag              [_a_] Apropos
+      [_l_] System Locate                          [_k_] Kill Ring
+      [_g_] Google Search                          [_t_] Helm Top
 
   --------------------------------------------------------------------------------
         "
 	("f" helm-find-files)
 	("l" helm-locate)
-	("g" (lambda (s) (helm-surfraw s "google")))
+	("g" (lambda (s)
+	       (interactive (list (read-string "SearchFor: "
+					       nil 'helm-surfraw-input-history
+					       (thing-at-point 'symbol))))
+	       (helm-surfraw s "google")))
 	
 
 	("s" helm-do-ag)

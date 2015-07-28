@@ -10,8 +10,13 @@ CLOSED: [2015-07-22 Wed 20:52]
 
 ** TODO Remove as much from init.el as possible into archive.el
 
-** TODO fix up :defer stuff in init.el
+** DONE fix up :defer stuff in init.el
+CLOSED: [2015-07-22 Wed 22:04]
 
+** TODO prodigy not loading prodigy_work.el for some reason
+issue with defer?
+
+** TODO Convert back to org-mode
 
 
 

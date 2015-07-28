@@ -31,7 +31,7 @@
   (normal-top-level-add-subdirs-to-load-path))
 
 (require 'use-package)
-(setq use-package-verbose t)
+;(setq use-package-verbose t)
 
 ;; Taken from danlamanna
 (defmacro use-package-ensure(package &rest body)
@@ -41,26 +41,26 @@
      ,@body))
 
 
-
-(use-package local_configs
-  :demand t)
+(use-package local_configs :demand t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;; Utilities
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package-ensure s
-  :defer 1)
+(use-package-ensure s)
 
-(use-package-ensure dash
-  :defer 1)
+(use-package-ensure dash)
 
-(use-package-ensure request
-  :defer 1)
+(use-package-ensure request)
+
+
+;; flycheck
+(use-package-ensure flycheck)
+
 
 
 (use-package-ensure guide-key
-  :ensure guide-key
+  :defer 1
   :config
   (setq guide-key/guide-key-sequence '("C-c p" "C-c h"))
   (guide-key-mode 1))
@@ -69,11 +69,13 @@
 
 ; Windmove
 (use-package-ensure windmove
+  :defer 1
   :config
   (windmove-default-keybindings 'shift))
 
 ; Tramp
 (use-package-ensure tramp
+  :defer 1
   :config
   (setq tramp-default-method "ssh"))
 
@@ -94,40 +96,49 @@
             (add-hook 'js2-mode-hook 'rainbow-mode)
             (add-hook 'js2-mode-hook 'company-mode)
             (add-hook 'js2-mode-hook 'tern-mode)
-            (add-hook 'js2-mode-hook 'flycheck-mode))
+            (add-hook 'js2-mode-hook 'flycheck-mode)
+
+	    ;; spaces not tabs
+	    (add-hook 'js2-mode-hook
+		      '(lambda () (progn
+				    (set-variable 'indent-tabs-mode nil)))))
   :mode ("\\.js\\'" . js2-mode))
 
 
 ;; js2-refactor
-(use-package-ensure js2-refactor)
+(use-package-ensure js2-refactor
+  :defer t)
 
 ;; rainbow-mode
 (use-package-ensure rainbow-mode
-		    :pin gnu)
+  :defer t
+  :pin gnu)
 
 ;; company
-(use-package-ensure company)
+(use-package-ensure company
+  :config
+  (progn
+    (use-package-ensure company-tern
+      :config (progn
+		(add-to-list 'company-backends 'company-tern)))))
 
-;; company-tern
-(use-package-ensure company-tern
-  :config (progn
-            (add-to-list 'company-backends 'company-tern)))
-
-;; flycheck
-(use-package-ensure flycheck)
 
 ;; tern
-(use-package-ensure tern)
+(use-package-ensure tern
+  :defer t)
 
 
 ;; jade-mode
-(use-package-ensure jade-mode)
+(use-package-ensure jade-mode
+  :mode ("\\.jade\\'" . jade-mode))
 
 
 ;; stylus-mode
 (use-package-ensure stylus-mode
-  :config (progn
-            (add-hook 'stylus-mode-hook 'rainbow-mode)))
+  :mode ("\\.styl\\'" . stylus-mode)
+  :config
+  (progn
+    (add-hook 'stylus-mode-hook 'rainbow-mode)))
 
 
 
@@ -136,6 +147,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package-ensure scala-mode2
+  :mode "\\.scala\\'"
   :config
   (use-package-ensure ensime)
   (add-hook 'scala-mode-hook 'ensime-scala-mode-hook))
@@ -149,7 +161,6 @@
   :defer 1)
 
 (use-package-ensure sauron
-  :ensure t
   :defer 1
   :config
   (setq sauron-max-line-length nil
@@ -158,11 +169,13 @@
 
 
 (use-package-ensure elfeed-org
+  :defer 1
   :commands elfeed-org
   :config (progn
 	    (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org"))))
 
 (use-package-ensure elfeed
+  :defer 1
   :bind (("C-x w" . elfeed))
   :config (progn
 	    (elfeed-org)
@@ -200,7 +213,7 @@
 (use-package-ensure doc-view
   :mode    (("\\.docx\\'" . doc-view-mode)
 	    ("\\.odt\\'" . doc-view-mode))
-
+  
   :config (progn
 	    (setq doc-view-continuous t)
 	    (setq doc-view-resolution 300)
@@ -303,10 +316,11 @@
 
   (helm-projectile-on))
 
-
+(use-package-ensure helm-swoop)
 
 ; Prodigy
 (use-package-ensure prodigy
+  :defer 1
   :commands prodigy
   :bind (("<f12>" . prodigy))
   :config (progn
@@ -336,12 +350,14 @@
 	    ))
 
 (use-package-ensure magit
+  :defer 1
   :bind (("C-x g" . magit-status)))
 
 
 
 (use-package-ensure hydra
-  :init
+  :defer 1
+  :config
   (progn
     (global-set-key
      (kbd "<f2>")
@@ -363,6 +379,7 @@
 
 ; Python
 (use-package-ensure python
+  :defer 1
   :commands python-mode
   :config (progn
 	    (setq pylint:epylint-executable "epylint"
@@ -382,15 +399,16 @@
 						       (flycheck-mode))))
 
 		       ; hooks
-		       (add-hook 'python-mode-hook 'auto-complete-mode)
+;		       (add-hook 'python-mode-hook 'auto-complete-mode)
 		       (add-hook 'python-mode-hook 'autopair-mode)
 		       (add-hook 'python-mode-hook 'pp:custom-jedi-setup)
 
-		       (add-hook 'inferior-python-mode-hook 'auto-complete-mode)
+;		       (add-hook 'inferior-python-mode-hook 'auto-complete-mode)
 		       (add-hook 'inferior-python-mode-hook 'autopair-mode)
 		       (add-hook 'inferior-python-mode-hook 'pp:custom-jedi-setup)))
 
 (use-package-ensure virtualenvwrapper
+  :defer 1
   :commands venv-workon
   :config
   (progn
@@ -428,7 +446,8 @@
 
 (use-package-ensure yasnippet
 ;  :init (progn
-;	  (yas-global-mode 1))
+					;	  (yas-global-mode 1))
+  :defer 1
   :config (progn
 	    (setq yas-snippet-dirs '("~/.emacs.d/custom-snippets" 
 				     "~/.emacs.d/packages/yasnippet-20150212.240/snippets"))
@@ -449,6 +468,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package-ensure org
+  :defer 1
   :commands org-mode
   :bind (("C-c l" . org-store-link)
 	 ("C-c c" . org-capture)

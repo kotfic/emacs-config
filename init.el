@@ -22,6 +22,8 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
+(require 'diminish)
+(require 'bind-key)
 ; TODO - Need to figure out how to download org from elpa
 ; see (mapcar 'string-to-number (split-string (org-version) "[.]")
 ; get check for package description stuff to see if elpa version
@@ -72,7 +74,15 @@
 
 
 ;; flycheck
-(use-package-ensure flycheck)
+(use-package-ensure flycheck
+  :diminish flycheck-mode
+  :init
+  (progn
+    ;; Use this var to disable for some modes
+    ;; (setq flycheck-global-modes t)
+    
+    (add-hook 'after-init-hook #'global-flycheck-mode)
+    ))
 
 
 
@@ -109,11 +119,11 @@
              '(js2-mode-show-parse-errors nil)
              '(js2-strict-missing-semi-warning nil))
 
-            (add-hook 'js2-mode-hook 'js2-refactor-mode)
+;            (add-hook 'js2-mode-hook 'js2-refactor-mode)
             (add-hook 'js2-mode-hook 'rainbow-mode)
             (add-hook 'js2-mode-hook 'company-mode)
             (add-hook 'js2-mode-hook 'tern-mode)
-            (add-hook 'js2-mode-hook 'flycheck-mode)
+;            (add-hook 'js2-mode-hook 'flycheck-mode)
 
 	    ;; spaces not tabs
 	    (add-hook 'js2-mode-hook
@@ -123,8 +133,8 @@
 
 
 ;; js2-refactor
-(use-package-ensure js2-refactor
-  :defer t)
+;(use-package-ensure js2-refactor
+;  :defer t)
 
 ;; rainbow-mode
 (use-package-ensure rainbow-mode
@@ -864,3 +874,6 @@ with `.txt' in the buffer-file-name."
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)
+
+;; Require projects
+(require 'projects)

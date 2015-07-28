@@ -8,11 +8,10 @@ CLOSED: [2015-07-22 Wed 20:38]
 ** DONE create archive.el for archived use-packages
 CLOSED: [2015-07-22 Wed 20:52]
 
-** TODO Remove as much from init.el as possible into archive.el
-
 ** DONE fix up :defer stuff in init.el
 CLOSED: [2015-07-22 Wed 22:04]
 
+** TODO Remove as much from init.el as possible into archive.el
 ** TODO prodigy not loading prodigy_work.el for some reason
 issue with defer?
 only on new emacs session
@@ -23,9 +22,14 @@ only on new emacs session
 
 
 * Org Tasks
+** DONE fix org-protocol issue with claws-mail                      :urgent:
+CLOSED: [2015-07-27 Mon 20:00]
 ** TODO Move Claws mail stuff into file
 ** TODO Move date re-filing into seperate folder
 ** TODO fix ox-pelican and org-reveal dependency issues
 ** TODO Better set up with org-meta.el and readme.org
-** DONE fix org-protocol issue with claws-mail                      :urgent:
-CLOSED: [2015-07-27 Mon 20:00]
+
+* New Packages
+** TODO Look at adding jscs.el
+https://github.com/papaeye/emacs-jscs
+automatically indent javascript files etc

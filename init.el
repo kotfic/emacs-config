@@ -96,7 +96,12 @@
             (add-hook 'js2-mode-hook 'rainbow-mode)
             (add-hook 'js2-mode-hook 'company-mode)
             (add-hook 'js2-mode-hook 'tern-mode)
-            (add-hook 'js2-mode-hook 'flycheck-mode))
+            (add-hook 'js2-mode-hook 'flycheck-mode)
+
+	    ;; spaces not tabs
+	    (add-hook 'js2-mode-hook
+		      '(lambda () (progn
+				    (set-variable 'indent-tabs-mode nil)))))
   :mode ("\\.js\\'" . js2-mode))
 
 
@@ -311,7 +316,7 @@
 
   (helm-projectile-on))
 
-
+(use-package-ensure helm-swoop)
 
 ; Prodigy
 (use-package-ensure prodigy

@@ -24,7 +24,7 @@
        (eq powerline-default-separator
 	   (quote arrow))
        (quote right)
-     (quote full)))
+     (quote full)) t)
  '(sml/pos-id-separator
    (quote
     (""

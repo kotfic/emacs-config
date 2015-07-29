@@ -318,7 +318,8 @@
   ;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
 
   ;(global-unset-key (kbd "C-x c"))
-
+    (use-package-ensure helm-ag)
+    
     (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
     (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
     (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
@@ -331,6 +332,10 @@
 	  helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
 	  helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
 	  helm-ff-file-name-history-use-recentf t)
+
+    ;;;;; WTF? ;;;;;
+    (setq grep-find-ignored-files helm-grep-ignored-files)
+    (setq grep-find-ignored-directories '())
     
     ))
 
@@ -373,7 +378,7 @@
 	      :tags '(python_notebook))
 
 	    (load "prodigy_laptop.el")
-`	    (load "prodigy_work.el")
+	    (load "prodigy_work.el")
 	    
 	    ))
 
@@ -381,6 +386,10 @@
   :defer 1
   :bind (("C-x g" . magit-status)))
 
+
+
+;; Require projects
+(require 'projects)
 
 
 
@@ -416,9 +425,16 @@
 		       (add-hook 'python-mode-hook 'autopair-mode)
 		       (add-hook 'python-mode-hook 'pp:custom-jedi-setup)
 
+		       
 ;		       (add-hook 'inferior-python-mode-hook 'auto-complete-mode)
 		       (add-hook 'inferior-python-mode-hook 'autopair-mode)
-		       (add-hook 'inferior-python-mode-hook 'pp:custom-jedi-setup)))
+		       (add-hook 'inferior-python-mode-hook 'pp:custom-jedi-setup)
+
+
+
+		       ))
+
+
 
 (use-package-ensure virtualenvwrapper
   :defer 1
@@ -835,6 +851,100 @@ with `.txt' in the buffer-file-name."
 (global-set-key (kbd "C-c |") 'toggle-window-split)
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;  Breakpoint code
+
+
+
+(defun pdb (command-line)
+  "Run pdb on program FILE in buffer `*gud-FILE*'.
+The directory containing FILE becomes the initial working directory
+and source-file directory for your debugger."
+  (interactive
+   (list (gud-query-cmdline 'pdb)))
+
+  (gud-common-init command-line nil 'gud-pdb-marker-filter)
+  (set (make-local-variable 'gud-minor-mode) 'pdb)
+
+  (gud-def gud-break       "break %d%f:%l"  "\C-b" "Set breakpoint at current line.")
+  (gud-def gud-break-list  "break"          "\M-b" "list breakpoints")
+  (gud-def gud-remove      "clear %d%f:%l"  "\C-d" "Remove breakpoint at current line")
+  (gud-def gud-step        "step"         "\C-s" "Step one source line with display.")
+  (gud-def gud-next        "next"         "\C-n" "Step one line (skip functions).")
+  (gud-def gud-cont        "continue"     "\C-r" "Continue with display.")
+  (gud-def gud-finish      "return"       "\C-f" "Finish executing current function.")
+  (gud-def gud-up          "up"           "<" "Up one stack frame.")
+  (gud-def gud-down        "down"         ">" "Down one stack frame.")
+  (gud-def gud-print       "p %e"         "\C-p" "Evaluate Python expression at point.")
+  ;; Is this right?
+  (gud-def gud-statement "! %e"      "\C-e" "Execute Python statement at point.")
+
+  ;; (setq comint-prompt-regexp "^(.*pdb[+]?) *")
+  (setq comint-prompt-regexp "^(Pdb) *")
+  (setq paragraph-start comint-prompt-regexp)
+  (run-hooks 'pdb-mode-hook))
+
+;; (toggle-highlight 181 (find-file-noselect "/home/kotfic/kitware/projects/src/romanesco/romanesco/__init__.py"))
+
+(defun find-overlays-specifying (prop pos)
+  (let ((overlays (overlays-at pos))
+        found)
+    (while overlays
+      (let ((overlay (car overlays)))
+        (if (overlay-get overlay prop)
+            (setq found (cons overlay found))))
+      (setq overlays (cdr overlays)))
+    found))
+
+(defun toggle-hl (line &optional buffer)
+  (save-window-excursion
+    (goto-line line buffer)
+    (let ((beg (line-beginning-position))
+	  (end (+ 1 (line-end-position))))
+      
+      (if (find-overlays-specifying
+	   'line-highlight-overlay-marker (+ 1 beg))
+	  (remove-overlays beg end)
+      
+	(let ((overlay-highlight (make-overlay beg end)))
+	  (overlay-put overlay-highlight 'face '(:background "coral4"))
+	  (overlay-put overlay-highlight 'line-highlight-overlay-marker t))))))
+
+(defun toggle-highlight ()
+  (interactive)
+  (save-restriction
+    (widen)
+    (save-excursion
+      (beginning-of-line)
+      (toggle-hl (1+ (count-lines 1 (point)))))))
+
+; just for now so we can clean up
+(global-set-key [f8] 'toggle-breakpoint)
+
+(defun toggle-breakpoint ()
+  (let ((insource (not (eq (current-buffer) gud-comint-buffer)))
+	(frame (or gud-last-frame gud-last-last-frame)))
+    (toggle-hl      
+     ;; get correct file
+     (if insource
+	 (save-restriction
+	   (widen)
+	   (+ (count-lines (point-min) (point))
+	      (if (bolp) 1 0)))
+       (cdr frame))
+     ;; get correct linenumber
+     (find-file-noselect (if insource (buffer-file-name) (car frame))))))
+
+
+(add-hook 'pdb-mode-hook (lambda ()
+			   (defadvice gud-break (after gud-breakpoint-hl activate)
+			     (toggle-breakpoint))
+			   (defadvice gud-remove (after gud-breakpoint-hl activate)
+			     (toggle-breakpoint))))
+
+
+
+
 ;;;;
 (setq ibuffer-saved-filter-groups
       (quote (("default"
@@ -875,5 +985,3 @@ with `.txt' in the buffer-file-name."
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)
 
-;; Require projects
-(require 'projects)

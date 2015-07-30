@@ -29,7 +29,11 @@ CLOSED: [2015-07-27 Mon 20:00]
 ** TODO fix ox-pelican and org-reveal dependency issues
 ** TODO Better set up with org-meta.el and readme.org
 
+
 * New Packages
 ** TODO Look at adding jscs.el
 https://github.com/papaeye/emacs-jscs
 automatically indent javascript files etc
+
+* GUD project
+** Still need to find a way to clear breakpoints on quit

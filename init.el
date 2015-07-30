@@ -332,10 +332,6 @@
 	  helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
 	  helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
 	  helm-ff-file-name-history-use-recentf t)
-
-    ;;;;; WTF? ;;;;;
-    (setq grep-find-ignored-files helm-grep-ignored-files)
-    (setq grep-find-ignored-directories '())
     
     ))
 
@@ -854,7 +850,7 @@ with `.txt' in the buffer-file-name."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;  Breakpoint code
 
-
+(require 'gud)
 
 (defun pdb (command-line)
   "Run pdb on program FILE in buffer `*gud-FILE*'.
@@ -907,6 +903,7 @@ and source-file directory for your debugger."
 	  (remove-overlays beg end)
       
 	(let ((overlay-highlight (make-overlay beg end)))
+	  (overlay-put overlay-highlight 'name 'breakpoint)
 	  (overlay-put overlay-highlight 'face '(:background "coral4"))
 	  (overlay-put overlay-highlight 'line-highlight-overlay-marker t))))))
 
@@ -918,10 +915,12 @@ and source-file directory for your debugger."
       (beginning-of-line)
       (toggle-hl (1+ (count-lines 1 (point)))))))
 
-; just for now so we can clean up
-(global-set-key [f8] 'toggle-breakpoint)
 
-(defun toggle-breakpoint ()
+
+; just for now so we can clean up
+(global-set-key [f8] 'toggle-highlight)
+
+(defun toggle-breakpoint-overlay ()
   (let ((insource (not (eq (current-buffer) gud-comint-buffer)))
 	(frame (or gud-last-frame gud-last-last-frame)))
     (toggle-hl      
@@ -938,14 +937,23 @@ and source-file directory for your debugger."
 
 (add-hook 'pdb-mode-hook (lambda ()
 			   (defadvice gud-break (after gud-breakpoint-hl activate)
-			     (toggle-breakpoint))
+			     (toggle-breakpoint-overlay))
 			   (defadvice gud-remove (after gud-breakpoint-hl activate)
-			     (toggle-breakpoint))))
+			     (toggle-breakpoint-overlay))))
+
+
+(defun remove-breakpoint-overlays (&optional file-name)
+  (interactive "P")
+  (let ((buf (or (find-buffer-visiting (or file-name ""))
+		 (current-buffer))))
+    (when buf
+      (save-window-excursion
+	(with-current-buffer buf
+	  (remove-overlays nil nil 'name 'breakpoint)))))) 
 
 
 
-
-;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq ibuffer-saved-filter-groups
       (quote (("default"
 	       ("org" (or (mode . org-mode)

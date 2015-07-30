@@ -892,6 +892,17 @@ and source-file directory for your debugger."
       (setq overlays (cdr overlays)))
     found))
 
+(defun find-overlays (prop val pos)
+  (let ((overlays (overlays-at pos))
+        found)
+    (while overlays
+      (let ((overlay (car overlays)))
+        (if (eq (overlay-get overlay prop) val)
+            (setq found (cons overlay found))))
+      (setq overlays (cdr overlays)))
+    found))
+
+
 (defun toggle-hl (line &optional buffer)
   (save-window-excursion
     (goto-line line buffer)
@@ -920,37 +931,119 @@ and source-file directory for your debugger."
 ; just for now so we can clean up
 (global-set-key [f8] 'toggle-highlight)
 
-(defun toggle-breakpoint-overlay ()
-  (let ((insource (not (eq (current-buffer) gud-comint-buffer)))
-	(frame (or gud-last-frame gud-last-last-frame)))
-    (toggle-hl      
-     ;; get correct file
-     (if insource
-	 (save-restriction
-	   (widen)
-	   (+ (count-lines (point-min) (point))
-	      (if (bolp) 1 0)))
-       (cdr frame))
-     ;; get correct linenumber
-     (find-file-noselect (if insource (buffer-file-name) (car frame))))))
+
+(defvar pdb-breakpoint-locations '()
+  "Keep a list of breakpoint locations")
 
 
-(add-hook 'pdb-mode-hook (lambda ()
-			   (defadvice gud-break (after gud-breakpoint-hl activate)
-			     (toggle-breakpoint-overlay))
-			   (defadvice gud-remove (after gud-breakpoint-hl activate)
-			     (toggle-breakpoint-overlay))))
+(defun pdb/get-file-and-line ()
+  "Return a tuple of type (file_path . line_number) for either the current
+file and line number or the file path and line number of the current point
+in the gud pdb buffer."
+  (let* ((insource (not (eq (current-buffer) gud-comint-buffer)))
+	 (frame (or gud-last-frame gud-last-last-frame))
+	 (file (if insource (buffer-file-name) (car frame)))
+	 (line (if insource
+		   (save-restriction
+		     (widen)
+		     (+ (count-lines (point-min) (point))
+			(if (bolp) 1 0)))
+		 (cdr frame))))
+    (if (stringp file)
+	`(,file . ,line)
+      nil)))
+
+(defun pdb/add-breakpoint-overlay (file line)
+  "Add a breakpoint overlay on the specified file and line"
+  (if (file-exists-p file)
+      (let ((buffer (find-file-noselect file)))
+	(save-window-excursion
+	  (goto-line line buffer)
+	  (let ((beg (line-beginning-position))
+		(end (+ 1 (line-end-position))))
+	    
+	    (if (not (find-overlays 'name 'breakpoint beg))
+		(let ((overlay-highlight (make-overlay beg end)))
+		  (overlay-put overlay-highlight 'name 'breakpoint)
+		  (overlay-put overlay-highlight 'face '(:background "coral4"))
+		  (overlay-put overlay-highlight 'line-highlight-overlay-marker t))))))
+  (message (concat "Warning: file " file " does not exist; not adding overlay."))))
+
+(defun pdb/remove-breakpoint-overlay (file line)
+  "Remove breakpoing overlay on the specified file and line"
+  (if (file-exists-p file)
+      (let ((buffer (find-file-noselect file)))
+	(save-window-excursion
+	  (goto-line line buffer)
+	  (let ((beg (line-beginning-position))
+		(end (+ 1 (line-end-position))))
+	    (if (find-overlays 'name 'breakpoint beg)
+		(remove-overlays beg end 'name 'breakpoint)))))))
 
 
-(defun remove-breakpoint-overlays (&optional file-name)
-  (interactive "P")
-  (let ((buf (or (find-buffer-visiting (or file-name ""))
-		 (current-buffer))))
-    (when buf
-      (save-window-excursion
-	(with-current-buffer buf
-	  (remove-overlays nil nil 'name 'breakpoint)))))) 
+(defun pdb/add-breakpoint ()
+  "Add breakpoint overlay and add to pdb-breakpoint-locations"
+  (let ((file_line (pdb/get-file-and-line)))
+    (when file_line
+      (add-to-list 'pdb-breakpoint-locations file_line)
+      (pdb/add-breakpoint-overlay (car file_line) (cdr file_line)))))
 
+
+(defun pdb/remove-breakpoint ()
+  "remove breakpoint overlay and remove from pdb-breakpoint-locations"
+  (let ((file_line (pdb/get-file-and-line)))
+    (when file_line
+      (setq pdb-breakpoint-locations
+	    (filter (lambda (bp)
+		      (not (and
+			    (equal (car bp) (car file_line))
+			    (eq (cdr bp) (cdr file_line)))))
+		    pdb-breakpoint-locations))
+      (pdb/remove-breakpoint-overlay (car file_line) (cdr file_line)))))
+
+(defun pdb/remove-all-breakpoint-overlays ()
+  "Remove all breakpoint overlays in pdb-breakpoint-locations"
+  (interactive)
+  (mapc (lambda (bp)
+	    (let ((buffer (find-file-noselect (car bp))))
+	      (with-current-buffer buffer
+		(remove-overlays nil nil 'name 'breakpoint))))	  
+	pdb-breakpoint-locations))
+	  
+(defun pdb/add-all-breakpoint-overlays ()
+  "Add all breakpoint overlays in pdb-breakpoint-locatoins"
+  (interactive)
+  (mapc (lambda (bp)
+	  (pdb/add-breakpoint-overlay (car bp) (cdr bp)))
+	pdb-breakpoint-locations))
+
+
+(add-hook 'pdb-mode-hook
+	  (lambda ()
+	    ;; now commanet out - later add back in overlays
+	    ;; but also call pdb-break on files in pdb-breakpoint-locations
+	    ;; (pdb/add-all-breakpoint-overlays)
+
+	    (defadvice gud-break (after gud-breakpoint-hl activate)
+	      (pdb/add-breakpoint))
+
+	    (defadvice gud-remove (before gud-breakpoint-hl activate)
+	      (pdb/remove-breakpoint))
+	    
+	    (defadvice gud-sentinel (after gud-breakpoint-sentinal activate)
+	      ;; if we don't have an arrow,  we shouldn't have breakpoint overlays!  
+	      (when (eq gud-overlay-arrow-position nil)
+		(pdb/remove-all-breakpoint-overlays)
+		
+		;; for now remove all locations - this is
+		;; gud/pdb's behavior - later remove this
+		(setq pdb-breakpoint-locations '())
+		))
+	    
+	 ))
+
+
+  
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

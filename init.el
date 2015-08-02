@@ -301,9 +301,7 @@
 (use-package-ensure helm
   :commands helm-mode
   :bind  (("C-h a" . helm-apropos)
-	  ("C-c h g" . helm-google-suggest)
-	  ("C-c h o" . helm-occur)
-	  ("C-c h SPC" . helm-all-mark-rings)
+	  ("C-s" . helm-do-ag-this-file)
 	  ("M-x" . helm-M-x)
 	  ("M-y" . helm-show-kill-ring)
 	  ("C-x b" . helm-mini)
@@ -320,18 +318,52 @@
   ;(global-unset-key (kbd "C-x c"))
     (use-package-ensure helm-ag)
     
-    (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
-    (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
-    (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+    ;; rebind tab to run persistent action
+    (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+    ;; make TAB works in terminal
+    (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
+    ;; list actions using C-z
+    (define-key helm-map (kbd "C-z")  'helm-select-action)
     
     (when (executable-find "curl")
       (setq helm-google-suggest-use-curl-p t))
 
-    (setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
-	  helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
-	  helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
-	  helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
+    ;; open helm buffer inside current window, not occupy whole other window
+    (setq helm-split-window-in-side-p           t 
+	  ;; move to end or beginning of source when reaching top or bottom of source.
+	  helm-move-to-line-cycle-in-source     t 
+	  ;; search for library in `require' and `declare-function' sexp.
+	  helm-ff-search-library-in-sexp        t 
+	  ;; scroll 8 lines other window using M-<next>/M-<prior>
+	  helm-scroll-amount                    8 
 	  helm-ff-file-name-history-use-recentf t)
+
+    (global-set-key (kbd "C-c h") (defhydra hydra-helm (:hint nil :color blue)
+        "
+                                                                          ╭──────┐
+      File Search            Text Search         Misc                     │ Helm │
+  ╭───────────────────────────────────────────────────────────────────────┴──────╯
+      [_f_] Find Files         [_s_] Ag              [_a_] Apropos
+      [_l_] System Locate                          [_k_] Kill Ring
+      [_g_] Google Search                          [_t_] Helm Top
+
+  --------------------------------------------------------------------------------
+        "
+	("f" helm-find-files)
+	("l" helm-locate)
+	("g" (lambda (s)
+	       (interactive (list (read-string "SearchFor: "
+					       nil 'helm-surfraw-input-history
+					       (thing-at-point 'symbol))))
+	       (helm-surfraw s "google")))
+	
+
+	("s" helm-do-ag)
+	
+	("a" helm-apropos)
+	("k" helm-show-kill-ring)
+	("t" helm-top)
+	))
     
     ))
 

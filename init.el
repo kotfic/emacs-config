@@ -374,48 +374,48 @@
  
   (global-set-key (kbd "C-c p") (defhydra hydra-projectile (:hint nil :color blue)
 				  "
-                                                                                                          ╭────────────┐
-                                                                                                          │ Projectile │
-  ╭───────────────────────────────────────────────────────────────────────────────────────────────────────┴────────────╯
-   [_f_] Find File (this)   [_ss_] Ag Search	 [_k_] Kill Buffers    [_!_] Run Command        [_p_] Switch Project
-   [_F_] Find File (all)    [_sg_] Grep Search   [_S_] Save Buffers    [_&_] Run Async Command  [_h_] Helm Projectile
-   [_e_] Recent Files       [_sa_] Ack Search	 [_b_] Switch Buffer 				[_q_] Quit
-   [_d_] Find Directory     [_o_]  Multi-Occur   [_v_] Project VC                     
-   [_D_] Goto Project Root  [_r_]  Query Replace          
-  ---------------------------------------------------------------------------------------------------------------------
+                                                                                                ╭────────────┐
+   Files & Directories     Find & Replace         Buffer Opperations    Commands                │ Projectile │
+  ╭─────────────────────────────────────────────────────────────────────────────────────────────┴────────────╯
+   [_f_] Find File (this)    [_ss_] Ag Search         [_k_] Kill Buffers      [_c_] Run Command         [_p_] Switch Project
+   [_F_] Find File (all)     [_sg_] Grep Search       [_S_] Save Buffers      [_C_] Run Async Command   [_h_] Helm Projectile
+   [_e_] Recent Files        [_sa_] Ack Search        [_b_] Switch Buffer                             [_q_] Quit
+   [_d_] Find Directory      [_o_]  Multi-Occur       [_v_] Project VC                     
+   [_D_] Goto Project Root   [_r_]  Query Replace          
+  -------------------------------------------------------------------------------------------------------------
         "
-	
-	("f" helm-projectile-find-file)
-	("F" helm-projectile-find-file-in-known-projects)
-	("e" helm-projectile-recentf)
-	("d" helm-projectile-find-dir)
-	("D" projectile-dired)
-
-	;; TODO - need to be specifically configured for each project
-	;; C-c p c	Runs a standard compilation command for your type of project.
-	;; C-c p P	Runs a standard test command for your type of project.
-	;; C-c p t	Toggle between an implementation file and its test file.
-	
-	("ss" helm-projectile-ag)
-	("sg" helm-projectile-grep)
-	("sa" helm-projectile-ack)
-	("o" helm-projectile-multi-occur)
-	("r" projectile-replace)
-
-	("k" projectile-kill-buffers)
-	("S" projectile-save-project-buffers)
-	("b" helm-projectile-switch-to-buffer)
-	("v" projectile-vc)
-	 
-	("!" projectile-run-shell-command-in-root)
-	("&" projectile-run-async-shell-command-in-root)
-
-	("p" helm-projectile-switch-project)
-
-	("h" helm-projectile)
-	("q" nil)
-
-	))
+				  
+				  ("f" helm-projectile-find-file)
+				  ("F" helm-projectile-find-file-in-known-projects)
+				  ("e" helm-projectile-recentf)
+				  ("d" helm-projectile-find-dir)
+				  ("D" projectile-dired)
+				  
+				  ;; TODO - need to be specifically configured for each project
+				  ;; C-c p c	Runs a standard compilation command for your type of project.
+				  ;; C-c p P	Runs a standard test command for your type of project.
+				  ;; C-c p t	Toggle between an implementation file and its test file.
+				  
+				  ("ss" helm-projectile-ag)
+				  ("sg" helm-projectile-grep)
+				  ("sa" helm-projectile-ack)
+				  ("o" helm-projectile-multi-occur)
+				  ("r" projectile-replace)
+				  
+				  ("k" projectile-kill-buffers)
+				  ("S" projectile-save-project-buffers)
+				  ("b" helm-projectile-switch-to-buffer)
+				  ("v" projectile-vc)
+				  
+				  ("c" projectile-run-shell-command-in-root)
+				  ("C" projectile-run-async-shell-command-in-root)
+				  
+				  ("p" helm-projectile-switch-project)
+				  
+				  ("h" helm-projectile)
+				  ("q" nil)
+				  
+				  ))
     
     )
 

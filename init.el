@@ -895,7 +895,6 @@ and source-file directory for your debugger."
   (set (make-local-variable 'gud-minor-mode) 'pdb)
 
   (gud-def gud-break       "break %d%f:%l"  "\C-b" "Set breakpoint at current line.")
-  (gud-def gud-break-list  "break"          "\M-b" "list breakpoints")
   (gud-def gud-remove      "clear %d%f:%l"  "\C-d" "Remove breakpoint at current line")
   (gud-def gud-step        "step"         "\C-s" "Step one source line with display.")
   (gud-def gud-next        "next"         "\C-n" "Step one line (skip functions).")
@@ -1075,6 +1074,32 @@ in the gud pdb buffer."
 	 ))
 
 
+(global-set-key [f5]  (defhydra hydra-gud-pdb (:hint nil :color pink)
+"
+                                                                       ╭─────────┐
+                                                                       │ GUD PDB │
+  ╭────────────────────────────────────────────────────────────────────┴─────────╯
+    [_n_] Next Line            [_b_] Set Breakpoint          [_q_] Quit
+    [_i_] Step Into            [_B_] Remove Breakpoint       [_p_] Print
+    [_r_] Finish Function      [_<_] Move up Frame
+    [_c_] Continue             [_>_] Move down Frame
+  --------------------------------------------------------------------------------
+"
+        ("n" gud-next)
+	("i" gud-step)
+	("r" gud-finish)
+	("<" gud-up)
+	(">" gud-down)
+	("c" gud-cont)
+	("b" gud-break)
+	("B" gud-remove)
+        ("q" nil :exit t)
+	("p" (lambda ()
+	       (interactive)
+	       (unless (eq (current-buffer) gud-comint-buffer)
+		 (switch-to-buffer-other-window gud-comint-buffer))
+	       (insert "pp ")) :exit t)
+	))
   
 
 

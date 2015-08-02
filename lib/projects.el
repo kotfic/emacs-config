@@ -20,9 +20,7 @@
 ;; Project specific classes
 (dir-locals-set-class-variables
  'minerva-NEX
- '((js2-mode . ((flycheck-javascript-jshint-executable . "/usr/bin/jshint")
-		(flycheck-jshintrc . "/home/kotfic/kitware/projects/NEX/src/girder/build/tests/minerva_jshint.cfg")
-		(flycheck-javascript-jscs-executable . "/usr/bin/jscs")
+ '((js2-mode . ((flycheck-jshintrc . "/home/kotfic/kitware/projects/NEX/src/girder/build/tests/minerva_jshint.cfg")
 		(flycheck-jscsrc . "/home/kotfic/kitware/projects/NEX/src/girder/build/tests/minerva_jsstyle.cfg" )
 		))
    (python-mode . ((eval . (venv-workon "NEX"))
@@ -34,9 +32,7 @@
 
 (dir-locals-set-class-variables
  'girder-NEX
- '((js2-mode . ((flycheck-javascript-jshint-executable . "/usr/bin/jshint")
-		(flycheck-jshintrc . "/home/kotfic/kitware/projects/NEX/src/girder/girder/tests/jshint.cfg")
-		(flycheck-javascript-jscs-executable . "/usr/bin/jscs")
+ '((js2-mode . ((flycheck-jshintrc . "/home/kotfic/kitware/projects/NEX/src/girder/girder/tests/jshint.cfg")
 		(flycheck-jscsrc . "/home/kotfic/kitware/projects/NEX/src/girder/build/tests/core_jsstyle.cfg")
 		))
    (python-mode . ((eval . (venv-workon "NEX"))

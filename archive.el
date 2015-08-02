@@ -230,3 +230,14 @@
 
 
 ;; (use-package-ensure noflet)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;; Guide Key
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (use-package-ensure guide-key
+;;   :defer 1
+;;   :config
+;;   (setq guide-key/guide-key-sequence '("C-c p" "C-c h"))
+;;   (guide-key-mode 1))
+;; 

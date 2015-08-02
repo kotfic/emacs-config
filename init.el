@@ -49,6 +49,8 @@
 ;;;;; Utilities
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(use-package-ensure noflet)
+
 (use-package-ensure s)
 
 (use-package-ensure dash)
@@ -80,18 +82,9 @@
   (progn
     ;; Use this var to disable for some modes
     ;; (setq flycheck-global-modes t)
-    
+    (setq flycheck-temp-prefix (concat emacs-tmp-dir "/" "flycheck/flycheck"))
     (add-hook 'after-init-hook #'global-flycheck-mode)
     ))
-
-
-
-(use-package-ensure guide-key
-  :defer 1
-  :config
-  (setq guide-key/guide-key-sequence '("C-c p" "C-c h"))
-  (guide-key-mode 1))
-
 
 
 ; Windmove
@@ -371,13 +364,63 @@
   :config
   (projectile-global-mode t)
 
+  (use-package-ensure helm-swoop)
+
   (use-package helm-projectile
     :ensure helm-projectile
     :bind ("C-c p h" . helm-projectile))
 
-  (helm-projectile-on))
+  (helm-projectile-on)
 
-(use-package-ensure helm-swoop)
+  (global-set-key (kbd "C-c p") (defhydra hydra-projectile (:hint nil :color blue)
+        "
+                                                                                                          ╭────────────┐
+                                                                                                          │ Projectile │
+  ╭───────────────────────────────────────────────────────────────────────────────────────────────────────┴────────────╯
+   
+   [_f_] Find File (this)   [_ss_] Ag Search	 [_k_] Kill Buffers    [_!_] Run Command        [_p_] Switch Project
+   [_F_] Find File (all)    [_sg_] Grep Search   [_S_] Save Buffers    [_&_] Run Async Command  [_h_] Helm Projectile
+   [_e_] Recent Files       [_sa_] Ack Search	 [_b_] Switch Buffer 				[_q_] Quit
+   [_d_] Find Directory     [_o_]  Multi-Occur   [_v_] Project VC                     
+   [_D_] Goto Project Root  [_r_]  Query Replace          
+  ---------------------------------------------------------------------------------------------------------------------
+        "
+	
+	("f" helm-projectile-find-file)
+	("F" helm-projectile-find-file-in-known-projects)
+	("e" helm-projectile-recentf)
+	("d" helm-projectile-find-dir)
+	("D" projectile-dired)
+
+	;; TODO - need to be specifically configured for each project
+	;; C-c p c	Runs a standard compilation command for your type of project.
+	;; C-c p P	Runs a standard test command for your type of project.
+	;; C-c p t	Toggle between an implementation file and its test file.
+	
+	("ss" helm-projectile-ag)
+	("sg" helm-projectile-grep)
+	("sa" helm-projectile-ack)
+	("o" helm-projectile-multi-occur)
+	("r" projectile-replace)
+
+	("k" projectile-kill-buffers)
+	("S" projectile-save-project-buffers)
+	("b" helm-projectile-switch-to-buffer)
+	("v" projectile-vc)
+	 
+	("!" projectile-run-shell-command-in-root)
+	("&" projectile-run-async-shell-command-in-root)
+
+	("p" helm-projectile-switch-project)
+
+	("h" helm-projectile)	 
+	("q" nil)
+
+	))
+    
+    )
+
+
 
 ; Prodigy
 (use-package-ensure prodigy
@@ -518,7 +561,7 @@
 	    (add-hook 'yas-after-exit-snippet-hook 'preview-fragment)
 	    (setq yas-triggers-in-field t)))
 
-(use-package-ensure noflet)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;    Org Mode

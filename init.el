@@ -294,7 +294,6 @@
 (use-package-ensure helm
   :commands helm-mode
   :bind  (("C-h a" . helm-apropos)
-	  ("C-s" . helm-do-ag-this-file)
 	  ("M-x" . helm-M-x)
 	  ("M-y" . helm-show-kill-ring)
 	  ("C-x b" . helm-mini)
@@ -361,23 +360,23 @@
     ))
 
 (use-package-ensure projectile
+  :init 
+    (setq projectile-keymap-prefix (kbd "C-c C-p"))
   :config
   (projectile-global-mode t)
 
   (use-package-ensure helm-swoop)
 
   (use-package helm-projectile
-    :ensure helm-projectile
-    :bind ("C-c p h" . helm-projectile))
+    :ensure helm-projectile)
 
   (helm-projectile-on)
-
+ 
   (global-set-key (kbd "C-c p") (defhydra hydra-projectile (:hint nil :color blue)
-        "
+				  "
                                                                                                           ╭────────────┐
                                                                                                           │ Projectile │
   ╭───────────────────────────────────────────────────────────────────────────────────────────────────────┴────────────╯
-   
    [_f_] Find File (this)   [_ss_] Ag Search	 [_k_] Kill Buffers    [_!_] Run Command        [_p_] Switch Project
    [_F_] Find File (all)    [_sg_] Grep Search   [_S_] Save Buffers    [_&_] Run Async Command  [_h_] Helm Projectile
    [_e_] Recent Files       [_sa_] Ack Search	 [_b_] Switch Buffer 				[_q_] Quit
@@ -413,7 +412,7 @@
 
 	("p" helm-projectile-switch-project)
 
-	("h" helm-projectile)	 
+	("h" helm-projectile)
 	("q" nil)
 
 	))

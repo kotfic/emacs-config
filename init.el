@@ -371,7 +371,10 @@
     :ensure helm-projectile)
 
   (helm-projectile-on)
- 
+
+  (setq grep-find-ignored-files '()
+	grep-find-ignored-directories '())
+  
   (global-set-key (kbd "C-c p") (defhydra hydra-projectile (:hint nil :color blue)
 				  "
                                                                                                 ╭────────────┐
@@ -1116,7 +1119,7 @@ in the gud pdb buffer."
 	 ))
 
 
-(global-set-key [f5]  (defhydra hydra-gud-pdb (:hint nil :color pink)
+(global-set-key [f5]  (defhydra hydra-gud-pdb (:hint nil :color teal)
 "
                                                                        ╭─────────┐
                                                                        │ GUD PDB │

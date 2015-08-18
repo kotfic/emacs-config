@@ -20,7 +20,8 @@
 ;; Project specific classes
 (dir-locals-set-class-variables
  'minerva-NEX
- '((js2-mode . ((flycheck-jshintrc . "/home/kotfic/kitware/projects/NEX/src/girder/build/tests/minerva_jshint.cfg")
+ '((nil . ((projectile-project-test-cmd . "cd /home/kotfic/kitware/projects/NEX/src/build/girder && ctest -j8")))
+   (js2-mode . ((flycheck-jshintrc . "/home/kotfic/kitware/projects/NEX/src/girder/build/tests/minerva_jshint.cfg")
 		(flycheck-jscsrc . "/home/kotfic/kitware/projects/NEX/src/girder/build/tests/minerva_jsstyle.cfg" )
 		))
    (python-mode . ((eval . (venv-workon "NEX"))
@@ -32,7 +33,8 @@
 
 (dir-locals-set-class-variables
  'girder-NEX
- '((js2-mode . ((flycheck-jshintrc . "/home/kotfic/kitware/projects/NEX/src/girder/girder/tests/jshint.cfg")
+ '((nil . ((projectile-project-test-cmd . "cd /home/kotfic/kitware/projects/NEX/src/build/girder && ctest -j8")))
+   (js2-mode . ((flycheck-jshintrc . "/home/kotfic/kitware/projects/NEX/src/girder/girder/tests/jshint.cfg")
 		(flycheck-jscsrc . "/home/kotfic/kitware/projects/NEX/src/girder/build/tests/core_jsstyle.cfg")
 		))
    (python-mode . ((eval . (venv-workon "NEX"))
@@ -42,8 +44,21 @@
  ))
 
 
+(dir-locals-set-class-variables
+ 'romanesco-NEX
+ `((nil . ((eval . ,(setenv "PYTHONPATH"
+			    (concat
+			     (expand-file-name "/home/kotfic/kitware/projects/src/VTK/build/Wrapping/Python") ":"
+			     (expand-file-name "/home/kotfic/kitware/projects/src/VTK/build/lib") ":"
+			     (getenv "PYTHONPATH"))))
+	   (projectile-project-test-cmd . "cd /home/kotfic/kitware/projects/NEX/src/build/romanesco  && ctest -j8")))
+   (python-mode . ((eval . ,(venv-workon "NEX"))
+		   (flycheck-python-flake8-executable . "/home/kotfic/.venvs/NEX/bin/flake8")
+		   (flycheck-flake8rc . ,(concat "/home/kotfic/kitware/projects/NEX/src/romanesco" "/setup.cfg"))))))
 
 
+
+;; Minerva
 (when (file-accessible-directory-p
        "/home/kotfic/kitware/projects/NEX/src/OpenGeoscience/minerva/")
 
@@ -51,7 +66,7 @@
    "/home/kotfic/kitware/projects/NEX/src/OpenGeoscience/minerva/"
    'minerva-NEX))
 
-
+;; Girder
 (when (file-accessible-directory-p
        "/home/kotfic/kitware/projects/NEX/src/girder/girder")
 
@@ -59,6 +74,16 @@
    "/home/kotfic/kitware/projects/NEX/src/girder/girder"
    'girder-NEX))
 
+
+;; Romanesco
+(when (and (file-accessible-directory-p
+	    "/home/kotfic/kitware/projects/src/VTK/")
+	   (file-accessible-directory-p
+	    "/home/kotfic/kitware/projects/NEX/src/romanesco"))
+
+  (dir-locals-set-directory-class
+   "/home/kotfic/kitware/projects/NEX/src/romanesco"
+   'romanesco-NEX))
 
 
 (provide 'projects)

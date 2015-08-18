@@ -335,9 +335,9 @@
                                                                           ╭──────┐
       File Search            Text Search         Misc                     │ Helm │
   ╭───────────────────────────────────────────────────────────────────────┴──────╯
-      [_f_] Find Files         [_s_] Ag              [_a_] Apropos
-      [_l_] System Locate                          [_k_] Kill Ring
-      [_g_] Google Search                          [_t_] Helm Top
+      [_f_] Find Files         [_s_] Ag              [_a_] Apropos              [_r_] Resume       
+      [_l_] System Locate      [_i_] Semantic        [_k_] Kill Ring
+      [_g_] Google Search      [_o_] Occur           [_t_] Helm Top
 
   --------------------------------------------------------------------------------
         "
@@ -351,10 +351,13 @@
 	
 
 	("s" helm-do-ag)
+	("i" helm-semantic-or-imenu)
 	
 	("a" helm-apropos)
 	("k" helm-show-kill-ring)
 	("t" helm-top)
+	("o" helm-occur)
+	("r" helm-resume)
 	))
     
     ))
@@ -380,9 +383,9 @@
                                                                                                 ╭────────────┐
    Files & Directories     Find & Replace         Buffer Opperations    Commands                │ Projectile │
   ╭─────────────────────────────────────────────────────────────────────────────────────────────┴────────────╯
-   [_f_] Find File (this)    [_ss_] Ag Search         [_k_] Kill Buffers      [_c_] Run Command         [_p_] Switch Project
-   [_F_] Find File (all)     [_sg_] Grep Search       [_S_] Save Buffers      [_C_] Run Async Command   [_h_] Helm Projectile
-   [_e_] Recent Files        [_sa_] Ack Search        [_b_] Switch Buffer                             [_q_] Quit
+   [_f_] Find File (this)    [_ss_] Ag Search         [_k_] Kill Buffers      [_c_] Run Async Command   [_p_] Switch Project
+   [_F_] Find File (all)     [_sg_] Grep Search       [_S_] Save Buffers      [_C_] Run Command         [_h_] Helm Projectile
+   [_e_] Recent Files        [_sa_] Ack Search        [_b_] Switch Buffer     [_t_] Test Project        [_q_] Quit
    [_d_] Find Directory      [_o_]  Multi-Occur       [_v_] Project VC                     
    [_D_] Goto Project Root   [_r_]  Query Replace          
   -------------------------------------------------------------------------------------------------------------
@@ -397,6 +400,7 @@
 				  ;; TODO - need to be specifically configured for each project
 				  ;; C-c p c	Runs a standard compilation command for your type of project.
 				  ;; C-c p P	Runs a standard test command for your type of project.
+				  ("t" projectile-test-project)
 				  ;; C-c p t	Toggle between an implementation file and its test file.
 				  
 				  ("ss" helm-projectile-ag)
@@ -410,8 +414,8 @@
 				  ("b" helm-projectile-switch-to-buffer)
 				  ("v" projectile-vc)
 				  
-				  ("c" projectile-run-shell-command-in-root)
-				  ("C" projectile-run-async-shell-command-in-root)
+				  ("C" projectile-run-shell-command-in-root)
+				  ("c" projectile-run-async-shell-command-in-root)
 				  
 				  ("p" helm-projectile-switch-project)
 				  
@@ -577,6 +581,9 @@
 	 ("C-c C-x C-o" . org-clock-out)
 	 ("C-c a" . org-agenda)
 	 ("C-c b" . org-iswitchb))
+  :init
+  (progn
+    (setq org-replace-disputed-keys t))
   
   :config
   (progn
@@ -1119,7 +1126,7 @@ in the gud pdb buffer."
 	 ))
 
 
-(global-set-key [f5]  (defhydra hydra-gud-pdb (:hint nil :color teal)
+(global-set-key [f5]  (defhydra hydra-gud-pdb (:hint nil :color red)
 "
                                                                        ╭─────────┐
                                                                        │ GUD PDB │

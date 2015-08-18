@@ -18,7 +18,10 @@
  '(main-line-color2 "#09150F")
  '(powerline-color1 "#222912")
  '(powerline-color2 "#09150F")
- '(safe-local-variable-values (quote ((org-clock-into-drawer . t))))
+ '(safe-local-variable-values
+   (quote
+    ((eval venv-workon "NEX")
+     (org-clock-into-drawer . t))))
  '(sml/mode-width
    (if
        (eq powerline-default-separator

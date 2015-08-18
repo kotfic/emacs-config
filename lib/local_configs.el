@@ -8,6 +8,9 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 (semantic-mode 1)
 
+(setq x-select-enable-cliboard t
+      yank-pop-change-selection t)
+
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (setq uniquify-buffer-name-style 'forward)

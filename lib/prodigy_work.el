@@ -10,7 +10,12 @@
 	  :cwd (concat base "")
 	  :init (lambda ()
 		  (venv-workon "NEX"))
-	  :tags '(nex romanesco))
+	  :tags '(nex romanesco)
+	  :on-output (lambda (&rest args)
+		       (let ((output (plist-get args :output))
+			     (service (plist-get args :service)))
+			 (when (s-matches? "WARNING/MainProcess\] celery@.* ready." output)
+			   (prodigy-set-status service 'ready)))))
 	
 	(prodigy-define-service
 	  :name "NEX GeoJS Examples"
@@ -20,7 +25,7 @@
 	  :init (lambda ()
 		  (venv-workon "NEX"))
 	  :tags '(nex geojs)
-	  	  :on-output (lambda (&rest args)
+	  :on-output (lambda (&rest args)
 		       (let ((output (plist-get args :output))
 			     (service (plist-get args :service)))
 			 (when (s-matches? "Waiting..." output)

@@ -14,6 +14,9 @@
 	(eval . (venv-workon "NEX"))
 	(flycheck-python-flake8-executable . "/home/kotfic/.venvs/NEX/bin/flake8")
 	(flycheck-flake8rc . "/home/kotfic/kitware/projects/NEX/src/girder/girder/tests/flake8.cfg")
+	(projectile-project-test-cmd . "cd /home/kotfic/kitware/projects/NEX/src/build/romanesco  && ctest -j8")
+	(projectile-project-test-cmd . "cd /home/kotfic/kitware/projects/NEX/src/build/girder && ctest -j8")
+	(projectile-project-test-cmd . "cd /home/kotfic/kitware/projects/src/build/romanesco  && ctest -j8")
 	))
 
 
@@ -54,7 +57,20 @@
 	   (projectile-project-test-cmd . "cd /home/kotfic/kitware/projects/NEX/src/build/romanesco  && ctest -j8")))
    (python-mode . ((eval . ,(venv-workon "NEX"))
 		   (flycheck-python-flake8-executable . "/home/kotfic/.venvs/NEX/bin/flake8")
-		   (flycheck-flake8rc . ,(concat "/home/kotfic/kitware/projects/NEX/src/romanesco" "/setup.cfg"))))))
+		   (flycheck-flake8rc . ,(concat "/home/kotfic/kitware/projects/NEX/src/romanesco/setup.cfg"))))))
+
+
+(dir-locals-set-class-variables
+ 'romanesco
+ `((nil . ((eval . ,(setenv "PYTHONPATH"
+			    (concat
+			     (expand-file-name "/home/kotfic/kitware/projects/src/VTK/build/Wrapping/Python") ":"
+			     (expand-file-name "/home/kotfic/kitware/projects/src/VTK/build/lib") ":"
+			     (getenv "PYTHONPATH"))))
+	   (projectile-project-test-cmd . "cd /home/kotfic/kitware/projects/src/build/romanesco  && ctest -j8")))
+   (python-mode . ((eval . ,(venv-workon "NEX"))
+		   (flycheck-python-flake8-executable . "/home/kotfic/.venvs/romanesco/bin/flake8")
+		   (flycheck-flake8rc . ,(concat "/home/kotfic/kitware/projects/src/romanesco/setup.cfg"))))))
 
 
 
@@ -75,7 +91,7 @@
    'girder-NEX))
 
 
-;; Romanesco
+;; Romanesco-NEX
 (when (and (file-accessible-directory-p
 	    "/home/kotfic/kitware/projects/src/VTK/")
 	   (file-accessible-directory-p
@@ -84,6 +100,15 @@
   (dir-locals-set-directory-class
    "/home/kotfic/kitware/projects/NEX/src/romanesco"
    'romanesco-NEX))
+
+(when (and (file-accessible-directory-p
+	    "/home/kotfic/kitware/projects/src/VTK/")
+	   (file-accessible-directory-p
+	    "/home/kotfic/kitware/projects/src/romanesco"))
+
+  (dir-locals-set-directory-class
+   "/home/kotfic/kitware/projects/src/romanesco"
+   'romanesco))
 
 
 (provide 'projects)

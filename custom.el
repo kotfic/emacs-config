@@ -20,7 +20,10 @@
  '(powerline-color2 "#09150F")
  '(safe-local-variable-values
    (quote
-    ((eval venv-workon "NEX")
+    ((projectile-project-test-cmd . "cd /home/kotfic/kitware/projects/NEX/src/build/romanesco  && ctest -j8")
+     (projectile-project-test-cmd . "cd /home/kotfic/kitware/projects/NEX/src/build/girder && ctest -j8")
+     (projectile-project-test-cmd . "cd /home/kotfic/kitware/projects/src/build/romanesco  && ctest -j8")
+     (eval venv-workon "NEX")
      (org-clock-into-drawer . t))))
  '(sml/mode-width
    (if

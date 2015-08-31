@@ -134,11 +134,13 @@
 (defproject romanesco
   :path "/home/kotfic/kitware/projects/src/romanesco/"
   :vars ((base "/home/kotfic/kitware/projects/src/")
-	 (build-dir (concat base "build/romanesco/"))
+	 (build-dir (concat base "build/romanesco/")))
   :nil ((eval . (setenv "PYTHONPATH"
 			(concat
-			 (expand-file-name (concat base "VTK/build/Wrapping/Python")) ":"
-			 (expand-file-name (concat base "VTK/build/lib")))))
+			 (expand-file-name
+			  "/home/kotfic/kitware/projects/src/VTK/build/Wrapping/Python") ":"
+			  (expand-file-name
+			   "/home/kotfic/kitware/projects/src/VTK/build/lib"))))
 	(projectile-project-test-cmd . (concat "cd " build-dir "  && ctest -j8")))
   :python-mode ((eval . (venv-workon "NEX"))
 		(flycheck-python-flake8-executable . "/home/kotfic/.venvs/NEX/bin/flake8")

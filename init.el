@@ -29,7 +29,7 @@
 ; get check for package description stuff to see if elpa version
 ; is higher than installed version
 
-(let ((default-directory (concat emacs-config-dir "/" "lib")))
+(let ((default-directory (concat emacs-config-dir "/" "lib/")))
   (normal-top-level-add-subdirs-to-load-path))
 
 (require 'use-package)

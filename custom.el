@@ -18,6 +18,22 @@
  '(main-line-color2 "#09150F")
  '(powerline-color1 "#222912")
  '(powerline-color2 "#09150F")
+ '(safe-local-variable-values
+   (quote
+    ((org-clock-into-drawer . t)
+     (flycheck-flake8rc . "/home/kotfic/kitware/projects/src/romanesco/tests/flake8.cfg")
+     (projectile-project-test-cmd . "cd /home/kotfic/kitware/projects/src/build/romanesco/  && ctest -j8")
+     (eval setenv "PYTHONPATH"
+	   (concat
+	    (expand-file-name "/home/kotfic/kitware/projects/src/VTK/build/Wrapping/Python")
+	    ":"
+	    (expand-file-name "/home/kotfic/kitware/projects/src/VTK/build/lib")))
+     (flycheck-flake8rc . "/home/kotfic/kitware/projects/NEX/src/girder/girder/tests/flake8.cfg")
+     (flycheck-python-flake8-executable . "/home/kotfic/.venvs/NEX/bin/flake8")
+     (eval venv-workon "NEX")
+     (flycheck-jscsrc . "/home/kotfic/kitware/projects/NEX/src/build/girder/tests/minerva_jsstyle.cfg")
+     (flycheck-jshintrc . "/home/kotfic/kitware/projects/NEX/src/build/girder/tests/minerva_jshint.cfg")
+     (projectile-project-test-cmd . "cd /home/kotfic/kitware/projects/NEX/src/build/girder/ && ctest -j8"))))
  '(sml/mode-width
    (if
        (eq powerline-default-separator

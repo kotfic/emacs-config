@@ -14,3 +14,12 @@
   ("q" (org-toggle-tag "cquote") "c(q)uote")
 
   ("<return>" nil "quit" :exit t))
+
+(define-key
+  org-mode-map
+  (kbd "C-t")
+  (defhydra hydra-org-tagger
+    (:color blue)
+    "Org-mode tagger"
+    ("c" hydra-comps-tagger/body "(c)omps" :color blue)
+    ("<return>" nil "quit" :exit t)))

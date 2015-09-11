@@ -30,13 +30,13 @@
 ; Font
 (set-face-attribute 'default nil
                     :family "Source Code Pro"
-;;		    :family "Inconsolata"
+;;                  :family "Inconsolata"
                     :height 110)
 (set-face-attribute 'mode-line nil
                     :family "Source Code Pro"
-		    :height 110)
+                    :height 110)
 
-					;
+                                        ;
 ;Browser Support
 (setq browse-url-browser-function 'browse-url-generic
       shr-external-browser 'browse-url-generic
@@ -62,6 +62,37 @@
 (load-theme 'badger t)
 
 
+;; coding standards
+;; both these lists should be lowercased
+(setq no-cleanup-filenames '("makefile" "rules"))
+(setq no-cleanup-extensions '("md" "org" "xml" "tsv" "csv" "config" "conf"))
 
+(defun should-cleanup-buffer?()
+  "Returns t if the buffer is an actual file, the files extension isn't in no-cleanup-extensions,
+and it's name isn't in no-cleanup-filenames."
+  (and (buffer-file-name)
+       (not (-contains? no-cleanup-filenames (downcase (file-name-nondirectory (buffer-file-name)))))
+       (not (and (file-name-extension (buffer-file-name)) ;has a file extension
+                 (-contains? no-cleanup-extensions (downcase (file-name-extension (buffer-file-name))))))))
+
+(defun buffer-cleanup()
+  "A less safe buffer cleanup, indents everything."
+  (interactive)
+  (buffer-cleanup-safe)
+  (indent-region (point-min) (point-max)))
+
+(defun buffer-cleanup-safe()
+  (interactive)
+  (when (should-cleanup-buffer?)
+    (whitespace-cleanup)
+    (untabify (point-min) (point-max))
+    (set-buffer-file-coding-system 'utf-8)))
+
+(add-hook 'before-save-hook 'buffer-cleanup-safe)
+
+(defadvice zap-to-char (after zap-until-char (arg char) activate)
+  "Makes zap-to-char act like zap-until-char."
+  (insert char)
+  (backward-char 1))
 
 (provide 'local_configs)

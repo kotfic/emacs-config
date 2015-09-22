@@ -1,4 +1,7 @@
+#+CATEGORY: emacs
+
 * Tasks
+
 ** DONE ignore package files - getting out of hand 
 CLOSED: [2015-07-22 Wed 20:19]
 ** DONE add use-package-ensure statements
@@ -10,6 +13,8 @@ CLOSED: [2015-07-22 Wed 20:52]
 
 ** DONE fix up :defer stuff in init.el
 CLOSED: [2015-07-22 Wed 22:04]
+** DONE Fixup helm bindings (hydra?)
+CLOSED: [2015-09-22 Tue 19:01]
 
 ** TODO Remove as much from init.el as possible into archive.el
 ** TODO prodigy not loading prodigy_work.el for some reason
@@ -17,23 +22,22 @@ issue with defer?
 only on new emacs session
 
 ** TODO Convert back to org-mode
-** TODO Fixup helm bindings (hydra?)
-
+** TODO sauron clicking on email should load clawsmail      :emacs:personal:
 
 
 * Org Tasks
 ** DONE fix org-protocol issue with claws-mail                      :urgent:
 CLOSED: [2015-07-27 Mon 20:00]
-** TODO Move Claws mail stuff into file
+** TODO Move Claws mail stuff (agenda link, org-protocol etc) into file
 ** TODO Move date re-filing into seperate folder
 ** TODO fix ox-pelican and org-reveal dependency issues
 ** TODO Better set up with org-meta.el and readme.org
-
 
 * New Packages
 ** TODO Look at adding jscs.el
 https://github.com/papaeye/emacs-jscs
 automatically indent javascript files etc
 
-* GUD project
+
+* GUD project                                                       :project:
 ** Still need to find a way to clear breakpoints on quit

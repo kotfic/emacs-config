@@ -41,8 +41,8 @@
 (setq browse-url-browser-function 'browse-url-generic
       shr-external-browser 'browse-url-generic
       browse-url-new-window-flag t
-      browse-url-generic-program "firefox"
-      browse-url-generic-args '("--new-window"))
+      browse-url-generic-program "chromium")
+;browse-url-generic-args '("--new-window"))
 
 (require 'powerline)
 

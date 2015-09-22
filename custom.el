@@ -20,14 +20,15 @@
  '(powerline-color2 "#09150F")
  '(safe-local-variable-values
    (quote
-    ((org-clock-into-drawer . t)
+    ((projectile-project-test-cmd . "cd /home/kotfic/kitware/projects/NEX/src/build/girder/ && ctest -j8 -R minerva")
+     (org-clock-into-drawer . t)
      (flycheck-flake8rc . "/home/kotfic/kitware/projects/src/romanesco/tests/flake8.cfg")
      (projectile-project-test-cmd . "cd /home/kotfic/kitware/projects/src/build/romanesco/  && ctest -j8")
      (eval setenv "PYTHONPATH"
-	   (concat
-	    (expand-file-name "/home/kotfic/kitware/projects/src/VTK/build/Wrapping/Python")
-	    ":"
-	    (expand-file-name "/home/kotfic/kitware/projects/src/VTK/build/lib")))
+           (concat
+            (expand-file-name "/home/kotfic/kitware/projects/src/VTK/build/Wrapping/Python")
+            ":"
+            (expand-file-name "/home/kotfic/kitware/projects/src/VTK/build/lib")))
      (flycheck-flake8rc . "/home/kotfic/kitware/projects/NEX/src/girder/girder/tests/flake8.cfg")
      (flycheck-python-flake8-executable . "/home/kotfic/.venvs/NEX/bin/flake8")
      (eval venv-workon "NEX")
@@ -37,7 +38,7 @@
  '(sml/mode-width
    (if
        (eq powerline-default-separator
-	   (quote arrow))
+           (quote arrow))
        (quote right)
      (quote full)) t)
  '(sml/pos-id-separator
@@ -46,13 +47,13 @@
      (:propertize " " face powerline-active1)
      (:eval
       (propertize " "
-		  (quote display)
-		  (funcall
-		   (intern
-		    (format "powerline-%s-%s" powerline-default-separator
-			    (car powerline-default-separator-dir)))
-		   (quote powerline-active1)
-		   (quote powerline-active2))))
+                  (quote display)
+                  (funcall
+                   (intern
+                    (format "powerline-%s-%s" powerline-default-separator
+                            (car powerline-default-separator-dir)))
+                   (quote powerline-active1)
+                   (quote powerline-active2))))
      (:propertize " " face powerline-active2))))
  '(sml/pos-minor-modes-separator
    (quote
@@ -60,13 +61,13 @@
      (:propertize " " face powerline-active1)
      (:eval
       (propertize " "
-		  (quote display)
-		  (funcall
-		   (intern
-		    (format "powerline-%s-%s" powerline-default-separator
-			    (cdr powerline-default-separator-dir)))
-		   (quote powerline-active1)
-		   nil)))
+                  (quote display)
+                  (funcall
+                   (intern
+                    (format "powerline-%s-%s" powerline-default-separator
+                            (cdr powerline-default-separator-dir)))
+                   (quote powerline-active1)
+                   nil)))
      (:propertize " " face sml/global))))
  '(sml/pre-id-separator
    (quote
@@ -74,13 +75,13 @@
      (:propertize " " face sml/global)
      (:eval
       (propertize " "
-		  (quote display)
-		  (funcall
-		   (intern
-		    (format "powerline-%s-%s" powerline-default-separator
-			    (car powerline-default-separator-dir)))
-		   nil
-		   (quote powerline-active1))))
+                  (quote display)
+                  (funcall
+                   (intern
+                    (format "powerline-%s-%s" powerline-default-separator
+                            (car powerline-default-separator-dir)))
+                   nil
+                   (quote powerline-active1))))
      (:propertize " " face powerline-active1))))
  '(sml/pre-minor-modes-separator
    (quote
@@ -88,13 +89,13 @@
      (:propertize " " face powerline-active2)
      (:eval
       (propertize " "
-		  (quote display)
-		  (funcall
-		   (intern
-		    (format "powerline-%s-%s" powerline-default-separator
-			    (cdr powerline-default-separator-dir)))
-		   (quote powerline-active2)
-		   (quote powerline-active1))))
+                  (quote display)
+                  (funcall
+                   (intern
+                    (format "powerline-%s-%s" powerline-default-separator
+                            (cdr powerline-default-separator-dir)))
+                   (quote powerline-active2)
+                   (quote powerline-active1))))
      (:propertize " " face powerline-active1))))
  '(sml/pre-modes-separator (propertize " " (quote face) (quote sml/modes)))
  '(vc-annotate-background nil)
@@ -127,7 +128,7 @@
    ;; If you edit it by hand, you could mess it up, so be careful.
    ;; Your init file should contain only one such instance.
    ;; If there is more than one, they won't work right.
-   
+
 ;   ))
 (put 'scroll-left 'disabled nil)
 (put 'upcase-region 'disabled nil)
@@ -137,4 +138,3 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-

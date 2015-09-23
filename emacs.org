@@ -25,6 +25,9 @@ only on new emacs session
 ** TODO sauron clicking on email should load clawsmail      :emacs:personal:
 
 
+** TODO Figure out how to get Google calendar into Org Agenda      :kitware:
+
+
 * Org Tasks
 ** DONE fix org-protocol issue with claws-mail                      :urgent:
 CLOSED: [2015-07-27 Mon 20:00]

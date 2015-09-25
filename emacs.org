@@ -15,18 +15,33 @@ CLOSED: [2015-07-22 Wed 20:52]
 CLOSED: [2015-07-22 Wed 22:04]
 ** DONE Fixup helm bindings (hydra?)
 CLOSED: [2015-09-22 Tue 19:01]
-
-** TODO Remove as much from init.el as possible into archive.el
-** TODO prodigy not loading prodigy_work.el for some reason
+** DONE prodigy not loading prodigy_work.el for some reason
+CLOSED: [2015-09-25 Fri 13:19]
+- State "DONE"       from "TODO"       [2015-09-25 Fri 13:19]
 issue with defer?
 only on new emacs session
 
-** TODO Convert back to org-mode
+** INVALID Convert back to org-mode
+CLOSED: [2015-09-25 Fri 13:19]
+- State "INVALID"    from "TODO"       [2015-09-25 Fri 13:19] \\
+  changed my mind
+
+
+** DONE Fix agenda so it is consistent with new workflows
+CLOSED: [2015-09-25 Fri 13:19]
+- State "DONE"       from "TODO"       [2015-09-25 Fri 13:19]
+
+
+** TODO Remove as much from init.el as possible into archive.el
 ** TODO sauron clicking on email should load clawsmail      :emacs:personal:
 
 
 ** TODO Figure out how to get Google calendar into Org Agenda      :kitware:
 
+
+** HOLD company mode with jedi                               :kitware:emacs:
+- State "HOLD"       from "TODO"       [2015-09-25 Fri 08:41] \\
+  non-critical
 
 * Org Tasks
 ** DONE fix org-protocol issue with claws-mail                      :urgent:
@@ -35,6 +50,7 @@ CLOSED: [2015-07-27 Mon 20:00]
 ** TODO Move date re-filing into seperate folder
 ** TODO fix ox-pelican and org-reveal dependency issues
 ** TODO Better set up with org-meta.el and readme.org
+
 
 * New Packages
 ** TODO Look at adding jscs.el

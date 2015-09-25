@@ -738,19 +738,33 @@
           org-confirm-babel-evaluate nil)
 
     (setq org-todo-keywords
-          '((sequence "TODO(t)" "HOLD(h@/!)" "|" "DONE(d!)" "INVALID(i@/!)")))
+          '((sequence "TODO(t)" "HOLD(h@/!)" "BACKLOG(b)" "|" "DONE(d!)" "INVALID(i@/!)")))
 
     (setq org-agenda-custom-commands '(("n" "Agenda and TODO's"
                                         ((agenda "")
-                                         (tags-todo "+today")
-                                         (tags-todo "+week")
-                                         (tags-todo "+dissertation")
-                                         (tags-todo "+current")
+                                         ;; in category kitware and not on hold
+                                         ;; or tagged with kitware and not on hold
+                                         (tags-todo (concat
+                                                     "CATEGORY=\"kitware\"" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""
+                                                     "|"
+                                                     "+kitware" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""))
+                                         (tags-todo (concat
+                                                     "CATEGORY=\"albany\"" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""
+                                                     "|"
+                                                     "+albany" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""))
+                                         (tags-todo (concat
+                                                     "CATEGORY=\"personal\"" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""
+                                                     "|"
+                                                     "+personal" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""))
+                                         (tags-todo "+TODO=\"HOLD\"")
                                          ))
-                                       ("P" "Process Improvements"
-                                        ((tags-todo "CATEGORY=\"Process\"-backburner")
-                                         (tags-todo "CATEGORY=\"Process\"+backburner")
-                                         ))
+                                       ("b" "Backlog tasks"
+                                        ((tags-todo "TODO=\"BACKLOG\"|+backlog")))
+
+                                       ("u" "Unfiled tasks"
+                                        ((tags-todo (concat "CATEGORY=\"unfiled\"|+unfield"))))
+
+
                                        ))
 
 
@@ -758,22 +772,14 @@
     (setq org-capture-templates
           '(("t" "TODO" entry
              (file+headline "~/org2/unfiled.org" "Tasks")
-             "* TODO %? :current:\n  %i\n  %a")
-            ("s" "Schedule" entry (file+headline "~/org2/unfiled.org" "Tasks")
+             "* TODO %? \n  %i\n  %a")
+            ("s" "Schedule" entry (file+headline "~/org2/unfiled.org" "Meetings")
              "* %? \n  %i\n  %a")
-            ("e" "Email" entry
-             (file+headline "~/org2/unfiled.org" "Email")
-             "* EMAIL %? :current:\n %i\n %a ")
-            ("m" "Meeting" entry
-             (file+headline "~/org2/unfiled.org" "Meetings")
-             "* %?\n  %i\n  %a")
             ("c" "Clock in" entry
              (file+datetree "~/org2/journal.org")
              "* %U - %? %^g\n %i\n %a"
              :clock-in t :clock-keep t)
             ))
-
-
 
     ; Additional packages and configurations
 

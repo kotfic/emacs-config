@@ -57,7 +57,7 @@
 
 (use-package-ensure request)
 
-
+(use-package-ensure zotxt)
 
 (use-package-ensure hydra
   :config
@@ -764,6 +764,8 @@
                                        ("u" "Unfiled tasks"
                                         ((tags-todo (concat "CATEGORY=\"unfiled\"|+unfield"))))
 
+                                       ("d" "Dissertation"
+                                        ((tags-todo (concat "CATEGORY=\"dissertation\"|+dissertation"))))
 
                                        ))
 

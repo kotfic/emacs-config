@@ -767,7 +767,16 @@
                                         ((tags-todo (concat "CATEGORY=\"unfiled\"|+unfield"))))
 
                                        ("d" "Dissertation"
-                                        ((tags-todo (concat "CATEGORY=\"dissertation\"|+dissertation"))))
+                                        ((tags-todo (concat "CATEGORY=\"dissertation\"" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""
+                                                            "|"
+                                                            "+dissertation" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""))
+                                         (tags-todo (concat "CATEGORY=\"dissertation\"" "&" "+TODO=\"HOLD\""
+                                                            "|"
+                                                            "CATEGORY=\"dissertation\"" "&" "+TODO=\"BACKLOG\""
+                                                            "|"
+                                                            "+dissertation" "&" "+TODO=\"HOLD\""
+                                                            "|"
+                                                            "+dissertation" "&" "+TODO=\"BACKLOG\""))))
 
                                        ))
 

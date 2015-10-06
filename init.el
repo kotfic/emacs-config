@@ -756,13 +756,16 @@
                                                      "CATEGORY=\"personal\"" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""
                                                      "|"
                                                      "+personal" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""))
-                                         (tags-todo "+TODO=\"HOLD\"")
+                                         (tags-todo (concat "+TODO=\"HOLD\""))
                                          ))
                                        ("b" "Backlog tasks"
                                         ((tags-todo "TODO=\"BACKLOG\"|+backlog")))
 
                                        ("u" "Unfiled tasks"
                                         ((tags-todo (concat "CATEGORY=\"unfiled\"|+unfield"))))
+
+                                       ("r" "Review"
+                                        ((tags "TODO=\"DONE\"&CLOSED>\"<-1w>\"")))
 
                                        ("d" "Dissertation"
                                         ((tags-todo (concat "CATEGORY=\"dissertation\"" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""

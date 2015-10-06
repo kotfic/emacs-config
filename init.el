@@ -699,7 +699,6 @@
 
 
     (setq org-log-done 'time
-          org-use-tag-inheritance nil
           org-hide-leading-stars t
           org-startup-indented t
           org-export-backends '(ascii html icalendar latex md odt)
@@ -739,6 +738,9 @@
 
     (setq org-todo-keywords
           '((sequence "TODO(t)" "HOLD(h@/!)" "BACKLOG(b)" "|" "DONE(d!)" "INVALID(i@/!)")))
+
+
+    (setq org-use-tag-inheritance '("nex" "gobig" "doeweb" "gumbo" "bd2k" "emacs"))
 
     (setq org-agenda-custom-commands '(("n" "Agenda and TODO's"
                                         ((agenda "")

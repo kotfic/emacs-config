@@ -33,8 +33,9 @@ CLOSED: [2015-09-25 Fri 13:19]
 
 
 ** TODO Remove as much from init.el as possible into archive.el
-** TODO sauron clicking on email should load clawsmail      :emacs:personal:
-
+** HOLD sauron clicking on email should load clawsmail      :emacs:personal:
+- State "HOLD"       from "TODO"       [2015-09-28 Mon 08:18] \\
+  Sauron not importaint until more notification methods are available through it
 
 ** TODO Figure out how to get Google calendar into Org Agenda      :kitware:
 

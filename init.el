@@ -88,10 +88,10 @@
 
 
 ; Windmove
-(use-package-ensure windmove
-  :defer 1
-  :config
-  (windmove-default-keybindings 'shift))
+;(use-package-ensure windmove
+;  :defer 1
+;  :config
+;  (windmove-default-keybindings 'meta))
 
 ; Tramp
 (use-package-ensure tramp
@@ -699,6 +699,7 @@
 
 
     (setq org-log-done 'time
+          org-log-into-drawer t
           org-hide-leading-stars t
           org-startup-indented t
           org-export-backends '(ascii html icalendar latex md odt)
@@ -788,14 +789,20 @@
     (setq org-capture-templates
           '(("t" "TODO" entry
              (file+headline "~/org2/unfiled.org" "Tasks")
-             "* TODO %? \n  %i\n  %a")
+             "* TODO %? \n:PROPERTIES:\n:CREATED: %u\n:END:\n%i\n  %a")
             ("s" "Schedule" entry (file+headline "~/org2/unfiled.org" "Meetings")
-             "* %? \n  %i\n  %a")
+             "* %? \n:PROPERTIES:\n:CREATED: %u\n:END:\n  %i\n  %a")
             ("c" "Clock in" entry
              (file+datetree "~/org2/journal.org")
              "* %U - %? %^g\n %i\n %a"
              :clock-in t :clock-keep t)
             ))
+
+    (defun org/capture-add-id-hook ()
+      (goto-char (point-min)) (org-id-get-create))
+
+    (add-hook 'org-capture-mode-hook 'org/capture-add-id-hook)
+
 
     ; Additional packages and configurations
 
@@ -859,10 +866,10 @@
     ; Hooks
 
     (add-hook 'org-mode-hook (lambda () (org-yas-conflict)))
-    (add-hook 'org-shiftup-final-hook 'windmove-up)
-    (add-hook 'org-shiftleft-final-hook 'windmove-left)
-    (add-hook 'org-shiftdown-final-hook 'windmove-down)
-    (add-hook 'org-shiftright-final-hook 'windmove-right)
+    ;(add-hook 'org-shiftup-final-hook 'windmove-up)
+    ;(add-hook 'org-shiftleft-final-hook 'windmove-left)
+    ;(add-hook 'org-shiftdown-final-hook 'windmove-down)
+    ;(add-hook 'org-shiftright-final-hook 'windmove-right)
 
     (load "org-meta.el")
 

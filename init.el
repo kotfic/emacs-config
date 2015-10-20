@@ -556,7 +556,7 @@
   :defer 1
   :config (progn
             (setq yas-snippet-dirs '("~/.emacs.d/custom-snippets"
-                                     "~/.emacs.d/packages/yasnippet-20150212.240/snippets"))
+                                     "~/.emacs.d/packages/yasnippet-20150811.1222/snippets"))
 
 
             ; This could probably be more sophisticated
@@ -740,48 +740,48 @@
           '((sequence "TODO(t)" "HOLD(h@/!)" "BACKLOG(b)" "|" "DONE(d!)" "INVALID(i@/!)")))
 
 
-    (setq org-use-tag-inheritance '("nex" "gobig" "doeweb" "gumbo" "bd2k" "emacs"))
+    (setq org-use-tag-inheritance '("nex" "gobig" "doeweb" "gumbo" "bd2k" "emacs" "chores"))
 
-    (setq org-agenda-custom-commands '(("n" "Agenda and TODO's"
-                                        ((agenda "")
-                                         ;; in category kitware and not on hold
-                                         ;; or tagged with kitware and not on hold
-                                         (tags-todo (concat
-                                                     "CATEGORY=\"kitware\"" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""
-                                                     "|"
-                                                     "+kitware" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""))
-                                         (tags-todo (concat
-                                                     "CATEGORY=\"albany\"" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""
-                                                     "|"
-                                                     "+albany" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""))
-                                         (tags-todo (concat
-                                                     "CATEGORY=\"personal\"" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""
-                                                     "|"
-                                                     "+personal" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""))
-                                         (tags-todo (concat "+TODO=\"HOLD\""))
-                                         ))
-                                       ("b" "Backlog tasks"
-                                        ((tags-todo "TODO=\"BACKLOG\"|+backlog")))
+    (setq org-agenda-custom-commands
+          '(("n" "Agenda and TODO's"
+             ((agenda "")
+              ;; in category kitware and not on hold
+              ;; or tagged with kitware and not on hold
+              (tags-todo (concat
+                          "CATEGORY=\"kitware\"" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""
+                          "|"
+                          "+kitware" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""))
+              (tags-todo (concat
+                          "CATEGORY=\"albany\"" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""
+                          "|"
+                          "+albany" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""))
+              (tags-todo (concat
+                          "CATEGORY=\"personal\"" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""
+                          "|"
+                          "+personal" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""))
+              (tags-todo (concat "+TODO=\"HOLD\""))
+              ))
+            ("b" "Backlog tasks"
+             ((tags-todo "TODO=\"BACKLOG\"|+backlog")))
 
-                                       ("u" "Unfiled tasks"
-                                        ((tags-todo (concat "CATEGORY=\"unfiled\"|+unfield"))))
+            ("u" "Unfiled tasks"
+             ((tags-todo (concat "CATEGORY=\"unfiled\"|+unfield"))))
 
-                                       ("r" "Review"
-                                        ((tags "TODO=\"DONE\"&CLOSED>\"<-1w>\"")))
+            ("r" "Review"
+             ((tags "TODO=\"DONE\"&CLOSED>\"<2015-10-04>\"")))
 
-                                       ("d" "Dissertation"
-                                        ((tags-todo (concat "CATEGORY=\"dissertation\"" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""
-                                                            "|"
-                                                            "+dissertation" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""))
-                                         (tags-todo (concat "CATEGORY=\"dissertation\"" "&" "+TODO=\"HOLD\""
-                                                            "|"
-                                                            "CATEGORY=\"dissertation\"" "&" "+TODO=\"BACKLOG\""
-                                                            "|"
-                                                            "+dissertation" "&" "+TODO=\"HOLD\""
-                                                            "|"
-                                                            "+dissertation" "&" "+TODO=\"BACKLOG\""))))
-
-                                       ))
+            ("d" "Dissertation"
+             ((tags-todo (concat "CATEGORY=\"dissertation\"" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""
+                                 "|"
+                                 "+dissertation" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""))
+              (tags-todo (concat "CATEGORY=\"dissertation\"" "&" "+TODO=\"HOLD\""
+                                 "|"
+                                 "CATEGORY=\"dissertation\"" "&" "+TODO=\"BACKLOG\""
+                                 "|"
+                                 "+dissertation" "&" "+TODO=\"HOLD\""
+                                 "|"
+                                 "+dissertation" "&" "+TODO=\"BACKLOG\""))))
+            ))
 
 
 

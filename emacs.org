@@ -33,16 +33,16 @@ CLOSED: [2015-09-25 Fri 13:19]
 
 
 ** TODO Remove as much from init.el as possible into archive.el
+** TODO Figure out how to get Google calendar into Org Agenda      :kitware:
 ** HOLD sauron clicking on email should load clawsmail      :emacs:personal:
 - State "HOLD"       from "TODO"       [2015-09-28 Mon 08:18] \\
   Sauron not importaint until more notification methods are available through it
 
-** TODO Figure out how to get Google calendar into Org Agenda      :kitware:
-
-
 ** HOLD company mode with jedi                               :kitware:emacs:
 - State "HOLD"       from "TODO"       [2015-09-25 Fri 08:41] \\
   non-critical
+
+
 
 * Org Tasks
 ** DONE fix org-protocol issue with claws-mail                      :urgent:
@@ -52,6 +52,13 @@ CLOSED: [2015-07-27 Mon 20:00]
 ** TODO fix ox-pelican and org-reveal dependency issues
 ** TODO Better set up with org-meta.el and readme.org
 
+** TODO Some way to capture when TODO's are created
+This way we can figure out what TODO's are really old and consider BACKLOG/HOLD status
+** TODO Fix org integration with winmove so we can move around in date-picker
+** TODO Re-bind org inactive timestamp
+** TODO Make logging to :LOGBOOK: property global
+** TODO Figure out prompt for review org-agenda command so I can specify "review since when"
+** 
 
 * New Packages
 ** TODO Look at adding jscs.el

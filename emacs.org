@@ -54,11 +54,36 @@ CLOSED: [2015-07-27 Mon 20:00]
 
 ** TODO Some way to capture when TODO's are created
 This way we can figure out what TODO's are really old and consider BACKLOG/HOLD status
-** TODO Fix org integration with winmove so we can move around in date-picker
+** DONE Fix org integration with winmove so we can move around in date-picker
+CLOSED: [2015-10-20 Tue 10:07]
+:LOGBOOK:
+- Note taken on [2015-10-20 Tue 10:07] \\
+  Removed windmove
+- State "DONE"       from "TODO"       [2015-10-20 Tue 10:07]
+:END:
 ** TODO Re-bind org inactive timestamp
-** TODO Make logging to :LOGBOOK: property global
+
+** DONE Make logging to :LOGBOOK: property global
+CLOSED: [2015-10-20 Tue 10:08]
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2015-10-20 Tue 10:08]
+:END:
 ** TODO Figure out prompt for review org-agenda command so I can specify "review since when"
-** 
+** TODO Create agenda report that show's TODO's that are very old 
+:PROPERTIES:
+:CREATED: [2015-10-20 Tue]
+:END:
+
+  [[file:~/.emacs.d/emacs.org::*Figure%20out%20prompt%20for%20review%20org-agenda%20command%20so%20I%20can%20specify%20"review%20since%20when"][Figure out prompt for review org-agenda command so I can specify "review since when"]]
+
+** TODO Figure out how to get capture at point (C-0 C-c c t) to also auto-generate ID property 
+:PROPERTIES:
+:CREATED: [2015-10-20 Tue]
+:END:
+
+  [[file:~/.emacs.d/emacs.org::*Create%20agenda%20report%20that%20show's%20TODO's%20that%20are%20very%20old][Create agenda report that show's TODO's that are very old]]
+
+
 
 * New Packages
 ** TODO Look at adding jscs.el

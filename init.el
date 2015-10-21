@@ -36,15 +36,10 @@
 ;(setq use-package-verbose t)
 
 ;; Taken from danlamanna
-(defmacro use-package-ensure(package &rest body)
-  (declare (indent 1))
-  `(use-package ,package
-     :ensure t
-     ,@body))
+(setq use-package-always-ensure t)
 
-
-(use-package-ensure powerline)
-(use-package-ensure badger-theme)
+(use-package powerline)
+(use-package badger-theme)
 
 (use-package local_configs :demand t)
 
@@ -52,17 +47,17 @@
 ;;;;; Utilities
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package-ensure noflet)
+(use-package noflet)
 
-(use-package-ensure s)
+(use-package s)
 
-(use-package-ensure dash)
+(use-package dash)
 
-(use-package-ensure request)
+(use-package request)
 
-(use-package-ensure zotxt)
+(use-package zotxt)
 
-(use-package-ensure hydra
+(use-package hydra
   :config
   (progn
     (global-set-key
@@ -79,7 +74,7 @@
 
 
 ;; flycheck
-(use-package-ensure flycheck
+(use-package flycheck
   :diminish flycheck-mode
   :init
   (progn
@@ -91,13 +86,13 @@
 
 
 ; Windmove
-;(use-package-ensure windmove
+;(use-package windmove
 ;  :defer 1
 ;  :config
 ;  (windmove-default-keybindings 'meta))
 
 ; Tramp
-(use-package-ensure tramp
+(use-package tramp
   :defer 1
   :config
   (setq tramp-default-method "ssh"))
@@ -108,7 +103,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(use-package-ensure js2-mode
+(use-package js2-mode
   ;; flycheck does checking for jshint and jscs
   :config (progn
             (custom-set-variables
@@ -129,35 +124,35 @@
 
 
 ;; js2-refactor
-;(use-package-ensure js2-refactor
+;(use-package js2-refactor
 ;  :defer t)
 
 ;; rainbow-mode
-(use-package-ensure rainbow-mode
+(use-package rainbow-mode
   :defer t
   :pin gnu)
 
 ;; company
-(use-package-ensure company
+(use-package company
   :config
   (progn
-    (use-package-ensure company-tern
+    (use-package company-tern
       :config (progn
                 (add-to-list 'company-backends 'company-tern)))))
 
 
 ;; tern
-(use-package-ensure tern
+(use-package tern
   :defer t)
 
 
 ;; jade-mode
-(use-package-ensure jade-mode
+(use-package jade-mode
   :mode ("\\.jade\\'" . jade-mode))
 
 
 ;; stylus-mode
-(use-package-ensure stylus-mode
+(use-package stylus-mode
   :mode ("\\.styl\\'" . stylus-mode)
   :config
   (progn
@@ -169,10 +164,10 @@
 ;;; Scala mode
 ;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package-ensure scala-mode2
+(use-package scala-mode2
   :mode "\\.scala\\'"
   :config
-  (use-package-ensure ensime)
+  (use-package ensime)
   (add-hook 'scala-mode-hook 'ensime-scala-mode-hook))
 
 
@@ -180,10 +175,10 @@
 ;;;; Communication & Notifications
 ;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package-ensure weechat
+(use-package weechat
   :defer 1)
 
-(use-package-ensure sauron
+(use-package sauron
   :defer 1
   :config
   (setq sauron-max-line-length nil
@@ -191,13 +186,13 @@
         ))
 
 
-(use-package-ensure elfeed-org
+(use-package elfeed-org
   :defer 1
   :commands elfeed-org
   :config (progn
             (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org"))))
 
-(use-package-ensure elfeed
+(use-package elfeed
   :defer 1
   :bind (("C-x w" . elfeed))
   :config (progn
@@ -224,7 +219,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(use-package-ensure pdf-tools
+(use-package pdf-tools
   :defer 1
   :config
   (pdf-tools-install)
@@ -233,7 +228,7 @@
     :ensure t))
 
 ; Doc View Mode
-(use-package-ensure doc-view
+(use-package doc-view
   :mode    (("\\.docx\\'" . doc-view-mode)
             ("\\.odt\\'" . doc-view-mode))
 
@@ -294,7 +289,7 @@
 ;;;;; Project Management
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package-ensure helm
+(use-package helm
   :commands helm-mode
   :bind  (("C-h a" . helm-apropos)
           ("M-x" . helm-M-x)
@@ -311,7 +306,7 @@
   ;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
 
   ;(global-unset-key (kbd "C-x c"))
-    (use-package-ensure helm-ag)
+    (use-package helm-ag)
 
     ;; rebind tab to run persistent action
     (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
@@ -365,13 +360,13 @@
 
     ))
 
-(use-package-ensure projectile
+(use-package projectile
   :init
     (setq projectile-keymap-prefix (kbd "C-c C-p"))
   :config
   (projectile-global-mode t)
 
-  (use-package-ensure helm-swoop)
+  (use-package helm-swoop)
 
   (use-package helm-projectile
     :ensure helm-projectile)
@@ -432,7 +427,7 @@
 
 
 ; Prodigy
-(use-package-ensure prodigy
+(use-package prodigy
   :defer 1
   :commands prodigy
   :bind (("<f12>" . prodigy))
@@ -462,7 +457,7 @@
 
             ))
 
-(use-package-ensure magit
+(use-package magit
   :defer 1
   :bind (("C-x g" . magit-status)))
 
@@ -480,7 +475,7 @@
 
 
 ; Python
-(use-package-ensure python
+(use-package python
   :defer 1
   :commands python-mode
   :config (progn
@@ -516,7 +511,7 @@
 
 
 
-(use-package-ensure virtualenvwrapper
+(use-package virtualenvwrapper
   :defer 1
   :commands venv-workon
   :config
@@ -527,7 +522,7 @@
 
 ; Jedi
 ; TODO Jedi goto-definition is not working.
-(use-package-ensure jedi
+(use-package jedi
   :defer t
   :bind (("C-c d" . jedi:show-doc)
          ("M-SPC" . jedi:complete)
@@ -553,7 +548,7 @@
 
 ; Yasnippet
 
-(use-package-ensure yasnippet
+(use-package yasnippet
 ;  :init (progn
                                         ;         (yas-global-mode 1))
   :defer 1
@@ -576,7 +571,7 @@
 ;;;;;    Org Mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package-ensure org
+(use-package org
   :defer 1
   :commands org-mode
   :bind (("C-c l" . org-store-link)
@@ -810,7 +805,7 @@
     ; Additional packages and configurations
 
     (use-package org-compat :if window-system)
-    (use-package-ensure ox-reveal)
+    (use-package ox-reveal)
 
     (use-package org-id
       :config (progn
@@ -829,7 +824,7 @@
                 (setq org-crypt-key "E4CAD065")))
 
                                         ; Org Bullets
-    (use-package-ensure org-bullets :init (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+    (use-package org-bullets :init (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 
 

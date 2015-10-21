@@ -49,11 +49,11 @@
 ;;;;; Utilities
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(use-package dash)
+
 (use-package noflet)
 
 (use-package s)
-
-(use-package dash)
 
 (use-package request)
 

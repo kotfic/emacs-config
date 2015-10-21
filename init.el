@@ -1,11 +1,6 @@
 (defvar emacs-config-dir (expand-file-name "~/.emacs.d"))
 (defvar emacs-tmp-dir    (expand-file-name (concat emacs-config-dir "/" "tmp")))
 
-;; Add subdirectories in emacs-config-dir
-; (let ((default-directory emacs-config-dir))
-;  (normal-top-level-add-subdirs-to-load-path))
-
-
 ;; adding package information
 (require 'package)
 
@@ -220,7 +215,7 @@
 (use-package pdf-tools
   :defer 1
   :config
-  (pdf-tools-install)
+  (pdf-tools-install t t t)
   (setq-default pdf-view-display-size 'fit-page)
   (use-package org-pdfview
     :ensure t))

@@ -480,7 +480,7 @@
                   python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: ")
 
                                         ; auto pair
-                       (use-package autopair)
+            ; (use-package autopair)
 
                        ; adding hooks
                        (add-hook 'python-mode-hook (lambda ()
@@ -1226,7 +1226,6 @@ in the gud pdb buffer."
 (use-package local_configs
   :load-path "lib/"
   :ensure nil)
-
 
 
 

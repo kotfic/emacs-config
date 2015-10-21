@@ -44,6 +44,7 @@
 
 
 (use-package-ensure powerline)
+(use-package-ensure badger-theme)
 
 (use-package local_configs :demand t)
 

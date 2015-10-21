@@ -43,6 +43,8 @@
      ,@body))
 
 
+(use-package-ensure powerline)
+
 (use-package local_configs :demand t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;

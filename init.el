@@ -429,7 +429,7 @@
             ; (add-hook 'prodigy-mode-hook 'virtualenv-minor-mode)
 
 
-            (load "prodigy_python.el")
+            ; (load "prodigy_python.el")
 
 
             (prodigy-define-service
@@ -446,8 +446,8 @@
               ; :init (lambda () (virtualenv-workon "pp_twitter"))
               :tags '(python_notebook))
 
-            (load "prodigy_laptop.el")
-            (load "prodigy_work.el")
+            ;(load "prodigy_laptop.el")
+            ;(load "prodigy_work.el")
 
             ))
 

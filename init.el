@@ -796,7 +796,7 @@
 
     ; Additional packages and configurations
     (when window-system
-      (use-package org-compat)
+      (use-package org-compat))
 
     (use-package ox-reveal)
 

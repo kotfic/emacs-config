@@ -450,9 +450,12 @@
 
             ))
 
-(use-package magit
-  :defer 1
-  :bind (("C-x g" . magit-status)))
+; magit requires 24.4
+(when (and (>= emacs-major-version 24)
+           (>= emacs-minor-version 4))
+  (use-package magit
+    :defer 1
+    :bind (("C-x g" . magit-status))))
 
 
 

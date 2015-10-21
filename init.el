@@ -37,11 +37,6 @@
 (use-package powerline)
 (use-package badger-theme)
 
-(use-package local_configs
-  :load-path "lib/"
-  :demand t
-  :ensure nil)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;; Utilities
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -462,17 +457,6 @@
   (use-package magit
     :defer 1
     :bind (("C-x g" . magit-status))))
-
-
-
-;; Require projects
-
-(use-package defproject)
-
-(use-package projects
-  :load-path "lib/"
-  :ensure nil)
-; (require 'projects)
 
 
 
@@ -1227,6 +1211,21 @@ in the gud pdb buffer."
 (setq auto-mode-alist
       (append '(("\\.doc\\'" . antiword-buffer))
               auto-mode-alist))
+
+
+;; Require projects
+
+(use-package defproject)
+
+(use-package projects
+  :load-path "lib/"
+  :ensure nil)
+; (require 'projects)
+
+(use-package local_configs
+  :load-path "lib/"
+  :ensure nil)
+
 
 
 

@@ -9,4 +9,4 @@ VOLUME /home/kotfic/remote
 USER kotfic
 WORKDIR /home/kotfic
 
-CMD git clone remote .emacs.d && emacs
+CMD git clone remote .emacs.d && emacs --debug-init

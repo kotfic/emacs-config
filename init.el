@@ -21,12 +21,12 @@
 (require 'bind-key)
 
 
-(let* ((my-lisp-dir "~/.emacs.d/lib/")
-       (default-directory my-lisp-dir)
-       (orig-load-path load-path))
-  (setq load-path (cons my-lisp-dir nil))
-  (normal-top-level-add-subdirs-to-load-path)
-  (nconc load-path orig-load-path))
+;(let* ((my-lisp-dir "~/.emacs.d/lib/")
+;       (default-directory my-lisp-dir)
+;       (orig-load-path load-path))
+;  (setq load-path (cons my-lisp-dir nil))
+;  (normal-top-level-add-subdirs-to-load-path)
+;  (nconc load-path orig-load-path))
 
 (require 'use-package)
 ;(setq use-package-verbose t)
@@ -468,7 +468,9 @@
 
 (use-package defproject)
 
-(require 'projects)
+(use-package projects
+  :load-path "lib/")
+; (require 'projects)
 
 
 

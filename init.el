@@ -38,6 +38,7 @@
 (use-package badger-theme)
 
 (use-package local_configs
+  :load-path "lib/"
   :demand t
   :ensure nil)
 
@@ -469,7 +470,8 @@
 (use-package defproject)
 
 (use-package projects
-  :load-path "lib/")
+  :load-path "lib/"
+  :ensure nil)
 ; (require 'projects)
 
 

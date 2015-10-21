@@ -44,10 +44,14 @@ CLOSED: [2015-09-25 Fri 13:19]
 
 
 
-** TODO Set up docker container for testing default ubuntu install and emacs configs
+** DONE Set up docker container for testing default ubuntu install and emacs configs
+CLOSED: [2015-10-21 Wed 04:51]
 :PROPERTIES:
 :CREATED: [2015-10-20 Tue]
 :ID:       13e53250-4f9a-4f8c-b9dc-99dc68885985
+:END:
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2015-10-21 Wed 04:51]
 :END:
 
   [[file:~/.emacs.d/init.el::(add-hook%20'org-capture-mode-hook%20'org/capture-add-id-hook)]]

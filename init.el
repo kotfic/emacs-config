@@ -853,7 +853,7 @@
      '((emacs-lisp . t)
        (python . t)
        (R . t)
-       (html . t)
+       ;(html . t)
        (latex . t)
        (sh . t )
        (sql . t)

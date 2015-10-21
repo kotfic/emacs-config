@@ -795,8 +795,9 @@
 
 
     ; Additional packages and configurations
+    (when window-system
+      (use-package org-compat)
 
-    (use-package org-compat :if window-system)
     (use-package ox-reveal)
 
     (use-package org-id

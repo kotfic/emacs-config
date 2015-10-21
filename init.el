@@ -874,7 +874,7 @@
     ;(add-hook 'org-shiftdown-final-hook 'windmove-down)
     ;(add-hook 'org-shiftright-final-hook 'windmove-right)
 
-    (load "lib/org-meta.el")
+    (load (concat user-emacs-directory "lib/org-meta.el"))
 
     )) ; end org use-package
 

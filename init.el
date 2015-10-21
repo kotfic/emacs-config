@@ -211,14 +211,14 @@
 ;;;;   PDFs and DOCS
 ;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-(use-package pdf-tools
-  :defer 1
-  :config
-  (pdf-tools-install t t t)
-  (setq-default pdf-view-display-size 'fit-page)
-  (use-package org-pdfview
-    :ensure t))
+(when (executable-find "make")
+  (use-package pdf-tools
+    :defer 1
+    :config
+    (pdf-tools-install t t t)
+    (setq-default pdf-view-display-size 'fit-page)
+    (use-package org-pdfview
+      :ensure t)))
 
 ; Doc View Mode
 (use-package doc-view

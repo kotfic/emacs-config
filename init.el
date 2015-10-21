@@ -563,7 +563,12 @@
 ;;;;;    Org Mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(unless (package-installed-p 'org-plus-contrib)
+  (package-refresh-contents)
+  (package-install 'org-plus-contrib))
+
 (use-package org
+  :ensure nil
   :defer 1
   :commands org-mode
   :bind (("C-c l" . org-store-link)

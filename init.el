@@ -2,8 +2,8 @@
 (defvar emacs-tmp-dir    (expand-file-name (concat emacs-config-dir "/" "tmp")))
 
 ;; Add subdirectories in emacs-config-dir
-(let ((default-directory emacs-config-dir))
-  (normal-top-level-add-subdirs-to-load-path))
+; (let ((default-directory emacs-config-dir))
+;  (normal-top-level-add-subdirs-to-load-path))
 
 
 ;; adding package information
@@ -24,10 +24,6 @@
 
 (require 'diminish)
 (require 'bind-key)
-; TODO - Need to figure out how to download org from elpa
-; see (mapcar 'string-to-number (split-string (org-version) "[.]")
-; get check for package description stuff to see if elpa version
-; is higher than installed version
 
 (let ((default-directory (concat emacs-config-dir "/" "lib/")))
   (normal-top-level-add-subdirs-to-load-path))

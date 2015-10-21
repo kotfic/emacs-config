@@ -803,17 +803,21 @@
     (when window-system
       (use-package org-compat))
 
-    (use-package ox-reveal)
+    (use-package ox-reveal
+      :ensure nil)
 
     (use-package org-id
+      :ensure nil
       :config (progn
                 (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id
                       org-link-to-org-use-id 'create-if-interactive-and-no-custom-id)))
 
 
-    (use-package org-datetree)
+    (use-package org-datetree
+      :ensure nil)
 
     (use-package org-crypt
+      :ensure nil
       :config (progn
                 (org-crypt-use-before-save-magic)
                 (setq org-tags-exclude-from-inheritance (quote ("crypt")))
@@ -822,11 +826,14 @@
                 (setq org-crypt-key "E4CAD065")))
 
                                         ; Org Bullets
-    (use-package org-bullets :init (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+    (use-package org-bullets
+      :ensure nil
+      :init (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 
 
     (use-package org-protocol
+      :ensure nil
       :config
       (progn
         (add-hook 'org-capture-after-finalize-hook 'org/capture-after-finalize)
@@ -867,7 +874,7 @@
     ;(add-hook 'org-shiftdown-final-hook 'windmove-down)
     ;(add-hook 'org-shiftright-final-hook 'windmove-right)
 
-    (load "org-meta.el")
+    (load "lib/org-meta.el")
 
     )) ; end org use-package
 

@@ -492,6 +492,9 @@
                        (add-hook 'python-mode-hook 'autopair-mode)
                        (add-hook 'python-mode-hook 'pp:custom-jedi-setup)
 
+                       (use-package sphinx-doc)
+                       (add-hook 'python-mode-hook (lambda ()
+                                                     (sphinx-doc-mode t)))
 
 ;                      (add-hook 'inferior-python-mode-hook 'auto-complete-mode)
                        (add-hook 'inferior-python-mode-hook 'autopair-mode)

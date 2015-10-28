@@ -4,6 +4,7 @@
 (column-number-mode t)
 (global-auto-revert-mode t)
 (setq indent-tabs-mode nil)
+(setq require-final-newline t)
 (put 'downcase-region 'disabled nil)
 (fset 'yes-or-no-p 'y-or-n-p)
 (semantic-mode 1)

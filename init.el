@@ -159,10 +159,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package scala-mode2
-  :mode "\\.scala\\'"
+  :mode ("\\.scala\\'" . scala-mode)
+  :ensure t
   :config
-  (use-package ensime)
+  (use-package ensime :ensure t)
+
+  (setq
+   ensime-sbt-perform-on-save "compile")
   (add-hook 'scala-mode-hook 'ensime-scala-mode-hook))
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;

@@ -306,7 +306,7 @@
 
   ;(global-unset-key (kbd "C-x c"))
     (use-package helm-ag)
-
+    (use-package helm-dash)
     ;; rebind tab to run persistent action
     (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
     ;; make TAB works in terminal
@@ -335,7 +335,7 @@
       [_f_] Find Files         [_s_] Ag              [_a_] Apropos              [_r_] Resume
       [_l_] System Locate      [_i_] Semantic        [_k_] Kill Ring
       [_g_] Google Search      [_o_] Occur           [_t_] Helm Top
-
+                             [_d_] Dash
   --------------------------------------------------------------------------------
         "
         ("f" helm-find-files)
@@ -355,6 +355,8 @@
         ("t" helm-top)
         ("o" helm-occur)
         ("r" helm-resume)
+        ("d" helm-dash)
+
         ))
 
     ))

@@ -533,6 +533,8 @@
     (jedi:ac-setup))
 
   :config (progn
+            (setq jedi:install-server--command
+                  `("pip2" "install" "--upgrade" ,(convert-standard-filename jedi:source-dir)))
 
             (setq jedi:server-command
                   `("python2" ,(concat jedi:source-dir "jediepcserver.py")))
@@ -1237,17 +1239,9 @@ in the gud pdb buffer."
 ;; Require projects
 
 (use-package defproject)
-
-(use-package projects
-  :load-path "lib/"
-  :ensure nil)
-; (require 'projects)
-
-(use-package local_configs
-  :load-path "lib/"
-  :ensure nil)
-
-
+(add-to-list 'load-path (concat emacs-config-dir "/lib"))
+(require 'projects)
+(require 'local_configs)
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)

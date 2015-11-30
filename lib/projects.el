@@ -22,20 +22,6 @@
    (flycheck-flake8rc . (concat girder-dir "tests/flake8.cfg"))))
 
 
-(defproject girder
-  :path "/home/kotfic/kitware/projects/src/girder/"
-  :vars ((base "/home/kotfic/kitware/projects/src/")
-         (build-dir (concat base "build/girder/"))
-         (girder-dir (concat base "girder/")))
-  :nil
-  ((projectile-project-test-cmd . (concat "cd " build-dir " && ctest -j8")))
-  :python-mode
-  ((eval . (venv-workon "girder"))
-   (flycheck-python-flake8-executable . "/home/kotfic/.venvs/girder/bin/flake8")
-   (flycheck-flake8rc . (concat girder-dir "tests/flake8.cfg"))))
-
-
-
 (defproject girder-NEX
   :path "/home/kotfic/kitware/projects/NEX/src/girder/girder/"
   :vars ((base "/home/kotfic/kitware/projects/NEX/src/")
@@ -97,6 +83,18 @@
   :python-mode ((eval . (venv-workon "NEX"))
                 (flycheck-python-flake8-executable . "/home/kotfic/.venvs/NEX/bin/flake8")
                 (flycheck-flake8rc . (concat project-path "tests/flake8.cfg"))))
+
+(defproject girder
+  :path "/home/kotfic/kitware/projects/src/girder/"
+  :vars ((base "/home/kotfic/kitware/projects/src/")
+         (build-dir (concat base "build/girder/"))
+         (girder-dir (concat base "girder/")))
+  :nil
+  ((projectile-project-test-cmd . (concat "cd " build-dir " && ctest -j8")))
+  :python-mode
+  ((eval . (venv-workon "girder"))
+   (flycheck-python-flake8-executable . "/home/kotfic/.venvs/girder/bin/flake8")
+   (flycheck-flake8rc . (concat girder-dir "tests/flake8.cfg"))))
 
 
 (provide 'projects)

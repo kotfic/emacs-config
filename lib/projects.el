@@ -97,5 +97,13 @@
    (flycheck-flake8rc . (concat girder-dir "tests/flake8.cfg"))))
 
 
+(defproject cumulus
+  :path "/home/kotfic/kitware/projects/HPCCloud/src/cumulus"
+  :python-mode
+  ((eval . (venv-workon "cumulus-deploy"))
+   (flycheck-python-flake8-executable . "/home/kotfic/.venvs/cumulus-deploy/bin/flake8")
+   (flycheck-flake8rc . (concat project-path "tests/flake8.cfg"))))
+
+
 (provide 'projects)
 ;;; projects.el ends here

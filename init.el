@@ -284,6 +284,9 @@
 
 ))
 
+(use-package yaml-mode
+  :mode ("\\.yml$" . yaml-mode))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;; Project Management
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -307,6 +310,9 @@
   ;(global-unset-key (kbd "C-x c"))
     (use-package helm-ag)
     (use-package helm-dash)
+
+    (use-package helm-descbinds)
+
     ;; rebind tab to run persistent action
     (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
     ;; make TAB works in terminal
@@ -704,7 +710,6 @@
       (define-key yas/keymap [tab] 'yas/next-field-or-maybe-expand))
 
 
-
     (setq org-log-done 'time
           org-log-into-drawer t
           org-hide-leading-stars t
@@ -743,6 +748,10 @@
           org-src-preserve-indentation t
           org-src-fontify-natively t
           org-confirm-babel-evaluate nil)
+
+    (setq org-enforce-todo-dependencies t
+          org-agenda-dim-blocked-tasks t)
+
 
     (setq org-todo-keywords
           '((sequence "TODO(t)" "HOLD(h@/!)" "BACKLOG(b)" "|" "DONE(d!)" "INVALID(i@/!)")))

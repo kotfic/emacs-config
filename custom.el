@@ -13,6 +13,8 @@
  '(fci-rule-color "#37474f")
  '(fringe-mode 10 nil (fringe))
  '(ido-default-buffer-method (quote selected-window))
+ '(js2-mode-show-parse-errors nil)
+ '(js2-strict-missing-semi-warning nil)
  '(linum-format " %6d ")
  '(main-line-color1 "#222912")
  '(main-line-color2 "#09150F")
@@ -20,7 +22,12 @@
  '(powerline-color2 "#09150F")
  '(safe-local-variable-values
    (quote
-    ((projectile-project-test-cmd . "cd /home/kotfic/kitware/projects/NEX/src/build/girder/ && ctest -j8 -R minerva")
+    ((eval venv-workon "girder")
+     (projectile-project-test-cmd . "cd /home/kotfic/kitware/projects/src/build/girder/ && ctest -j8")
+     (flycheck-flake8rc . "/home/kotfic/kitware/projects/HPCCloud/src/cumulustests/flake8.cfg")
+     (flycheck-python-flake8-executable . "/home/kotfic/.venvs/cumulus-deploy/bin/flake8")
+     (eval venv-workon "cumulus-deploy")
+     (projectile-project-test-cmd . "cd /home/kotfic/kitware/projects/NEX/src/build/girder/ && ctest -j8 -R minerva")
      (org-clock-into-drawer . t)
      (flycheck-flake8rc . "/home/kotfic/kitware/projects/src/romanesco/tests/flake8.cfg")
      (projectile-project-test-cmd . "cd /home/kotfic/kitware/projects/src/build/romanesco/  && ctest -j8")

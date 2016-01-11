@@ -5,19 +5,14 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
    [default bold shadow italic underline bold bold-italic bold])
- '(ansi-color-names-vector
-   ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
+ '(custom-enabled-themes nil)
  '(custom-safe-themes
    (quote
-    ("90d329edc17c6f4e43dbc67709067ccd6c0a3caa355f305de2041755986548f2" "26614652a4b3515b4bbbb9828d71e206cc249b67c9142c06239ed3418eff95e2" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default)))
+    ("628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "9b402e9e8f62024b2e7f516465b63a4927028a7055392290600b776e4a5b9905" "90d329edc17c6f4e43dbc67709067ccd6c0a3caa355f305de2041755986548f2" "26614652a4b3515b4bbbb9828d71e206cc249b67c9142c06239ed3418eff95e2" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default)))
  '(fci-rule-color "#37474f")
  '(fringe-mode 10 nil (fringe))
  '(ido-default-buffer-method (quote selected-window))
  '(linum-format " %6d ")
- '(main-line-color1 "#222912")
- '(main-line-color2 "#09150F")
- '(powerline-color1 "#222912")
- '(powerline-color2 "#09150F")
  '(safe-local-variable-values
    (quote
     ((projectile-project-test-cmd . "cd /home/kotfic/kitware/projects/NEX/src/build/girder/ && ctest -j8 -R minerva")

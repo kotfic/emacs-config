@@ -105,3 +105,11 @@ automatically indent javascript files etc
 
 * GUD project                                                       :project:
 ** Still need to find a way to clear breakpoints on quit
+
+* Some Unicode Symbols
+| URXVT hex      | Symbol | Name                         |        |
+|----------------+--------+------------------------------+--------|
+| "\xE2\x9A\xA1" | ⚡      | HIGH VOLTAGE SIGN            | U+26A1 |
+| "\xE2\x9D\xA4" | ❤      | HEAVY BLACK HEART            | U+2764 |
+| "\xE2\x96\xBA" | ►      | BLACK RIGHT-POINTING POINTER | U+25BA |
+| "\xE2\x9A\xA0" | ⚠      | WARNING SIGN                 | U+26A1 |

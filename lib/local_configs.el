@@ -46,10 +46,10 @@
 ;browse-url-generic-args '("--new-window"))
 
 
-(setq sml/no-confirm-load-theme t)
-(setq sml/mode-width 'full)
-(setq sml/name-width 40)
-(setq sml/theme 'respectful)
+;(setq sml/no-confirm-load-theme t)
+;(setq sml/mode-width 'full)
+;(setq sml/name-width 40)
+;(setq sml/theme 'respectful)
 
 ;Load theme files
 ;(defadvice load-theme (before theme-dont-propagate activate)
@@ -59,7 +59,7 @@
 ;  (sml/setup))
 
 ;(if (>= (display-color-cells) 256)
-(load-theme 'badger t)
+;(load-theme 'badger t)
 
 
 ;; coding standards

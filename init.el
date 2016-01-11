@@ -35,7 +35,7 @@
 (setq use-package-always-ensure t)
 
 (use-package powerline)
-(use-package badger-theme)
+;(use-package badger-theme)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;; Utilities
@@ -86,10 +86,10 @@
 ;  (windmove-default-keybindings 'meta))
 
 ; Tramp
-(use-package tramp
-  :defer 1
-  :config
-  (setq tramp-default-method "ssh"))
+;(use-package tramp
+;  :defer 1
+;  :config
+;  (setq tramp-default-method "ssh"))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -494,9 +494,9 @@
                                                      (unless (tramp-tramp-file-p (buffer-file-name))
                                                        (flycheck-mode))))
 
-                       ; hooks
-;                      (add-hook 'python-mode-hook 'auto-complete-mode)
-                       (add-hook 'python-mode-hook 'autopair-mode)
+                       ;; hooks
+                       ;; (add-hook 'python-mode-hook 'auto-complete-mode)
+                       ;; (add-hook 'python-mode-hook 'autopair-mode)
                        (add-hook 'python-mode-hook 'pp:custom-jedi-setup)
 
                        (use-package sphinx-doc)
@@ -504,7 +504,7 @@
                                                      (sphinx-doc-mode t)))
 
 ;                      (add-hook 'inferior-python-mode-hook 'auto-complete-mode)
-                       (add-hook 'inferior-python-mode-hook 'autopair-mode)
+                       ;; (add-hook 'inferior-python-mode-hook 'autopair-mode)
                        (add-hook 'inferior-python-mode-hook 'pp:custom-jedi-setup)
 
 
@@ -812,8 +812,8 @@
 
 
     ; Additional packages and configurations
-    (when window-system
-      (use-package org-compat))
+;    (when window-system
+;      (use-package org-compat))
 
     (use-package ox-reveal
       :ensure nil)

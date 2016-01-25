@@ -1,4 +1,5 @@
 (defvar emacs-config-dir (expand-file-name "~/.emacs.d"))
+
 (defvar emacs-tmp-dir    (expand-file-name (concat emacs-config-dir "/" "tmp")))
 
 ;; adding package information
@@ -89,7 +90,15 @@
 (use-package tramp
   :defer 1
   :config
-  (setq tramp-default-method "ssh"))
+  (setq tramp-default-method "ssh"
+        password-cache-expiry 300)
+
+  (add-to-list 'tramp-default-proxies-alist
+               '("\\`nex_minerva\\'" "\\`girder\\'" "/ssh:%h:"))
+  )
+
+(use-package vagrant)
+(use-package vagrant-tramp)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -382,6 +391,14 @@
 
   (setq grep-find-ignored-files '()
         grep-find-ignored-directories '())
+
+  (setq projectile-mode-line
+      '(:eval
+        (if (file-remote-p default-directory)
+            " Projectile[*remote*]"
+          (format " Projectile[%s]" (projectile-project-name)))))
+
+  (setq projectile-file-exists-remote-cache-expire nil)
 
   (global-set-key (kbd "C-c p") (defhydra hydra-projectile (:hint nil :color blue)
                                   "

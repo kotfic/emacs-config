@@ -786,10 +786,6 @@
                           "|"
                           "+kitware" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""))
               (tags-todo (concat
-                          "CATEGORY=\"albany\"" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""
-                          "|"
-                          "+albany" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""))
-              (tags-todo (concat
                           "CATEGORY=\"personal\"" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""
                           "|"
                           "+personal" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""))
@@ -804,17 +800,6 @@
             ("r" "Review"
              ((tags "TODO=\"DONE\"&CLOSED>\"<2015-10-04>\"")))
 
-            ("d" "Dissertation"
-             ((tags-todo (concat "CATEGORY=\"dissertation\"" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""
-                                 "|"
-                                 "+dissertation" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""))
-              (tags-todo (concat "CATEGORY=\"dissertation\"" "&" "+TODO=\"HOLD\""
-                                 "|"
-                                 "CATEGORY=\"dissertation\"" "&" "+TODO=\"BACKLOG\""
-                                 "|"
-                                 "+dissertation" "&" "+TODO=\"HOLD\""
-                                 "|"
-                                 "+dissertation" "&" "+TODO=\"BACKLOG\""))))
             ))
 
 

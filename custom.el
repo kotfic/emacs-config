@@ -6,17 +6,20 @@
  '(ansi-color-faces-vector
    [default bold shadow italic underline bold bold-italic bold])
  '(ansi-color-names-vector
-   (vector "#c5c8c6" "#cc6666" "#b5bd68" "#f0c674" "#81a2be" "#c397d8" "#8abeb7" "#1d1f21"))
- '(custom-enabled-themes (quote (sanityinc-tomorrow-day)))
+   ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
  '(custom-safe-themes
    (quote
-    ("1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "c0d2fcf6d2907aa90ab5388865f9e0befbfba81f0afb555fdd154fc871ef0fc6" "a186f1520b7317917dadae0b2b07659c2c9485f1e615b1e93e8f82eb9d18f936" "bd424f459739685a7155a5d4c2c4b8a14d37bd1423e5f2dd32b9ea738811dde2" "bcf615386a4c64325ead4eb83fac45b9b9868c8284a1dae7c4bac34b73fa3cd7" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "9b402e9e8f62024b2e7f516465b63a4927028a7055392290600b776e4a5b9905" "90d329edc17c6f4e43dbc67709067ccd6c0a3caa355f305de2041755986548f2" "26614652a4b3515b4bbbb9828d71e206cc249b67c9142c06239ed3418eff95e2" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default)))
+    ("c0d2fcf6d2907aa90ab5388865f9e0befbfba81f0afb555fdd154fc871ef0fc6" "90d329edc17c6f4e43dbc67709067ccd6c0a3caa355f305de2041755986548f2" "26614652a4b3515b4bbbb9828d71e206cc249b67c9142c06239ed3418eff95e2" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default)))
  '(fci-rule-color "#37474f")
  '(fringe-mode 10 nil (fringe))
  '(ido-default-buffer-method (quote selected-window))
  '(js2-mode-show-parse-errors nil)
  '(js2-strict-missing-semi-warning nil)
  '(linum-format " %6d ")
+ '(main-line-color1 "#222912")
+ '(main-line-color2 "#09150F")
+ '(powerline-color1 "#222912")
+ '(powerline-color2 "#09150F")
  '(safe-local-variable-values
    (quote
     ((eval venv-workon "girder")

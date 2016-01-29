@@ -928,6 +928,52 @@
 ;                 "xdotool windowactivate $CURRENT")))
 
 
+;; Mu4e
+
+(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
+(require 'mu4e)
+
+(setq mu4e-context-policy 'always-ask
+      mu4e-compose-context-policy nil)
+
+(setq mu4e-contexts
+      `( ,(make-mu4e-context
+           :name "GMail"
+           :enter-func (lambda () (mu4e-message "Switch to the Gmail"))
+           :vars '( (uesr-mail-address           . "kotfic@gmail.com")
+                    (mu4e-maildir                . "~/mail/gmail")
+                    (mu4e-sent-folder            . "/[Gmail].Sent Mail")
+                    (mu4e-drafts-folder          . "/[Gmail].Drafts")
+                    (mu4e-trash-folder           . "/[Gmail].Trash")
+                    (mu4e-refile-folder          . "/[Gmail].All Mail")
+                    (mu4e-get-mail-command       . "offlineimap -a Gmail")
+                    (mu4e-mu-home                . "~/mail/index/gmail")
+                    (mu4e-sent-messages-behavior . 'delete) ))
+         ,(make-mu4e-context
+           :name "UAlbany"
+           :enter-func (lambda () (mu4e-message "Switch to the UAlbany"))
+           :vars '( (uesr-mail-address           . "ckotfila@albany.edu")
+                    (mu4e-maildir                . "~/mail/ualbany")
+                    (mu4e-sent-folder            . "/Sent Items")
+                    (mu4e-drafts-folder          . "/Drafts")
+                    (mu4e-trash-folder           . "/Trash")
+                    (mu4e-refile-folder          . "/Archives")
+                    (mu4e-get-mail-command       . "offlineimap -a UAlbany")
+                    (mu4e-mu-home                . "~/mail/index/ualbany")))
+         ))
+
+
+;; This sets `mu4e-user-mail-address-list' to the concatenation of all
+;; `user-mail-address' values for all contexts. If you have other mail
+;; addresses as well, you'll need to add those manually.
+(setq mu4e-user-mail-address-list
+      (delq nil
+            (mapcar (lambda (context)
+                      (when (mu4e-context-vars context)
+                        (cdr (assq 'user-mail-address (mu4e-context-vars context)))))
+                    mu4e-contexts)))
+
+
 
 (defun filter (condp lst)
   (delq nil

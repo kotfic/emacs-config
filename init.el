@@ -932,15 +932,18 @@
 
 (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
 (require 'mu4e)
+(require 'smtpmail)
 
 (setq mu4e-context-policy 'always-ask
-      mu4e-compose-context-policy nil)
+      mu4e-compose-context-policy nil
+      message-kill-buffer-on-exit t)
 
 (setq mu4e-contexts
       `( ,(make-mu4e-context
            :name "GMail"
            :enter-func (lambda () (mu4e-message "Switch to the Gmail"))
-           :vars '( (uesr-mail-address           . "kotfic@gmail.com")
+           :vars '( (user-mail-address           . "kotfic@gmail.com")
+                    (user-full-name              . "Christopher D Kotfila")
                     (mu4e-maildir                . "~/mail/gmail")
                     (mu4e-sent-folder            . "/[Gmail].Sent Mail")
                     (mu4e-drafts-folder          . "/[Gmail].Drafts")
@@ -948,11 +951,19 @@
                     (mu4e-refile-folder          . "/[Gmail].All Mail")
                     (mu4e-get-mail-command       . "offlineimap -a Gmail")
                     (mu4e-mu-home                . "~/mail/index/gmail")
-                    (mu4e-sent-messages-behavior . 'delete) ))
+                    (mu4e-sent-messages-behavior . delete)
+                    (message-send-mail-function  . smtpmail-send-it)
+                    (smtpmail-stream-type        . starttls)
+                    (smtpmail-default-smtp-server . "smtp.gmail.com")
+                    (smtpmail-smtp-server        . "smtp.gmail.com")
+                    (smtpmail-smtp-service       . 587)))
+
+
          ,(make-mu4e-context
            :name "UAlbany"
            :enter-func (lambda () (mu4e-message "Switch to the UAlbany"))
-           :vars '( (uesr-mail-address           . "ckotfila@albany.edu")
+           :vars '( (user-mail-address           . "ckotfila@albany.edu")
+                    (user-full-name              . "Christopher D Kotfila")
                     (mu4e-maildir                . "~/mail/ualbany")
                     (mu4e-sent-folder            . "/Sent Items")
                     (mu4e-drafts-folder          . "/Drafts")

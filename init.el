@@ -970,7 +970,14 @@
                     (mu4e-trash-folder           . "/Trash")
                     (mu4e-refile-folder          . "/Archives")
                     (mu4e-get-mail-command       . "offlineimap -a UAlbany")
-                    (mu4e-mu-home                . "~/mail/index/ualbany")))
+                    (mu4e-mu-home                . "~/mail/index/ualbany")
+                    (message-send-mail-function  . smtpmail-send-it)
+                    (smtpmail-stream-type        . starttls)
+                    (smtpmail-default-smtp-server . "pod51009.outlook.com")
+                    (smtpmail-smtp-server        . "pod51009.outlook.com")
+                    (smtpmail-smtp-service       . 587)
+                    ))
+
          ))
 
 

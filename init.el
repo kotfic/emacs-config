@@ -509,30 +509,28 @@
                   python-shell-prompt-block-regexp ":"
                   python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: ")
 
-                                        ; auto pair
-            ; (use-package autopair)
+            ;; adding hooks
+            (add-hook 'python-mode-hook (lambda ()
+                                          (unless (tramp-tramp-file-p (buffer-file-name))
+                                            (flycheck-mode))))
+            (add-hook 'python-mode-hook
+                      (lambda ()
+                        (setq indent-tabs-mode nil)
+                        (setq tab-width 4)
+                        (setq python-indent 4)))
+            ;; hooks
 
-                       ; adding hooks
-                       (add-hook 'python-mode-hook (lambda ()
-                                                     (unless (tramp-tramp-file-p (buffer-file-name))
-                                                       (flycheck-mode))))
+            (add-hook 'python-mode-hook 'pp:custom-jedi-setup)
 
-                       ; hooks
-;                      (add-hook 'python-mode-hook 'auto-complete-mode)
-                       (add-hook 'python-mode-hook 'autopair-mode)
-                       (add-hook 'python-mode-hook 'pp:custom-jedi-setup)
-
-                       (use-package sphinx-doc)
-                       (add-hook 'python-mode-hook (lambda ()
-                                                     (sphinx-doc-mode t)))
-
-;                      (add-hook 'inferior-python-mode-hook 'auto-complete-mode)
-                       (add-hook 'inferior-python-mode-hook 'autopair-mode)
-                       (add-hook 'inferior-python-mode-hook 'pp:custom-jedi-setup)
+            (use-package sphinx-doc)
+            (add-hook 'python-mode-hook (lambda ()
+                                          (sphinx-doc-mode t)))
 
 
+            (add-hook 'inferior-python-mode-hook 'pp:custom-jedi-setup)
 
-                       ))
+
+            ))
 
 
 
@@ -936,6 +934,7 @@
 
 (setq mu4e-context-policy 'always-ask
       mu4e-compose-context-policy nil
+      mu4e-compose-keep-self-cc t
       message-kill-buffer-on-exit t)
 
 (setq mu4e-contexts
@@ -971,6 +970,7 @@
                     (mu4e-refile-folder          . "/Archives")
                     (mu4e-get-mail-command       . "offlineimap -a UAlbany")
                     (mu4e-mu-home                . "~/mail/index/ualbany")
+                    (mu4e-sent-messages-behavior . sent)
                     (message-send-mail-function  . smtpmail-send-it)
                     (smtpmail-stream-type        . starttls)
                     (smtpmail-default-smtp-server . "pod51009.outlook.com")

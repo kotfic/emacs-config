@@ -930,17 +930,25 @@
 
 (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
 (require 'mu4e)
+(require 'mu4e-contrib)
 (require 'smtpmail)
 
 (setq mu4e-context-policy 'always-ask
       mu4e-compose-context-policy nil
       mu4e-compose-keep-self-cc t
-      message-kill-buffer-on-exit t)
+      mu4e-html2text-command 'mu4e-shr2text
+      message-kill-buffer-on-exit t
+      mu4e-completing-read-function 'completing-read)
 
 (setq mu4e-contexts
       `( ,(make-mu4e-context
            :name "GMail"
-           :enter-func (lambda () (mu4e-message "Switch to the Gmail"))
+           :enter-func (lambda ()
+                         (mu4e-message "Switch to the Gmail")
+                         )
+           :leave-func (lambda ()
+                         (mu4e-clear-caches)
+                         (mu4e~proc-kill))
            :vars '( (user-mail-address           . "kotfic@gmail.com")
                     (user-full-name              . "Christopher D Kotfila")
                     (mu4e-maildir                . "~/mail/gmail")
@@ -960,7 +968,13 @@
 
          ,(make-mu4e-context
            :name "UAlbany"
-           :enter-func (lambda () (mu4e-message "Switch to the UAlbany"))
+           :enter-func (lambda ()
+                         (mu4e-message "Switch to the UAlbany")
+                         )
+           :leave-func (lambda ()
+                         (mu4e-clear-caches)
+                         (mu4e~proc-kill))
+
            :vars '( (user-mail-address           . "ckotfila@albany.edu")
                     (user-full-name              . "Christopher D Kotfila")
                     (mu4e-maildir                . "~/mail/ualbany")

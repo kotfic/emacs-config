@@ -822,7 +822,7 @@
 
     ; Additional packages and configurations
     (when window-system
-      (use-package org-compat))
+      (require 'org-compat))
 
     (use-package ox-reveal
       :ensure nil)

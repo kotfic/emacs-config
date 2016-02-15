@@ -32,15 +32,14 @@ CLOSED: [2015-09-25 Fri 13:19]
 - State "DONE"       from "TODO"       [2015-09-25 Fri 13:19]
 
 
-** TODO Remove as much from init.el as possible into archive.el
-** TODO Figure out how to get Google calendar into Org Agenda      :kitware:
-** HOLD sauron clicking on email should load clawsmail      :emacs:personal:
+** INVALID sauron clicking on email should load clawsmail   :emacs:personal:
+CLOSED: [2016-02-15 Mon 09:37]
+:LOGBOOK:
+- State "INVALID"    from "HOLD"       [2016-02-15 Mon 09:37] \\
+  No longer using clawsmail
+:END:
 - State "HOLD"       from "TODO"       [2015-09-28 Mon 08:18] \\
   Sauron not importaint until more notification methods are available through it
-
-** HOLD company mode with jedi                               :kitware:emacs:
-- State "HOLD"       from "TODO"       [2015-09-25 Fri 08:41] \\
-  non-critical
 
 
 
@@ -56,15 +55,43 @@ CLOSED: [2015-10-21 Wed 04:51]
 
   [[file:~/.emacs.d/init.el::(add-hook%20'org-capture-mode-hook%20'org/capture-add-id-hook)]]
 
+
+** TODO Remove as much from init.el as possible into archive.el
+
+** TODO Figure out how to get Google calendar into Org Agenda      :kitware:
+
+** TODO Inline todo creation (e.g. C-0 C-c c) does not autogenerate ID
+:PROPERTIES:
+:CREATED: [2016-02-15 Mon]
+:END:
+
+  [[file:~/.emacs.d/emacs.org::*Figure%20out%20how%20to%20get%20Google%20calendar%20into%20Org%20Agenda][Figure out how to get Google calendar into Org Agenda]]
+
+** HOLD company mode with jedi                               :kitware:emacs:
+- State "HOLD"       from "TODO"       [2015-09-25 Fri 08:41] \\
+  non-critical
+
 * Org Tasks
 ** DONE fix org-protocol issue with claws-mail                      :urgent:
 CLOSED: [2015-07-27 Mon 20:00]
-** TODO Move Claws mail stuff (agenda link, org-protocol etc) into file
-** TODO Move date re-filing into seperate folder
-** TODO fix ox-pelican and org-reveal dependency issues
-** TODO Better set up with org-meta.el and readme.org
+** INVALID Move Claws mail stuff (agenda link, org-protocol etc) into file
+CLOSED: [2016-02-15 Mon 14:16]
+:LOGBOOK:
+- State "INVALID"    from "TODO"       [2016-02-15 Mon 14:16] \\
+  No longer using claws
+:END:
+** INVALID Move date re-filing into seperate folder
+CLOSED: [2016-02-15 Mon 14:16]
+:LOGBOOK:
+- State "INVALID"    from "TODO"       [2016-02-15 Mon 14:16] \\
+  No longer doing date refiling
+:END:
 
-** TODO Some way to capture when TODO's are created
+** DONE Some way to capture when TODO's are created
+CLOSED: [2016-02-15 Mon 14:16]
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2016-02-15 Mon 14:16]
+:END:
 This way we can figure out what TODO's are really old and consider BACKLOG/HOLD status
 ** DONE Fix org integration with winmove so we can move around in date-picker
 CLOSED: [2015-10-20 Tue 10:07]
@@ -73,13 +100,20 @@ CLOSED: [2015-10-20 Tue 10:07]
   Removed windmove
 - State "DONE"       from "TODO"       [2015-10-20 Tue 10:07]
 :END:
-** TODO Re-bind org inactive timestamp
 
 ** DONE Make logging to :LOGBOOK: property global
 CLOSED: [2015-10-20 Tue 10:08]
 :LOGBOOK:
 - State "DONE"       from "TODO"       [2015-10-20 Tue 10:08]
 :END:
+** INVALID fix ox-pelican and org-reveal dependency issues
+CLOSED: [2016-02-15 Mon 14:17]
+:LOGBOOK:
+- State "INVALID"    from "TODO"       [2016-02-15 Mon 14:17] \\
+  Not blogging anymore
+:END:
+** TODO Better set up with org-meta.el and readme.org
+** TODO Re-bind org inactive timestamp
 ** TODO Figure out prompt for review org-agenda command so I can specify "review since when"
 ** TODO Create agenda report that show's TODO's that are very old 
 :PROPERTIES:
@@ -103,13 +137,40 @@ https://github.com/papaeye/emacs-jscs
 automatically indent javascript files etc
 
 
-* GUD project                                                       :project:
-** Still need to find a way to clear breakpoints on quit
-
-* Some Unicode Symbols
+* Notes
+** Some Unicode Symbols
 | URXVT hex      | Symbol | Name                         |        |
 |----------------+--------+------------------------------+--------|
 | "\xE2\x9A\xA1" | ⚡      | HIGH VOLTAGE SIGN            | U+26A1 |
 | "\xE2\x9D\xA4" | ❤      | HEAVY BLACK HEART            | U+2764 |
 | "\xE2\x96\xBA" | ►      | BLACK RIGHT-POINTING POINTER | U+25BA |
 | "\xE2\x9A\xA0" | ⚠      | WARNING SIGN                 | U+26A1 |
+
+** Processes ([[info:elisp#Processes][info:elisp#Processes]])
+*** Three ways to start a process
+**** =start-process= async process returns process object
+**** =call-process= synchronous process - no object
+**** =call-process-region= synchronous process - no object
+**** Common arguments:
+***** PROGRAM - name of the file
+***** ARGS - arguments to be provided
+****** ~, ., .. all work
+****** $HOME etc does not work
+***** BUFFER-OR-NAME - location for standard output to go
+****** nil to discard output
+**** Shell constructs do not work - not using a shell
+**** Use =shell-quote-argument= e.g.:
+#+BEGIN_SRC elisp
+(concat "diff -c "
+	(shell-quote-argument oldfile)
+	" "
+	(shell-quote-argument newfile))
+#+END_SRC
+**** 
+** Archive                                                         :ARCHIVE:
+*** GUD project                                                   :project:
+:PROPERTIES:
+:ARCHIVE_TIME: 2016-02-15 Mon 14:18
+:END:
+**** Still need to find a way to clear breakpoints on quit
+

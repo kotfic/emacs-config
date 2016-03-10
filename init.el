@@ -698,7 +698,7 @@
       (interactive)
       (save-excursion
         (org-back-to-heading)
-        (let ((file "~/org2/journal.org")
+        (let ((file "~/org/journal.org")
               (tags
                (org-icompleting-read "Tags: "
                                      'org-tags-completion-function
@@ -806,12 +806,12 @@
 
     (setq org-capture-templates
           '(("t" "TODO" entry
-             (file+headline "~/org2/unfiled.org" "Tasks")
+             (file+headline "~/org/unfiled.org" "Tasks")
              "* TODO %? \n:PROPERTIES:\n:CREATED: %u\n:END:\n%i\n  %a")
-            ("s" "Schedule" entry (file+headline "~/org2/unfiled.org" "Meetings")
+            ("s" "Schedule" entry (file+headline "~/org/unfiled.org" "Meetings")
              "* %? \n:PROPERTIES:\n:CREATED: %u\n:END:\n  %i\n  %a")
             ("c" "Clock in" entry
-             (file+datetree "~/org2/journal.org")
+             (file+datetree "~/org/journal.org")
              "* %U - %? %^g\n %i\n %a"
              :clock-in t :clock-keep t)
             ))

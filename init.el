@@ -757,7 +757,7 @@
                           ("\\.mm\\'" . default)
                           ("\\.x?html?\\'" . default))
 
-          org-babel-use-quick-and-dirty-noweb-expansion t
+;;          org-babel-use-quick-and-dirty-noweb-expansion t
           org-latex-pdf-process  '("latexmk -c"
                                    "pdflatex -interaction nonstopmode -output-directory %o %f"
                                    "biber --trace %b.bcf"
@@ -872,18 +872,18 @@
     ; Misc Commands etc
     (org-add-link-type "claws" 'org-claws-link-command)
 
-    (org-babel-do-load-languages
-     'org-babel-load-languages
-     '((emacs-lisp . t)
-       (python . t)
-       (R . t)
-       ;(html . t)
-       (latex . t)
-       (sh . t )
-       (sql . t)
-       (org . t)
-       (ditaa . t)
-       (dot . t)))
+;;     (org-babel-do-load-languages
+;;      'org-babel-load-languages
+;;      '((emacs-lisp . t)
+;;        (python . t)
+;;        (R . t)
+;;        ;(html . t)
+;;        (latex . t)
+;;        (sh . t )
+;;        (sql . t)
+;;        (org . t)
+;;        (ditaa . t)
+;;        (dot . t)))
 
 
 
@@ -911,8 +911,8 @@
                  '("\\.zip\\'" ".zip" "unzip")))
 
 (use-package markdown-mode
-  :mode (("\\.md\\'" . js2-mode)
-         ("\\.markdown\\'")))
+  :mode (("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;  Custom Functions

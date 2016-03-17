@@ -38,6 +38,10 @@
 (use-package powerline)
 (use-package badger-theme)
 
+(use-package markdown-mode
+  :mode (("\\.md\\'" . js2-mode)
+         ("\\.markdown\\'")))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;; Utilities
 ;;;;;;;;;;;;;;;;;;;;;;;;;;

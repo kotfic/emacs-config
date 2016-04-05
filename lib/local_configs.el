@@ -95,4 +95,7 @@ and it's name isn't in no-cleanup-filenames."
   (insert char)
   (backward-char 1))
 
+(setq backup-directory-alist `((".*" . ,(concat emacs-tmp-dir "/autosaves/")))
+      auto-save-file-name-transformations `((".*" ,(concat emacs-tmp-dir "/autosaves/") t)))
+
 (provide 'local_configs)

@@ -71,6 +71,13 @@ CLOSED: [2015-10-21 Wed 04:51]
 - State "HOLD"       from "TODO"       [2015-09-25 Fri 08:41] \\
   non-critical
 
+** TODO  Add helm-descbinds to helm hydra
+:PROPERTIES:
+:CREATED: [2016-03-05 Sat]
+:ID:       96aa12ec-0646-4995-b823-f9994055758f
+:END:
+
+  [[file:~/org/personal.org::*Book%20Cases][Book Cases]]
 * Org Tasks
 ** DONE fix org-protocol issue with claws-mail                      :urgent:
 CLOSED: [2015-07-27 Mon 20:00]

@@ -38,6 +38,7 @@
 (use-package powerline)
 (use-package badger-theme)
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;; Utilities
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -698,7 +699,7 @@
       (interactive)
       (save-excursion
         (org-back-to-heading)
-        (let ((file "~/org2/journal.org")
+        (let ((file "~/org/journal.org")
               (tags
                (org-icompleting-read "Tags: "
                                      'org-tags-completion-function
@@ -756,7 +757,7 @@
                           ("\\.mm\\'" . default)
                           ("\\.x?html?\\'" . default))
 
-          org-babel-use-quick-and-dirty-noweb-expansion t
+;;          org-babel-use-quick-and-dirty-noweb-expansion t
           org-latex-pdf-process  '("latexmk -c"
                                    "pdflatex -interaction nonstopmode -output-directory %o %f"
                                    "biber --trace %b.bcf"
@@ -806,12 +807,12 @@
 
     (setq org-capture-templates
           '(("t" "TODO" entry
-             (file+headline "~/org2/unfiled.org" "Tasks")
+             (file+headline "~/org/unfiled.org" "Tasks")
              "* TODO %? \n:PROPERTIES:\n:CREATED: %u\n:END:\n%i\n  %a")
-            ("s" "Schedule" entry (file+headline "~/org2/unfiled.org" "Meetings")
+            ("s" "Schedule" entry (file+headline "~/org/unfiled.org" "Meetings")
              "* %? \n:PROPERTIES:\n:CREATED: %u\n:END:\n  %i\n  %a")
             ("c" "Clock in" entry
-             (file+datetree "~/org2/journal.org")
+             (file+datetree "~/org/journal.org")
              "* %U - %? %^g\n %i\n %a"
              :clock-in t :clock-keep t)
             ))
@@ -871,18 +872,18 @@
     ; Misc Commands etc
     (org-add-link-type "claws" 'org-claws-link-command)
 
-    (org-babel-do-load-languages
-     'org-babel-load-languages
-     '((emacs-lisp . t)
-       (python . t)
-       (R . t)
-       ;(html . t)
-       (latex . t)
-       (sh . t )
-       (sql . t)
-       (org . t)
-       (ditaa . t)
-       (dot . t)))
+;;     (org-babel-do-load-languages
+;;      'org-babel-load-languages
+;;      '((emacs-lisp . t)
+;;        (python . t)
+;;        (R . t)
+;;        ;(html . t)
+;;        (latex . t)
+;;        (sh . t )
+;;        (sql . t)
+;;        (org . t)
+;;        (ditaa . t)
+;;        (dot . t)))
 
 
 
@@ -909,6 +910,9 @@
    '(add-to-list 'dired-compress-file-suffixes
                  '("\\.zip\\'" ".zip" "unzip")))
 
+(use-package markdown-mode
+  :mode (("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;  Custom Functions

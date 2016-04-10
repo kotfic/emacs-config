@@ -32,16 +32,15 @@ CLOSED: [2015-09-25 Fri 13:19]
 - State "DONE"       from "TODO"       [2015-09-25 Fri 13:19]
 
 
+
 ** INVALID sauron clicking on email should load clawsmail   :emacs:personal:
 CLOSED: [2016-02-15 Mon 09:37]
 :LOGBOOK:
 - State "INVALID"    from "HOLD"       [2016-02-15 Mon 09:37] \\
   No longer using clawsmail
 :END:
-- State "HOLD"       from "TODO"       [2015-09-28 Mon 08:18] \\
-  Sauron not importaint until more notification methods are available through it
-
-
+** TODO Remove as much from init.el as possible into archive.el
+** TODO Figure out how to get Google calendar into Org Agenda      :kitware:
 
 ** DONE Set up docker container for testing default ubuntu install and emacs configs
 CLOSED: [2015-10-21 Wed 04:51]

@@ -65,8 +65,9 @@
      )
     ))
 
-
-
+;; Notmuch mail client
+(when (require 'notmuch nil 'noerror)
+  (setq notmuch-search-oldest-first nil ))
 
 
 ;; flycheck

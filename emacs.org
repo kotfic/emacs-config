@@ -40,7 +40,11 @@ CLOSED: [2016-02-15 Mon 09:37]
   No longer using clawsmail
 :END:
 ** TODO Remove as much from init.el as possible into archive.el
-** TODO Figure out how to get Google calendar into Org Agenda      :kitware:
+** INVALID Figure out how to get Google calendar into Org Agenda   :kitware:
+CLOSED: [2016-06-30 Thu 08:36]
+:LOGBOOK:
+- State "INVALID"    from "TODO"       [2016-06-30 Thu 08:36]
+:END:
 
 ** DONE Set up docker container for testing default ubuntu install and emacs configs
 CLOSED: [2015-10-21 Wed 04:51]
@@ -57,7 +61,7 @@ CLOSED: [2015-10-21 Wed 04:51]
 
 ** TODO Remove as much from init.el as possible into archive.el
 
-** TODO Figure out how to get Google calendar into Org Agenda      :kitware:
+
 
 ** TODO Inline todo creation (e.g. C-0 C-c c) does not autogenerate ID
 :PROPERTIES:
@@ -66,7 +70,11 @@ CLOSED: [2015-10-21 Wed 04:51]
 
   [[file:~/.emacs.d/emacs.org::*Figure%20out%20how%20to%20get%20Google%20calendar%20into%20Org%20Agenda][Figure out how to get Google calendar into Org Agenda]]
 
-** HOLD company mode with jedi                               :kitware:emacs:
+** DONE company mode with jedi                               :kitware:emacs:
+CLOSED: [2016-06-30 Thu 08:49]
+:LOGBOOK:
+- State "DONE"       from "HOLD"       [2016-06-30 Thu 08:49]
+:END:
 - State "HOLD"       from "TODO"       [2015-09-25 Fri 08:41] \\
   non-critical
 

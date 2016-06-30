@@ -67,7 +67,25 @@
 
 ;; Notmuch mail client
 (when (require 'notmuch nil 'noerror)
-  (setq notmuch-search-oldest-first nil ))
+  (setq notmuch-search-oldest-first nil )
+
+  (defmacro notmuch/tree_tag (&rest tags)
+    `(lambda ()
+       (interactive)
+       (notmuch-tree-tag (list ,@tags))
+       (notmuch-tree-next-matching-message)))
+
+  (define-key notmuch-tree-mode-map "e" (notmuch/tree_tag "-unread" "-review" "-inbox"))
+  (define-key notmuch-tree-mode-map "j" (notmuch/tree_tag "+spam" "-unread" "-review" "-inbox"))
+
+
+  ;; TODO: Write notmuch/*_tag macros for other groups
+  ;; TODO: Write single unified macro so we can have one list for all modes
+  ;; TODO:
+
+  (define-key notmuch-show-mode-map "U" 'browse-url-at-point)
+
+  )
 
 
 ;; flycheck
@@ -521,7 +539,7 @@
 
                        ; hooks
 ;                      (add-hook 'python-mode-hook 'auto-complete-mode)
-                       (add-hook 'python-mode-hook 'autopair-mode)
+;                       (add-hook 'python-mode-hook 'autopair-mode)
                        (add-hook 'python-mode-hook 'pp:custom-jedi-setup)
 
                        (use-package sphinx-doc)
@@ -529,7 +547,7 @@
                                                      (sphinx-doc-mode t)))
 
 ;                      (add-hook 'inferior-python-mode-hook 'auto-complete-mode)
-                       (add-hook 'inferior-python-mode-hook 'autopair-mode)
+;                       (add-hook 'inferior-python-mode-hook 'autopair-mode)
                        (add-hook 'inferior-python-mode-hook 'pp:custom-jedi-setup)
 
 

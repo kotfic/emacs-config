@@ -39,7 +39,6 @@ CLOSED: [2016-02-15 Mon 09:37]
 - State "INVALID"    from "HOLD"       [2016-02-15 Mon 09:37] \\
   No longer using clawsmail
 :END:
-** TODO Remove as much from init.el as possible into archive.el
 ** INVALID Figure out how to get Google calendar into Org Agenda   :kitware:
 CLOSED: [2016-06-30 Thu 08:36]
 :LOGBOOK:
@@ -59,7 +58,7 @@ CLOSED: [2015-10-21 Wed 04:51]
   [[file:~/.emacs.d/init.el::(add-hook%20'org-capture-mode-hook%20'org/capture-add-id-hook)]]
 
 
-** TODO Remove as much from init.el as possible into archive.el
+  
 
 
 
@@ -119,9 +118,23 @@ CLOSED: [2016-02-15 Mon 14:17]
 - State "INVALID"    from "TODO"       [2016-02-15 Mon 14:17] \\
   Not blogging anymore
 :END:
-** TODO Better set up with org-meta.el and readme.org
-** TODO Re-bind org inactive timestamp
-** TODO Figure out prompt for review org-agenda command so I can specify "review since when"
+** DONE Better set up with org-meta.el and readme.org
+CLOSED: [2016-07-11 Mon 09:42]
+:LOGBOOK:
+- State "DONE"       from "TODO"       [2016-07-11 Mon 09:42]
+:END:
+** TODO Re-bind org inactive timestamp 
+:PROPERTIES:
+:CREATED: [2016-07-11 Mon]
+:END:
+
+
+** TODO Figure out prompt for review org-agenda command so I can specify "review since when" 
+:PROPERTIES:
+:CREATED: [2016-07-11 Mon]
+:END:
+
+
 ** TODO Create agenda report that show's TODO's that are very old 
 :PROPERTIES:
 :CREATED: [2015-10-20 Tue]
@@ -139,7 +152,12 @@ CLOSED: [2016-02-15 Mon 14:17]
 
 
 * New Packages
-** TODO Look at adding jscs.el
+** INVALID Look at adding jscs.el
+CLOSED: [2016-07-11 Mon 09:44]
+:LOGBOOK:
+- State "INVALID"    from "TODO"       [2016-07-11 Mon 09:44] \\
+  Moving to eslint anyhow
+:END:
 https://github.com/papaeye/emacs-jscs
 automatically indent javascript files etc
 

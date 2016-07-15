@@ -98,4 +98,16 @@ and it's name isn't in no-cleanup-filenames."
 (setq backup-directory-alist `((".*" . ,(concat emacs-tmp-dir "/autosaves/")))
       auto-save-file-name-transformations `((".*" ,(concat emacs-tmp-dir "/autosaves/") t)))
 
+
+(defun wrapup ()
+  (interactive)
+  (let ((projects '("/home/kotfic/org"
+                    "/home/kotfic/.emacs.d")))
+    (save-window-excursion
+      (mapcar #'(lambda (p)
+                  (magit-status p)
+                  (delete-other-windows)
+                  (recursive-edit))
+              projects))))
+
 (provide 'local_configs)

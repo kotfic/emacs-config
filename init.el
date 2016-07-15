@@ -112,9 +112,6 @@
   :config
   (setq tramp-default-method "ssh"
         password-cache-expiry 300)
-
-  (add-to-list 'tramp-default-proxies-alist
-               '("\\`nex_minerva\\'" "\\`girder\\'" "/ssh:%h:"))
   )
 
 (use-package vagrant)
@@ -338,7 +335,12 @@
 
   ;(global-unset-key (kbd "C-x c"))
     (use-package helm-ag)
-    (use-package helm-dash)
+    (use-package helm-dash
+      :config
+      (setq
+       helm-dash-common-docsets '("Ansible" "Python 2" "Docker")
+       helm-dash-browser-func 'eww)
+      )
 
     (use-package helm-descbinds)
 
@@ -465,6 +467,9 @@
                                   ("q" nil)
 
                                   ))
+
+  (defadvice projectile-project-root (around ignore-remote first activate)
+    (unless (file-remote-p default-directory) ad-do-it))
 
     )
 
@@ -787,7 +792,9 @@
           org-confirm-babel-evaluate nil)
 
     (setq org-enforce-todo-dependencies t
-          org-agenda-dim-blocked-tasks t)
+          org-agenda-dim-blocked-tasks t
+          ;; Make sure sub-tasks inherit CREATED property
+          org-use-property-inheritance "CREATED")
 
 
     (setq org-todo-keywords
@@ -801,28 +808,13 @@
              ((agenda "")
               ;; in category kitware and not on hold
               ;; or tagged with kitware and not on hold
+              (tags-todo (concat "CATEGORY=\"unfiled\"" "&" "-TODO=\"HOLD\""))
               (tags-todo (concat
-                          "CATEGORY=\"kitware\"" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""
-                          "|"
-                          "+kitware" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""))
-              (tags-todo (concat
-                          "CATEGORY=\"personal\"" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""
-                          "|"
-                          "+personal" "&" "-TODO=\"HOLD\"" "&" "-TODO=\"BACKLOG\""))
-              (tags-todo (concat "+TODO=\"HOLD\""))
+                          "CATEGORY=\"kitware\"" "&" "-TODO=\"HOLD\"" "|"
+                          "+kitware" "&" "-TODO=\"HOLD\""))
+              (tags-todo (concat "TODO=\"HOLD\""))
               ))
-            ("b" "Backlog tasks"
-             ((tags-todo "TODO=\"BACKLOG\"|+backlog")))
-
-            ("u" "Unfiled tasks"
-             ((tags-todo (concat "CATEGORY=\"unfiled\"|+unfield"))))
-
-            ("r" "Review"
-             ((tags "TODO=\"DONE\"&CLOSED>\"<2015-10-04>\"")))
-
             ))
-
-
 
     (setq org-capture-templates
           '(("t" "TODO" entry

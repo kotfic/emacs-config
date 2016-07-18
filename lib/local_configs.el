@@ -102,7 +102,8 @@ and it's name isn't in no-cleanup-filenames."
 (defun wrapup ()
   (interactive)
   (let ((projects '("/home/kotfic/org"
-                    "/home/kotfic/.emacs.d")))
+                    "/home/kotfic/.emacs.d"
+                    "/home/kotfic/.dot")))
     (save-window-excursion
       (mapcar #'(lambda (p)
                   (magit-status p)

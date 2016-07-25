@@ -75,7 +75,7 @@
        (notmuch-tree-tag-thread (list ,@tags))))
 
   (define-key notmuch-tree-mode-map "e" (notmuch/tree_tag "-unread" "-review" "-inbox" "-important"))
-  (define-key notmuch-tree-mode-map "j" (notmuch/tree_tag "+spam" "-unread" "-inbox" "-importaint"))
+  (define-key notmuch-tree-mode-map "j" (notmuch/tree_tag "+junk" "-unread" "-inbox" "-importaint"))
   ;; Any thread with +ignore as a tag should ignore all new emails
   (define-key notmuch-tree-mode-map "i" (notmuch/tree_tag "+ignore" "-inbox" "-important"))
 
@@ -115,6 +115,14 @@
 
   )
 
+(use-package avy
+  :ensure t)
+
+(use-package link-hint
+  :ensure t
+  :bind
+  ("C-c l o" . link-hint-open-link)
+  ("C-c l c" . link-hint-copy-link))
 
 
 ;;  (setq mail-specify-envelope-from t

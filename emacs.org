@@ -77,6 +77,14 @@ CLOSED: [2016-06-30 Thu 08:49]
 - State "HOLD"       from "TODO"       [2015-09-25 Fri 08:41] \\
   non-critical
 
+
+
+
+** TODO  Use helm to open URL in notmuch message mode
+:PROPERTIES:
+:CREATED: [2016-07-25 Mon]
+:ID:       d3ad431a-edc5-4b03-a774-dc35ff25762e
+:END:
 * Org Tasks
 ** DONE fix org-protocol issue with claws-mail                      :urgent:
 CLOSED: [2015-07-27 Mon 20:00]

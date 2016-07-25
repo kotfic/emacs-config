@@ -72,12 +72,12 @@
   (defmacro notmuch/tree_tag (&rest tags)
     `(lambda ()
        (interactive)
-       (notmuch-tree-tag (list ,@tags))
-       (notmuch-tree-next-matching-message)))
+       (notmuch-tree-tag-thread (list ,@tags))))
 
-  (define-key notmuch-tree-mode-map "e" (notmuch/tree_tag "-unread" "-review" "-inbox"))
-  (define-key notmuch-tree-mode-map "j" (notmuch/tree_tag "+spam" "-unread" "-review" "-inbox"))
-
+  (define-key notmuch-tree-mode-map "e" (notmuch/tree_tag "-unread" "-review" "-inbox" "-important"))
+  (define-key notmuch-tree-mode-map "j" (notmuch/tree_tag "+spam" "-unread" "-inbox" "-importaint"))
+  ;; Any thread with +ignore as a tag should ignore all new emails
+  (define-key notmuch-tree-mode-map "i" (notmuch/tree_tag "+ignore" "-inbox" "-important"))
 
   ;; TODO: Write notmuch/*_tag macros for other groups
   ;; TODO: Write single unified macro so we can have one list for all modes
@@ -85,7 +85,42 @@
 
   (define-key notmuch-show-mode-map "U" 'browse-url-at-point)
 
+  ;; Handle MSMTP account by passing correct account flag ('-a')
+  ;; https://www.emacswiki.org/emacs/GnusMSMTP#toc2
+
+  (setq message-send-mail-function 'message-send-mail-with-sendmail)
+  (setq sendmail-program "/usr/sbin/msmtp")
+  (defun cg-feed-msmtp ()
+    (if (message-mail-p)
+        (save-excursion
+          (let* ((from
+                  (save-restriction
+                    (message-narrow-to-headers)
+                    (message-fetch-field "from")))
+                 (account
+                  (cond
+                   ;; I use email address as account label in ~/.msmtprc
+                   ((string-match "chris.kotfila@kitware.com" from) "kitware"))))
+
+            (setq message-sendmail-extra-arguments (list '"-a" account)))))) ; the original form of this script did not have the ' before "a" which causes a very difficult to track bug --frozencemetery
+  (setq message-sendmail-envelope-from 'header)
+  (add-hook 'message-send-mail-hook 'cg-feed-msmtp)
+  (setq notmuch-fcc-dirs nil)
+
+  ;; Split horizontally instead of vertically when creting a new message
+  (defadvice notmuch-tree-show-message-in
+      (around kotfic-use-horizontal-rather-than-vertical activate)
+    (cl-letf (((symbol-function 'split-window-vertically)
+               #'(lambda (&optional SIZE) (split-window-horizontally))))  ad-do-it))
+
   )
+
+
+
+;;  (setq mail-specify-envelope-from t
+;;      message-sendmail-envelope-from 'header
+;;      mail-envelope-from header
+;; )
 
 
 ;; flycheck

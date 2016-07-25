@@ -18,6 +18,15 @@
  '(linum-format " %6d ")
  '(main-line-color1 "#222912")
  '(main-line-color2 "#09150F")
+ '(notmuch-saved-searches
+   (quote
+    ((:name "inbox" :query "tag:inbox" :key "i")
+     (:name "unread" :query "tag:unread" :key "u")
+     (:name "flagged" :query "tag:flagged" :key "f")
+     (:name "sent" :query "tag:sent" :key "t")
+     (:name "drafts" :query "tag:draft" :key "d")
+     (:name "all mail" :query "*" :key "a")
+     (:name "kitware" :query "path:kitware/**"))))
  '(powerline-color1 "#222912")
  '(powerline-color2 "#09150F")
  '(safe-local-variable-values

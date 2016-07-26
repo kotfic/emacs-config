@@ -74,20 +74,24 @@
        (interactive)
        (notmuch-tree-tag-thread (list ,@tags))))
 
+  (defmacro notmuch/search_tag (&rest tags)
+    `(lambda ()
+       (interactive)
+       (notmuch-search-tag (list ,@tags))))
+
+
+  ;; Any thread with +ignore as a tag should ignore all new emails
+  ;; see mail/.notmuch/hooks/post-new
+
   (define-key notmuch-tree-mode-map "e" (notmuch/tree_tag "-unread" "-review" "-inbox" "-important"))
   (define-key notmuch-tree-mode-map "j" (notmuch/tree_tag "+junk" "-unread" "-inbox" "-importaint"))
-  ;; Any thread with +ignore as a tag should ignore all new emails
   (define-key notmuch-tree-mode-map "i" (notmuch/tree_tag "+ignore" "-inbox" "-important"))
 
+  (define-key notmuch-search-mode-map "e" (notmuch/search_tag "-unread" "-review" "-inbox" "-important"))
+  (define-key notmuch-search-mode-map "j" (notmuch/search_tag "+junk" "-unread" "-inbox" "-importaint"))
+  (define-key notmuch-search-mode-map "i" (notmuch/search_tag "+ignore" "-inbox" "-important"))
 
-;;   (defun notmuch/search_tag (&rest tags)
-;;     (interactive)
-;;     (let ((thread-id (notmuch-search-find-thread-id)))
-;;       (save-window-excursion
-;;      (with-temp-buffer
-;;        (notmuch-tree thread-id nil nil (buffer-name (current-buffer)))
-;;        (beginning-of-buffer)
-;;        (notmuch-tree-tag-thread '("+foo"))))))
+
 
 
 

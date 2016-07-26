@@ -80,11 +80,32 @@ CLOSED: [2016-06-30 Thu 08:49]
 
 
 
-** TODO  Use helm to open URL in notmuch message mode
+** TODO  Use helm to open URL in notmuch message mode              :notmuch:
 :PROPERTIES:
 :CREATED: [2016-07-25 Mon]
 :ID:       d3ad431a-edc5-4b03-a774-dc35ff25762e
 :END:
+
+** TODO Opening a single message thread should use notmuch-search-show-thread :notmuch:
+:PROPERTIES:
+:CREATED: [2016-07-26 Tue]
+:END:
+
+** TODO Switching back into a search should show updates from thread-view :notmuch:
+:PROPERTIES:
+:CREATED: [2016-07-26 Tue]
+:END:
++ switching to search buffer should refresh that buffer?
+
+** TODO Mention should remove ignore from thread                   :notmuch:
+:PROPERTIES:
+:CREATED: [2016-07-26 Tue]
+:END:
+
+
+
+
+
 * Org Tasks
 ** DONE fix org-protocol issue with claws-mail                      :urgent:
 CLOSED: [2015-07-27 Mon 20:00]

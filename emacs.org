@@ -106,6 +106,18 @@ CLOSED: [2016-06-30 Thu 08:49]
 
 
 
+** TODO  Set up a fontlock for mentions                            :notmuch:
+:PROPERTIES:
+:CREATED: [2016-07-26 Tue]
+:ID:       b7e7f205-f3e2-4eec-a788-dbb36b0545f3
+:END:
+** TODO Fix every message ends up with important tag           :notmuch:bug:
+:PROPERTIES:
+:CREATED: [2016-07-26 Tue]
+:ID:       8139985d-6ba5-446c-8451-b07650167a28
+:END:
+
+  [[notmuch-search:path:kitware/**%2520and%2520tag:inbox%2520and%2520date:7d..][Notmuch search: path:kitware/** and tag:inbox and date:7d..]]
 * Org Tasks
 ** DONE fix org-protocol issue with claws-mail                      :urgent:
 CLOSED: [2015-07-27 Mon 20:00]

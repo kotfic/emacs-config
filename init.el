@@ -93,16 +93,22 @@
 
 
 
-
+  (defun notmuch/first_unread_or_last (thread_id)
+    (let ((unread (notmuch-call-notmuch-sexp
+                   "search" "--output=messages" "--sort=oldest-first" "--format=sexp" (concat thread_id " and tag:unread")))
+          (thread (notmuch-call-notmuch-sexp
+                   "search" "--output=messages" "--sort=newest-first" "--format=sexp" thread_id)))
+      (concat "id:" (if unread
+                        (car unread)
+                      (car thread)))))
 
   ;; Show a tree view when we select from search
   (defun notmuch/search-show-tree-thread (tmp)
     "Display the currently selected thread as a tree."
     (interactive "P")
-    (message tmp)
     (let ((thread-id (notmuch-search-find-thread-id)))
       (if (> (length thread-id) 0)
-          (notmuch-tree thread-id)
+          (notmuch-tree thread-id nil (notmuch/first_unread_or_last thread-id) nil t)
         (message "Not on thread!"))))
 
   (define-key notmuch-search-mode-map (kbd "RET") 'notmuch/search-show-tree-thread)

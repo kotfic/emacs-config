@@ -100,7 +100,10 @@
                  (account
                   (cond
                    ;; I use email address as account label in ~/.msmtprc
-                   ((string-match "chris.kotfila@kitware.com" from) "kitware"))))
+                   ((string-match "chris.kotfila@kitware.com" from) "kitware")
+                   ((string-match "kotfic@gmail.com" from) "gmail")
+                   ((string-match "ckotfila@albany.edu" from) "ualbany")
+                   )))
 
             (setq message-sendmail-extra-arguments (list '"-a" account)))))) ; the original form of this script did not have the ' before "a" which causes a very difficult to track bug --frozencemetery
   (setq message-sendmail-envelope-from 'header)

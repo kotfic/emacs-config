@@ -113,6 +113,7 @@
     (cl-letf (((symbol-function 'split-window-vertically)
                #'(lambda (&optional SIZE) (split-window-horizontally))))  ad-do-it))
 
+  (require 'org-notmuch)
   )
 
 (use-package avy

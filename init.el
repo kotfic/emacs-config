@@ -79,6 +79,30 @@
   ;; Any thread with +ignore as a tag should ignore all new emails
   (define-key notmuch-tree-mode-map "i" (notmuch/tree_tag "+ignore" "-inbox" "-important"))
 
+
+;;   (defun notmuch/search_tag (&rest tags)
+;;     (interactive)
+;;     (let ((thread-id (notmuch-search-find-thread-id)))
+;;       (save-window-excursion
+;;      (with-temp-buffer
+;;        (notmuch-tree thread-id nil nil (buffer-name (current-buffer)))
+;;        (beginning-of-buffer)
+;;        (notmuch-tree-tag-thread '("+foo"))))))
+
+
+
+  ;; Show a tree view when we select from search
+  (defun notmuch/search-show-tree-thread (tmp)
+    "Display the currently selected thread as a tree."
+    (interactive "P")
+    (message tmp)
+    (let ((thread-id (notmuch-search-find-thread-id)))
+      (if (> (length thread-id) 0)
+          (notmuch-tree thread-id)
+        (message "Not on thread!"))))
+
+  (define-key notmuch-search-mode-map (kbd "RET") 'notmuch/search-show-tree-thread)
+
   ;; TODO: Write notmuch/*_tag macros for other groups
   ;; TODO: Write single unified macro so we can have one list for all modes
   ;; TODO:

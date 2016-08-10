@@ -111,7 +111,9 @@
           (notmuch-tree thread-id nil (notmuch/first_unread_or_last thread-id) nil t)
         (message "Not on thread!"))))
 
-  (define-key notmuch-search-mode-map (kbd "RET") 'notmuch/search-show-tree-thread)
+  (define-key notmuch-search-mode-map (kbd "<C-return>") 'notmuch/search-show-tree-thread)
+
+  (define-key notmuch-search-mode-map (kbd "RET") 'notmuch-search-show-thread)
 
   ;; TODO: Write notmuch/*_tag macros for other groups
   ;; TODO: Write single unified macro so we can have one list for all modes

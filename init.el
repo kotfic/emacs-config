@@ -80,6 +80,12 @@
        (notmuch-search-tag (list ,@tags))))
 
 
+  (defmacro notmuch/show_tag (&rest tags)
+    `(lambda ()
+       (interactive)
+       (notmuch-show-tag (list ,@tags))))
+
+
   ;; Any thread with +ignore as a tag should ignore all new emails
   ;; see mail/.notmuch/hooks/post-new
 
@@ -90,6 +96,11 @@
   (define-key notmuch-search-mode-map "e" (notmuch/search_tag "-unread" "-review" "-inbox" "-important"))
   (define-key notmuch-search-mode-map "j" (notmuch/search_tag "+junk" "-unread" "-inbox" "-importaint"))
   (define-key notmuch-search-mode-map "i" (notmuch/search_tag "+ignore" "-inbox" "-important"))
+
+  (define-key notmuch-show-mode-map "e" (notmuch/show_tag "-unread" "-review" "-inbox" "-important"))
+  (define-key notmuch-show-mode-map "j" (notmuch/show_tag "+junk" "-unread" "-inbox" "-importaint"))
+  (define-key notmuch-show-mode-map "i" (notmuch/show_tag "+ignore" "-inbox" "-important"))
+
 
 
 

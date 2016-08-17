@@ -8,7 +8,7 @@
 (setq package-user-dir (concat emacs-config-dir "/" "packages"))
 (setq package-enable-at-startup nil)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("melpa" .  "http://melpa.milkbox.net/packages/")
+                         ("melpa" .  "https://melpa.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("org" . "http://orgmode.org/elpa/")))
 (package-initialize)

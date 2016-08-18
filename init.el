@@ -295,14 +295,32 @@
 ;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package weechat
-  :defer 1)
+  :defer 1
+  :config
+  (setq weechat-auto-monitor-buffers t
+        weechat-auto-monitor-new-buffers 'silent)
+
+  (defun weechat/handle-message (buffer-ptr)
+    (message "Message recieved!"))
+
+  (add-hook 'weechat-message-post-receive-functions
+            'weechat/handle-message)
+
+  )
 
 (use-package sauron
   :defer 1
   :config
   (setq sauron-max-line-length nil
         sauron-hide-mode-line t
-        ))
+        ;;      sauron-separate-frame nil
+        sauron-watch-patterns '("kotfic"
+                                "\\[Github\\]")
+        )
+
+
+
+  )
 
 
 (use-package elfeed-org
@@ -1336,6 +1354,7 @@ in the gud pdb buffer."
                         (mode . notmuch-hello)
                         (mode . notmuch-tree-mode)))
                ("elfeed" (name . "^\\*elfeed.*"))
+               ("weechat" (mode . weechat))
                ("emacs" (or
                          (name . "^\\*scratch\\*$")
                          (name . "^\\*Messages\\*$")

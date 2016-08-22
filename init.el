@@ -302,15 +302,8 @@
         weechat-auto-close-buffers t
         weechat-auto-monitor-new-buffers 'silent)
 
-
-  ;; (defun weechat--find-buffer (name)
-  ;; Get a buffer from its name
-
-  ;; (defun weechat-buffer-hash (buffer-ptr)
-  ;; Get a buffer hash from its name
-
-  ;; (defun weechat--emacs-buffer (buffer-ptr)
-
+  (defvar weechat/match-line-regex
+    "^\\([0-9]+:[0-9]+:[0-9]+\\)\s+\\(\\w+\\):\s*\\(.*\\)")
 
   (defun buffer/last-line (buffer &optional num)
     (or num (setq num 1))
@@ -322,10 +315,6 @@
         (let ((end (point)))
           (forward-line 0)
           (buffer-substring-no-properties (point) end)))))
-
-
-  (defvar weechat/match-line-regex
-    "^\\([0-9]+:[0-9]+:[0-9]+\\)\s+\\(\\w+\\):\s*\\(.*\\)")
 
   (defun weechat/parse-line (msg)
     (when (s-matches? weechat/match-line-regex msg)

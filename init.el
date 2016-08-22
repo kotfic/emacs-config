@@ -294,6 +294,7 @@
 ;;;; Communication & Notifications
 ;;;;;;;;;;;;;;;;;;;;;;;
 
+
 (use-package weechat
   :defer 1
   :config
@@ -332,6 +333,24 @@
             (values (s-match weechat/match-line-regex msg)))
         (apply #'append (mapcar* (lambda (a b) (list a b)) fields values)))))
 
+
+  (defun weechat/sauron-action (plst)
+    (sauron-switch-to-marker-or-buffer (plist-get plst :marker)))
+
+
+  (defun weechat/sauron-add-event (msg)
+    (let ((jump-pos (save-window-excursion
+                      (switch-to-buffer (plist-get msg :emacs/buffer))
+                      (point-max-marker))))
+      (sauron-add-event 'weechat 3
+                        (format "[%s] %s: %s"
+                                (plist-get msg :short_name)
+                                (plist-get msg :user)
+                                (plist-get msg :message))
+                        (lexical-let ((plst (append msg `(:marker ,jump-pos))))
+                          (lambda () (weechat/sauron-action plst))))))
+
+
   (defun weechat/handle-message (buffer-ptr)
     (let ((raw-line  (buffer/last-line (weechat--emacs-buffer buffer-ptr)))
           (buffer-hash (weechat-buffer-hash buffer-ptr)))
@@ -345,12 +364,8 @@
                                                    (list (make-symbol (concat ":" (car x))) (cdr x)))
                                                  (gethash "local_variables" buffer-hash)))))
 
-          (message (format "%s" (append msg buffer-facts buffer-local-facts)))
-
-          ))))
-
-
-
+          (weechat/sauron-add-event
+           (append msg buffer-facts buffer-local-facts))))))
 
   (add-hook 'weechat-message-post-receive-functions
             'weechat/handle-message)

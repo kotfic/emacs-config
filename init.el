@@ -322,9 +322,35 @@
           (forward-line 0)
           (buffer-substring-no-properties (point) end)))))
 
+
+  (defvar weechat/match-line-regex
+    "^\\([0-9]+:[0-9]+:[0-9]+\\)\s+\\(\\w+\\):\s*\\(.*\\)")
+
+  (defun weechat/parse-line (msg)
+    (when (s-matches? weechat/match-line-regex msg)
+      (let ((fields '(:raw :time :user :message))
+            (values (s-match weechat/match-line-regex msg)))
+        (apply #'append (mapcar* (lambda (a b) (list a b)) fields values)))))
+
   (defun weechat/handle-message (buffer-ptr)
-    (let ((buff (weechat--emacs-buffer buffer-ptr)))
-      (message (buffer/last-line buff))))
+    (let ((raw-line  (buffer/last-line (weechat--emacs-buffer buffer-ptr)))
+          (buffer-hash (weechat-buffer-hash buffer-ptr)))
+      (when (s-matches? weechat/match-line-regex raw-line)
+        (let ((msg (weechat/parse-line raw-line))
+              (buffer-facts (list
+                             :short_name (gethash "short_name" buffer-hash)
+                             :emacs/buffer (gethash :emacs/buffer buffer-hash)))
+              (buffer-local-facts (apply #'append
+                                         (mapcar (lambda (x)
+                                                   (list (make-symbol (concat ":" (car x))) (cdr x)))
+                                                 (gethash "local_variables" buffer-hash)))))
+
+          (message (format "%s" (append msg buffer-facts buffer-local-facts)))
+
+          ))))
+
+
+
 
   (add-hook 'weechat-message-post-receive-functions
             'weechat/handle-message)

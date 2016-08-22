@@ -298,10 +298,33 @@
   :defer 1
   :config
   (setq weechat-auto-monitor-buffers t
+        weechat-auto-close-buffers t
         weechat-auto-monitor-new-buffers 'silent)
 
+
+  ;; (defun weechat--find-buffer (name)
+  ;; Get a buffer from its name
+
+  ;; (defun weechat-buffer-hash (buffer-ptr)
+  ;; Get a buffer hash from its name
+
+  ;; (defun weechat--emacs-buffer (buffer-ptr)
+
+
+  (defun buffer/last-line (buffer &optional num)
+    (or num (setq num 1))
+    (save-excursion
+      (set-buffer buffer)
+      (save-excursion
+        (forward-line (- 1 num))
+        (backward-char)
+        (let ((end (point)))
+          (forward-line 0)
+          (buffer-substring-no-properties (point) end)))))
+
   (defun weechat/handle-message (buffer-ptr)
-    (message "Message recieved!"))
+    (let ((buff (weechat--emacs-buffer buffer-ptr)))
+      (message (buffer/last-line buff))))
 
   (add-hook 'weechat-message-post-receive-functions
             'weechat/handle-message)

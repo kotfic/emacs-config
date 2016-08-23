@@ -305,6 +305,8 @@
   (defvar weechat/match-line-regex
     "^\\([0-9]+:[0-9]+:[0-9]+\\)\s+\\(\\w+\\):\s*\\(.*\\)")
 
+  (defvar weechat/ignore-users '("kotfic"))
+
   (defun buffer/last-line (buffer &optional num)
     (or num (setq num 1))
     (save-excursion
@@ -328,16 +330,17 @@
 
 
   (defun weechat/sauron-add-event (msg)
-    (let ((jump-pos (save-window-excursion
-                      (switch-to-buffer (plist-get msg :emacs/buffer))
-                      (point-max-marker))))
-      (sauron-add-event 'weechat 3
-                        (format "[%s] %s: %s"
-                                (plist-get msg :short_name)
-                                (plist-get msg :user)
-                                (plist-get msg :message))
-                        (lexical-let ((plst (append msg `(:marker ,jump-pos))))
-                          (lambda () (weechat/sauron-action plst))))))
+    (when (not (member (plist-get msg :user) weechat/ignore-users))
+      (let ((jump-pos (save-window-excursion
+                        (switch-to-buffer (plist-get msg :emacs/buffer))
+                        (point-max-marker))))
+        (sauron-add-event 'weechat 3
+                          (format "[%s] %s: %s"
+                                  (plist-get msg :short_name)
+                                  (plist-get msg :user)
+                                  (plist-get msg :message))
+                          (lexical-let ((plst (append msg `(:marker ,jump-pos))))
+                            (lambda () (weechat/sauron-action plst)))))))
 
 
   (defun weechat/handle-message (buffer-ptr)

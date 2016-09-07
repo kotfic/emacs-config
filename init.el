@@ -984,19 +984,7 @@
               ))
             ))
 
-    (defun org/cmp-created (a b)
-      (let ((a_ts (org-float-time
-                   (apply 'encode-time
-                          (org-parse-time-string
-                           (or (org-entry-get (get-text-property 1 'org-marker a) "CREATED")
-                               "[1970-01-01 Thu]")))))
-            (b_ts (org-float-time
-                   (apply 'encode-time
-                          (org-parse-time-string
-                           (or (org-entry-get (get-text-property 1 'org-marker a) "CREATED")
-                               "[1970-01-01 Thu]"))))))
-        (cond ((> a_ts b_ts) +1)
-              ((> b_ts a_ts) -1))))
+
 
     (defun org/cmp-created (a b)
       (let ((a_ts (org-float-time

@@ -118,6 +118,11 @@ CLOSED: [2016-06-30 Thu 08:49]
 :END:
 
   [[notmuch-search:path:kitware/**%2520and%2520tag:inbox%2520and%2520date:7d..][Notmuch search: path:kitware/** and tag:inbox and date:7d..]]
+** TODO  With notmuch, when opening in thread view,  first item not actually marked as read :emacs:
+:PROPERTIES:
+:CREATED: [2016-09-08 Thu]
+:ID:       08ef4d4c-f8b8-4edc-a556-ffa22e37a0e8
+:END:
 * Org Tasks
 ** DONE fix org-protocol issue with claws-mail                      :urgent:
 CLOSED: [2015-07-27 Mon 20:00]

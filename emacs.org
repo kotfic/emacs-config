@@ -123,6 +123,14 @@ CLOSED: [2016-06-30 Thu 08:49]
 :CREATED: [2016-09-08 Thu]
 :ID:       08ef4d4c-f8b8-4edc-a556-ffa22e37a0e8
 :END:
+** TODO  Move weechat/sauron stuff into a minor-mode/module thing
+:PROPERTIES:
+:CREATED: [2016-09-09 Fri]
+:END:
+
+
+
+
 * Org Tasks
 ** DONE fix org-protocol issue with claws-mail                      :urgent:
 CLOSED: [2015-07-27 Mon 20:00]

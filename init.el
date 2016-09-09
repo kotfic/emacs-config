@@ -326,10 +326,11 @@
         weechat-auto-monitor-new-buffers 'silent)
 
   (defvar weechat/match-line-regex
-    "^\\([0-9]+:[0-9]+:[0-9]+\\)\s+\\(\\w+\\):\s*\\(.*\\)")
+    "^\\([0-9]+:[0-9]+:[0-9]+\\)\s+@*\\(\\w+\\):\s*\\(.*\\)")
 
   (defvar weechat/ignore-users '("kotfic"))
 
+  ;; Get the last line of text from a buffer
   (defun buffer/last-line (buffer &optional num)
     (or num (setq num 1))
     (save-excursion
@@ -341,38 +342,58 @@
           (forward-line 0)
           (buffer-substring-no-properties (point) end)))))
 
+  ;; Parse a weechat line into a structured p-list
   (defun weechat/parse-line (msg)
     (when (s-matches? weechat/match-line-regex msg)
       (let ((fields '(:raw :time :user :message))
             (values (s-match weechat/match-line-regex msg)))
         (apply #'append (mapcar* (lambda (a b) (list a b)) fields values)))))
 
-
+  ;; What to do if
   (defun weechat/sauron-action (plst)
     (sauron-switch-to-marker-or-buffer (plist-get plst :marker)))
 
 
-  (defun weechat/sauron-add-event (msg)
+  (setq
+  ;; Only add event if no events for last channel-insensitivity amount of time
+   weechat/channel-insensitivity 60
+   ;; Hash of last message times for each channel (by :short_name)
+   weechat/channel-event-hash (make-hash-table :size 100 :test 'equal))
+
+
+  ;; Return true if there has been no activity since weechat/channel-insensitivity
+  (defun weechat/fresh-channel-event (channel)
+    ;; we only store the lsb, which is good enough for 2^16 seconds.
+    (let* ((now-lsb (float-time))
+           (tstamp (gethash channel weechat/channel-event-hash)))
+
+      ;; Always update channel hash with most recent event
+      (puthash channel now-lsb weechat/channel-event-hash)
+
+      (cond ((not tstamp) t)
+            ((> (- now-lsb tstamp) weechat/channel-insensitivity) t)
+            (t nil))))
+
+  ;; Add an event at priority 3
+  (defun weechat/sauron-add-event (msg prio)
     (when (not (member (plist-get msg :user) weechat/ignore-users))
       (let ((jump-pos (save-window-excursion
                         (switch-to-buffer (plist-get msg :emacs/buffer))
                         (point-max-marker))))
-        (sauron-add-event 'weechat 3
+        (sauron-add-event 'weechat prio
                           (format "[%s] %s: %s"
                                   (plist-get msg :short_name)
                                   (plist-get msg :user)
                                   (plist-get msg :message))
                           (lexical-let ((plst (append msg `(:marker ,jump-pos))))
                             (lambda () (weechat/sauron-action plst)))
-                          ;; Include sender in props to activate nick-insensitivity machinery
-                          `( :sender ,(plist-get msg :short_name)))
-                          )))
+                          ))))
 
 
   (defun weechat/handle-message (buffer-ptr)
     (let ((raw-line  (buffer/last-line (weechat--emacs-buffer buffer-ptr)))
           (buffer-hash (weechat-buffer-hash buffer-ptr)))
-      (when (s-matches? weechat/match-line-regex raw-line)
+      (when (s-matches? weechat/match-line-regex raw-line))
         (let ((msg (weechat/parse-line raw-line))
               (buffer-facts (list
                              :short_name (gethash "short_name" buffer-hash)
@@ -380,13 +401,19 @@
               (buffer-local-facts (apply #'append
                                          (mapcar (lambda (x)
                                                    (list (make-symbol (concat ":" (car x))) (cdr x)))
-                                                 (gethash "local_variables" buffer-hash)))))
+                                                 (gethash "local_variables" buffer-hash))))
+              (prio 2))
+
+          (when (weechat/fresh-channel-event (plist-get buffer-facts :short-name))
+            (incf prio))
 
           (weechat/sauron-add-event
-           (append msg buffer-facts buffer-local-facts))))))
+           (append msg buffer-facts buffer-local-facts) prio))))
 
   (add-hook 'weechat-message-post-receive-functions
             'weechat/handle-message)
+
+  (setq weechat-modules '(weechat-button weechat-complete weechat-speedbar))
 
   )
 

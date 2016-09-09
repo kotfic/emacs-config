@@ -103,6 +103,29 @@
 
 
 
+  (defmacro notmuch/query_command (query)
+    `(lambda ()
+       (interactive)
+       (notmuch-search ,query)))
+
+  (global-set-key (kbd "C-c m") (defhydra hydra-mail (:hint nil :color blue :idle 1.0)
+        "
+                                        ╭──────┐
+                                        │ Mail │
+  ╭─────────────────────────────────────┴──────╯
+    [_k_] Kitware                [_c_] Custom
+    [_g_] Gmail
+    [_a_] Albany
+  ---------------------------------------------
+        "
+        ("k" (notmuch-search "path:kitware/** and tag:inbox and date:90d.."))
+        ("g" (notmuch-search "path:gmail/** and date:90d.."))
+        ("a" (notmuch-search "path:ualbany/** and date:90d.."))
+        ("c" (notmuch-search))
+        ))
+
+
+
 
   (defun notmuch/first_unread_or_last (thread_id)
     (let ((unread (notmuch-call-notmuch-sexp
@@ -340,7 +363,10 @@
                                   (plist-get msg :user)
                                   (plist-get msg :message))
                           (lexical-let ((plst (append msg `(:marker ,jump-pos))))
-                            (lambda () (weechat/sauron-action plst)))))))
+                            (lambda () (weechat/sauron-action plst)))
+                          ;; Include sender in props to activate nick-insensitivity machinery
+                          `( :sender ,(plist-get msg :short_name)))
+                          )))
 
 
   (defun weechat/handle-message (buffer-ptr)

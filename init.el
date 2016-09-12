@@ -722,6 +722,19 @@
               ; :init (lambda () (virtualenv-workon "pp_twitter"))
               :tags '(python_notebook))
 
+
+            (prodigy-define-service
+              :name "Geonotebook jupyter notebook"
+              :command "jupyter"
+              :cwd "/home/kotfic/src/jupyter/geonotebook/notebooks"
+              :args '("notebook" "--no-browser")
+              :tags '(jupyter)
+              :init (lambda ()
+                      (venv-workon "jupyter"))
+              :stop-signal 'sigkill )
+
+
+
             ;(load "prodigy_laptop.el")
             ;(load "prodigy_work.el")
 

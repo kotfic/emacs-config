@@ -336,6 +336,7 @@
     (save-excursion
       (set-buffer buffer)
       (save-excursion
+        (end-of-buffer)
         (forward-line (- 1 num))
         (backward-char)
         (let ((end (point)))

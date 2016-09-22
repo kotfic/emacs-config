@@ -19,29 +19,36 @@
           (message repo)
           (magit-status repo)
           (delete-other-windows)
-          (wrapup-mode)
-          )
-      (progn
-          (dolist (buffer (buffer-list))
-            (with-current-buffer buffer
-              (wrapup-mode -1)))))
-  ))
+          (wrapup-mode))
+      (wrapup/end))
+    ))
 
 (defvar wrapup-mode-keymap (make-keymap) "Wrapup-mode keymap.")
 (define-key wrapup-mode-keymap (kbd "C-c n") 'wrapup/next-repo)
 
+(defun wrapup/end ()
+  "End the wrapup."
+  (set-window-configuration wrapup--window_config)
+  ;; Remove the mode from all buffers
+  (dolist (buffer (buffer-list))
+    (with-current-buffer buffer
+      (wrapup-mode -1))))
+
+
+
 (defun wrapup/enter ()
   "Enter the wrapup mode."
   (when (not (boundp 'wrapup--wrapup_projects))
-    (setq wrapup--wrapup_projects wrapup_projects)
-    (wrapup/next-repo))
-  )
+    (setq wrapup--wrapup_projects wrapup_projects
+          wrapup--window_config (current-window-configuration))
+    (wrapup/next-repo)))
 
 (defun wrapup/exit ()
   "Exit wrapup mode."
   (when (boundp 'wrapup--wrapup_projects)
     (makunbound 'wrapup--wrapup_projects))
-  )
+  (when (boundp 'wrapup--window_config)
+    (makunbound 'wrapup--window_config)))
 
 
 (define-minor-mode wrapup-mode

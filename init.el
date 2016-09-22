@@ -1529,7 +1529,9 @@ in the gud pdb buffer."
 (use-package defproject)
 (add-to-list 'load-path (concat emacs-config-dir "/lib"))
 (require 'projects)
+(require 'wrapup)
 (require 'local_configs)
+
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)

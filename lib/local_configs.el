@@ -101,15 +101,6 @@ and it's name isn't in no-cleanup-filenames."
 
 (defun wrapup ()
   (interactive)
-  (let ((projects '("/home/kotfic/org"
-                    "/home/kotfic/.emacs.d"
-                    "/home/kotfic/.dot"
-                    "/home/kotfic/src/email_processor")))
-    (save-window-excursion
-      (mapcar #'(lambda (p)
-                  (magit-status p)
-                  (delete-other-windows)
-                  (recursive-edit))
-              projects))))
+  (wrapup-mode 1))
 
 (provide 'local_configs)

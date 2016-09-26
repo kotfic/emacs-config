@@ -326,7 +326,7 @@
         weechat-auto-monitor-new-buffers 'silent)
 
   (defvar weechat/match-line-regex
-    "^\\([0-9]+:[0-9]+:[0-9]+\\)\s+@*\\(\\w+\\):\s*\\(.*\\)")
+    "^\\([0-9]+:[0-9]+:[0-9]+\\)\s\\([^\s]*\\):\s*\\(.*\\)")
 
   (defvar weechat/ignore-users '("kotfic"))
 

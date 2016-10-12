@@ -51,7 +51,6 @@
 
 (use-package request)
 
-(use-package zotxt)
 
 (use-package hydra
   :config
@@ -195,15 +194,8 @@
 (use-package link-hint
   :ensure t
   :bind
-  ("C-c l o" . link-hint-open-link)
-  ("C-c l c" . link-hint-copy-link))
-
-
-;;  (setq mail-specify-envelope-from t
-;;      message-sendmail-envelope-from 'header
-;;      mail-envelope-from header
-;; )
-
+  ("C-c o" . link-hint-open-link)
+  ("C-c O" . link-hint-copy-link))
 
 ;; flycheck
 (use-package flycheck
@@ -217,12 +209,6 @@
     ))
 
 
-; Windmove
-;(use-package windmove
-;  :defer 1
-;  :config
-;  (windmove-default-keybindings 'meta))
-
 ; Tramp
 (use-package tramp
   :defer 1
@@ -230,10 +216,6 @@
   (setq tramp-default-method "ssh"
         password-cache-expiry 300)
   )
-
-(use-package vagrant)
-(use-package vagrant-tramp)
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;   Javascript etc
@@ -741,12 +723,9 @@
 
             ))
 
-; magit requires 24.4
-(when (and (>= emacs-major-version 24)
-           (>= emacs-minor-version 4))
-  (use-package magit
-    :defer 1
-    :bind (("C-x g" . magit-status))))
+(use-package magit
+  :defer 1
+  :bind (("C-x g" . magit-status)))
 
 
 
@@ -761,38 +740,30 @@
   :defer 1
   :commands python-mode
   :config (progn
-            (setq pylint:epylint-executable "epylint"
-                  python-shell-interpreter "ipython"
-                  python-shell-interpreter-args "-i"
-                  python-shell-buffer-name "Python"
-                  python-shell-prompt-regexp "In \\[[0-9]+\\]: "
-                  python-shell-prompt-block-regexp ":"
-                  python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: ")
+            (setq python-shell-interpreter "ipython"
+                  python-shell-interpreter-args "-i --simple-prompt --colors=Linux")
 
                                         ; auto pair
             ; (use-package autopair)
 
                        ; adding hooks
-                       (add-hook 'python-mode-hook (lambda ()
-                                                     (unless (tramp-tramp-file-p (buffer-file-name))
-                                                       (flycheck-mode))))
-
-                       ; hooks
-;                      (add-hook 'python-mode-hook 'auto-complete-mode)
-;                       (add-hook 'python-mode-hook 'autopair-mode)
-                       (add-hook 'python-mode-hook 'pp:custom-jedi-setup)
-
-                       (use-package sphinx-doc)
-                       (add-hook 'python-mode-hook (lambda ()
-                                                     (sphinx-doc-mode t)))
-
-;                      (add-hook 'inferior-python-mode-hook 'auto-complete-mode)
-;                       (add-hook 'inferior-python-mode-hook 'autopair-mode)
-                       (add-hook 'inferior-python-mode-hook 'pp:custom-jedi-setup)
+            (add-hook 'python-mode-hook (lambda ()
+                                          (unless (tramp-tramp-file-p (buffer-file-name))
+                                            (flycheck-mode))))
 
 
 
-                       ))
+            (use-package sphinx-doc)
+            (add-hook 'python-mode-hook (lambda ()
+                                          (sphinx-doc-mode t)))
+
+            (add-hook 'python-mode-hook 'pp:custom-jedi-setup)
+            (add-hook 'inferior-python-mode-hook 'pp:custom-jedi-setup)
+
+            (add-hook 'python-mode-hook
+                      '(lambda () (eldoc-mode 1)) t)
+
+            ))
 
 
 

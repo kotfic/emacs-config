@@ -27,6 +27,9 @@
      (:name "drafts" :query "tag:draft" :key "d")
      (:name "all mail" :query "*" :key "a")
      (:name "kitware" :query "path:kitware/**"))))
+ '(package-selected-packages
+   (quote
+    (yaml-mode weechat virtualenvwrapper use-package twittering-mode stylus-mode sphinx-doc scala-mode2 sauron rainbow-mode prodigy powerline php-mode ox-reveal org-trello org-plus-contrib org-pdfview org-bullets noflet markdown-mode magit link-hint js2-refactor jedi jade-mode hydra helm-swoop helm-projectile helm-descbinds helm-dash helm-ag guide-key git-timemachine flycheck ensime elfeed-org defproject company-tern color-theme-sanityinc-tomorrow color-theme-monokai cmake-mode badger-theme)))
  '(powerline-color1 "#222912")
  '(powerline-color2 "#09150F")
  '(safe-local-variable-values

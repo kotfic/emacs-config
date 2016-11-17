@@ -29,12 +29,13 @@
      (:name "kitware" :query "path:kitware/**"))))
  '(package-selected-packages
    (quote
-    (pkgbuild-mode yaml-mode weechat virtualenvwrapper use-package twittering-mode stylus-mode sphinx-doc scala-mode2 sauron rainbow-mode prodigy powerline php-mode ox-reveal org-trello org-plus-contrib org-pdfview org-bullets noflet markdown-mode magit link-hint js2-refactor jedi jade-mode hydra helm-swoop helm-projectile helm-descbinds helm-dash helm-ag guide-key git-timemachine flycheck ensime elfeed-org defproject company-tern color-theme-sanityinc-tomorrow color-theme-monokai cmake-mode badger-theme)))
+    (pycoverage pkgbuild-mode yaml-mode weechat virtualenvwrapper use-package twittering-mode stylus-mode sphinx-doc scala-mode2 sauron rainbow-mode prodigy powerline php-mode ox-reveal org-trello org-plus-contrib org-pdfview org-bullets noflet markdown-mode magit link-hint js2-refactor jedi jade-mode hydra helm-swoop helm-projectile helm-descbinds helm-dash helm-ag guide-key git-timemachine flycheck ensime elfeed-org defproject company-tern color-theme-sanityinc-tomorrow color-theme-monokai cmake-mode badger-theme)))
  '(powerline-color1 "#222912")
  '(powerline-color2 "#09150F")
  '(safe-local-variable-values
    (quote
-    ((eval venv-workon "girder")
+    ((projectile-project-test-cmd . "cd /home/kotfic/kitware/projects/src/girder_worker/_build/ && ctest -E \"scala|arbor|swift\"")
+     (eval venv-workon "girder")
      (projectile-project-test-cmd . "cd /home/kotfic/kitware/projects/src/build/girder/ && ctest -j8")
      (flycheck-flake8rc . "/home/kotfic/kitware/projects/HPCCloud/src/cumulustests/flake8.cfg")
      (flycheck-python-flake8-executable . "/home/kotfic/.venvs/cumulus-deploy/bin/flake8")

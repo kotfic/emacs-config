@@ -22,6 +22,20 @@
    (flycheck-flake8rc . (concat girder-dir "tests/flake8.cfg"))))
 
 
+
+(defproject girder_worker
+  :path "/home/kotfic/kitware/projects/src/girder_worker/"
+  :vars ((base "/home/kotfic/kitware/projects/src/girder_worker/")
+         (build-dir (concat base "_build/"))
+         (test-dir (concat base "tests/")))
+  :nil
+  ((projectile-project-test-cmd . (concat "cd " build-dir " && ctest -E \"scala|arbor|swift\"")))
+  :python-mode
+  ((eval . (venv-workon "girder"))
+   (flycheck-python-flake8-executable . "/home/kotfic/.venvs/girder/bin/flake8")
+   (flycheck-flake8rc . (concat test-dir "flake8.cfg"))))
+
+
 ;; (defproject girder-NEX
 ;;   :path "/home/kotfic/kitware/projects/NEX/src/girder/girder/"
 ;;   :vars ((base "/home/kotfic/kitware/projects/NEX/src/")

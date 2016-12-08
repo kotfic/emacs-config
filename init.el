@@ -112,15 +112,16 @@
                                         ╭──────┐
                                         │ Mail │
   ╭─────────────────────────────────────┴──────╯
-    [_k_] Kitware                [_c_] Custom
-    [_g_] Gmail
+    [_k_] Kitware               [_c_] Custom
+    [_g_] Gmail                 [_n_] Fetch New
     [_a_] Albany
   ---------------------------------------------
         "
         ("k" (notmuch-search "path:kitware/** and tag:inbox and date:90d.."))
-        ("g" (notmuch-search "path:gmail/** and date:90d.."))
-        ("a" (notmuch-search "path:ualbany/** and date:90d.."))
+        ("g" (notmuch-search "path:gmail/** and tag:inbox and date:90d.."))
+        ("a" (notmuch-search "path:ualbany/** and tag:inbox and date:90d.."))
         ("c" (notmuch-search))
+        ("n" (async-shell-command "/usr/bin/notmuch new"))
         ))
 
 

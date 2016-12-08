@@ -103,4 +103,6 @@ and it's name isn't in no-cleanup-filenames."
   (interactive)
   (wrapup-mode 1))
 
+(pinentry-start)
+
 (provide 'local_configs)
